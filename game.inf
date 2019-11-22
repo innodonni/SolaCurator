@@ -1,0 +1,335 @@
+Constant Story "TITLE";
+Constant Headline "^An adventure^by Adonikam Virgo^";
+!Constant DEBUG; 
+Constant DEATH_MENTION_UNDO;
+!Constant MANUAL_PRONOUNS;
+Release 1;
+
+Include "parser";
+
+Object bag "rucksack"
+ with name 'bag' 'rucksack' 'backpack' 'pack' 'sack',
+! article 'your', ! crashes Z-Machine!
+ description "Your rucksack contains all of your worldly belongings (mostly camping gear).",
+ before [;
+  Open: "There's no advantage to unpack until you've found a suitable shelter.";
+  Drop: "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
+  PutOn,Transfer,Insert: if (second == bike) "Best keep your valuables with you.";
+ ],
+ after [;
+  Examine: <<Search self>>;
+ ],
+ has container transparent openable;
+
+Constant SACK_OBJECT = bag;
+
+Include "verblib";
+Include "grammar";
+
+!Include ">otherfile";
+
+! foreach(new object) stand on object?
+! foreach(new object) Listen Smell, Taste [noun] Touch Search Cut Remove
+! Burn/Light (dangerous, achieve little)
+! wait - time passes. sleep - not especially drowsy :(
+
+! lock up bike; move bike to road; put bike on road -> not holding?!
+! x mirror on bike, kick wheel/tyre (on bike)
+! Graffiti
+! ground = down. touch ground = possible from bike
+! chop tree
+! transfer bike to road -> fixed in place :(
+! undo chain -> not openable
+
+Verb 'start' 'stop' = 'switch';
+Verb 'mount' = 'enter';
+Verb 'dismount' = 'exit';
+Verb 'camp' 'kip' = 'sleep';
+Verb 'bite' = 'taste';
+Verb 'hurt' 'kick' = 'hit';
+Verb 'detach' = 'take';
+Verb 'unchain' = 'unlock';
+
+[ MakeSub;
+ if (noun == camp or bed) "This isn't an ideal spot to bed down for the night.";
+ "You don't have the tools and materials for that.";
+]; 
+
+Attribute legible;
+
+[ ReadSub;
+  <<Examine noun>>; 
+];
+Extend 'read' first
+ * legible -> Read;
+
+Verb "make"
+ * noun -> Make
+ * "up" noun -> Make
+ * noun "up" -> Make;
+
+[ HelpSub;
+ print "The following is a non-exhaustive list of commands (sufficient to finish the game):^
+  GO north or just NORTH (or in, out, up, down, n, e, s, w, ne and so on)^
+  SEARCH/LOOK AT/LOOK UNDER/EXAMINE (or x) something^
+  INVENTORY or just INV (or i)^
+  DROP/TAKE (or get) something^
+  WEAR (or put on)/DISROBE (or remove) something^
+  OPEN/CLOSE/LOCK/UNLOCK/TURN ON/TURN OFF (or switch) something^
+  PUSH/PULL/MOVE/UNDO/COVER something^
+  PUT something IN/ON somewhere^
+  ENTER/EXIT [something]^
+  LOOK/LISTEN/TOUCH/TASTE/SMELL/EAT/DRINK [something]^
+  MAKE/RUB/CUT/BURN/WAKE/KISS/ATTACK (or hit) something^
+  LOOK UP/READ ABOUT topic IN something or CONSULT something ABOUT topic^
+  ASK someone ABOUT topic^
+  GIVE/SHOW something TO someone^
+  TELL someone TO ...^
+  THROW something AT something^
+  WAIT/SLEEP^
+  HINT/SCORE/VERSION/HELP/SAVE/RESTORE/UNDO/QUIT";
+];
+
+[ MyObjectListing o;
+ if (o hasnt concealed)
+  print "^", (The) o;
+];
+[ HintSub;
+ print "Type ~help~ for a list of commands or try interacting with the following objects:";
+ LoopOverScope(MyObjectListing);
+];
+
+Verb "help" * -> Help;
+Verb "hint" * -> Hint;
+
+Extend "look" last ! try other rules before this one
+    * noun -> Examine;
+
+Extend "lock" first ! try these rules before other ones
+    * "up" noun -> Lock
+    * noun "up" -> Lock;
+
+Object newplayer "yourself"
+ with name 'you',
+ description "As good-looking as ever.",
+ capacity 100,
+ add_to_scope body mind limbs clothes camp bed,
+ before [;
+  Attack,Cut,Take,Disrobe,Drop: "If you need a break, type ~save~ or ~quit~.";
+  Rub: "You brush off the dust that accumulated on your clothing during the journey.";
+  Search: "Your mind is too clouded for introspection right now.";
+  Touch: "Still here.";
+  Smell,Taste: "Salty. No chance for a wash here, but you had one yesterday.";
+ ],
+ has concealed animate proper transparent;
+
+
+Object body "body"
+ with name 'torso' 'body',
+ article 'your',
+ description "From what you can tell, everything is in its place.",
+ before [;
+  Attack,Cut,Take,Disrobe,Drop: <<Attack player>>;
+  Rub: <<Rub player>>;
+  Search: <<Inv player>>;
+  Touch: <<Touch player>>;
+  Smell,Taste: <<Smell player>>;
+ ],
+ has scenery concealed;
+
+Object mind "mind"
+ with name "mind" "thoughts" "doubt" "doubts",
+ article 'your',
+ description "You need to focus on finding shelter.",
+ before [;
+  Attack,Cut,Take,Disrobe,Drop: <<Attack player>>;
+  default: "You can't put your mind to it.";
+ ],
+ has scenery concealed;
+
+Object limbs "limbs"
+ with name "leg" "legs" "limb" "limbs" "arm" "arms",
+ article "your",
+ description "As good-looking as ever.",
+ before [;
+  Attack,Cut,Take,Disrobe,Drop: "You're rather attached to your limbs actually.";
+ ],
+ has scenery concealed pluralname;
+
+Object clothes "clothes" newplayer
+ with name "shirt" "top" "trousers" "clothing" "clothes" "vestments" "garb" "pants",
+ article "your",
+ description "As good-looking as ever.",
+ before [;
+  Disrobe,Drop: "You're not ready to tuck yourself in yet.";
+ ],
+ has clothing worn pluralname;
+
+[ Initialise;
+  player = newplayer;
+  location = Town;
+  move bag to player;
+  "^^You've just arrived at Beth'oni a small town in Israel.
+   Doubt fills your mind, crippling your thoughts.
+   Something is wrong with you, but carrying on won't find it now...
+   it's time to stop for the night.
+   The sun's heat is rapidly weakening and the nights here are frightfully cold.
+   You chain your motorbike here to conserve battery charge,
+   shoulder your bag and turn to face the task of making camp.^";
+];
+
+Class Outside
+! with add_to_scope sun, ! doesn't work - use found_in instead
+ has light;
+
+Class Inside
+ has light;
+
+Outside Town "Town"
+ with name 'street',
+ description "Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.",
+ s_to Square;
+
+Outside Square "Square"
+ with name 'town' 'square' 'settlement',
+ description "Many travellers have passed through here before you. The square is no more than a few dozen paces across, but is littered with detritus from campers. The street continues north out of town.",
+ n_to Town,
+ e_to ChurchDoors;
+
+!Object church_key; ! search pockets for credit card to open door?
+
+Object ChurchDoors "church doors"
+ with name 'wooden' 'church' 'door' 'doors',
+ description "The wooden doors have withstood the elements and are still solid and impassable.",
+ when_closed "The church doors are shut.",
+ when_open "The door to the church stands ajar.",
+ door_to [;
+  if (self in Square) return Church; return Square;
+ ],
+ door_dir [;
+  if (self in Square) return e_to; return w_to;
+ ],
+!with_key church_key,
+ found_in Square Church,
+ has static door openable lockable locked pluralname;
+
+Inside Church "Church"
+ with name 'church',
+ description "The church is furnished with alter and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.",
+ w_to ChurchDoors;
+
+Object bike "motorbike" Town
+ has light static supporter enterable switchable lockable !female if animate
+ with name 'motorbike' 'bike' 'electric' 'ride' 'vehicle',
+ description "It's a standard electric motorbike, and your ticket to finding the City of Peace.",
+ initial "Your bike stands chained here.",
+ before [;
+  Take: "The bike is much too large and heavy for you to carry.";
+  Push,Pull,PushDir: "You decide to leave the bike here until you've found a place to stay the night.";
+  LookUnder: if (player in self) "You're too stiff from the ride."; 
+  !PutOn,Transfer,Insert: if (second ~= road) "It's best to keep the bike out of sight for now.";
+  Lock: "The bike is already chained up.";
+  Unlock,SwitchOn: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
+  Taste:
+    if (player in self) "You're too stiff from the ride.";
+    "Yuck!";
+  Touch: "The bike is still hot from being out in the sun.";
+  Search: give battery ~concealed; give chain ~concealed;
+ ],
+ after [;
+  Examine: <<Search self>>;
+ ];
+
+Object battery "battery" bike
+ has concealed
+ with name 'battery',
+ description "There should be enough charge to finish your journey tomorrow, unless you change your mind before then.",
+ before [;
+  Take: "The sealed battery unit is clipped securely into the bike, and is wedged in too tightly to remove. You've learned to camp without the need for that much juice anyway.";
+ ],
+ after [;
+  Examine: give self ~concealed;
+ ];
+
+Object chain "chain" bike
+ has concealed lockable locked
+ with name 'chain' 'lock',
+ description "The chain is not the most sturdy brand, and the bike is not even chained up to anything. Thankfully there's no-one about.",
+ before [;
+  Take,Unlock: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
+ ],
+ after [;
+  Examine: give self ~concealed;
+ ];
+
+Object papers "pile of papers" bag
+ has legible
+ with name 'pile' 'papers' 'notes' 'journal' 'file' 'pages',
+ !invent [; if (inventory_stage == 1) rtrue; rfalse; ], ! hiding crashes Z-Machine
+ description "In addition to your journal, you have collected various notes. They are far too interesting to give a single glance. You resolve to read them once you have taken the weight off your legs.",
+ before [;
+  Read,Take,Consult: "First priority is to find a place to sleep.";
+  Search: "There's too many to rifle through at this moment.";
+  Open,Push,Pull: "Not out here. You don't want to have to chase any pages that might fall out.";
+  LookUnder: "The back of your journal is stuffed full of loose pages that you plan to read later. The reverse of the back page is blank, besides a few smudges from your inky fingers due to being the lowest in the pile.";
+ ];
+
+Object roofs "roofs"
+ has scenery pluralname
+ with name "roofs" "rooves" "collapsed" "caved" "rubble" "stone" "thatch",
+ description "The rubble is impassable and would make a terrible place to sleep.",
+ found_in Town Square,
+ before [;
+  Take: "The shifted rubble sends up a plume of dust and you toss it back, eyes watering. It wouldn't make for very good bedding material.";
+  Open,Push,Pull: "There's no use. You'd rather sleep in the open than shift rubble about, so you press on, hoping for a clean space to camp.";
+  LookUnder:
+    if (player in bike) "You can't reach it.";
+    "The hopes of scavenging anything are slim, and the allure can wait until morning when you're more fresh.";
+ ];
+
+Object buildings "buildings"
+ has scenery pluralname
+ with name "ruins" "ruined" "buildings" "walls" "shells" "simple" "dwellings" "rooms" "abandoned" "roofed" "structure",
+ description "None of the buildings here appear to be inhabitable.",
+ found_in Town Square;
+
+Object road "road"
+ has scenery concealed
+ with name "main" "road" "track" "tracks" "trail" "dust" "dusty" "path",
+ description "The road is now no more than a dusty trail, though in the bike tracks you can see that the surface was tarred to a good standard when it was built.",
+ found_in Town,
+ before [;
+  Taste:
+    if (player in bike) "You're too stiff from the ride.";
+    "Yuck!";
+  Touch:
+    if (player in bike) "You're too stiff from the ride.";
+ ];
+
+Object sun "sun"
+ has scenery
+ with name "sun" "evening" "sunset" "sun-set" "setting" "shade" "shadow",
+ article "the",
+ found_in [; return (location ofclass Outside); ],
+ description "There is still enough daylight to find a spot to settle.";
+
+Object camp "camp"
+ has scenery concealed
+ with name "camp" "shelter" "fire",
+ article "a",
+ description "You don't have any wood. You'll need to find an abandoned building or roofed structure to keep warm during the night.",
+ react_before [;
+  Make: rfalse;
+  default: if (self == noun or second) "You haven't made a camp yet.";
+ ];
+
+
+Object bed "bed"
+ has scenery concealed
+ with name "bed" "sleeping",
+ article "a",
+ description "All you have is a sleeping bag, but that won't keep you warm out in the open.",
+ react_before [;
+  Make: rfalse;
+  default: if (self == noun or second) "You haven't made a bed yet.";
+ ];

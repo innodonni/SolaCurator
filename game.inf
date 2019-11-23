@@ -2,7 +2,7 @@ Constant Story "SOLA CURATOR";
 Constant Headline "^A post-apocalyptic adventure^by Adonikam Virgo^";
 !Constant DEBUG; 
 Constant DEATH_MENTION_UNDO;
-!Constant MANUAL_PRONOUNS;
+Constant MANUAL_PRONOUNS;
 Constant AMUSING_PROVIDED;
 Release 1;
 
@@ -39,135 +39,19 @@ Constant SACK_OBJECT = bag;
 Replace PraySub;
 Include "verblib";
 Include "grammar";
-
-!Include ">otherfile";
+Include ">verbs.inf";
 
 ! foreach(new object) stand on object?
 ! foreach(new object) Listen Smell, Taste [noun] Touch Search Cut Remove
 ! Burn/Light (dangerous, achieve little)
 ! wait - time passes. sleep - not especially drowsy :(
 
-! lock up bike; move bike to road; put bike on road -> not holding?!
 ! x mirror on bike, kick wheel/tyre (on bike)
-! Graffiti
 ! ground = down. touch ground = possible from bike
-! chop tree
 ! transfer bike to road -> fixed in place :(
 ! undo chain -> not openable
-! kneel pray sit? say prayer, light candle
-! jump on bike jump in church
-
-Verb 'start' 'stop' 'change' = 'switch';
-Verb 'mount' 'kneel' = 'enter';
-Verb 'dismount' = 'exit';
-Verb 'camp' 'kip' = 'sleep';
-Verb 'bite' = 'taste';
-Verb 'hurt' 'kick' = 'hit';
-Verb 'detach' = 'take';
-Verb 'unchain' = 'unlock';
-Verb 'wheel' = 'push';
-Verb 'dance' = 'jump';
-Verb 'rifle' 'riffle' 'ransack' = 'search';
-Verb 'peek' = 'look';
-
-[ MakeSub;
- if (noun ~= camp or bed) "You don't have the tools and materials for that.";
- if (location ~= Church) "This isn't an ideal spot to bed down for the night.";
- if (cushions has concealed && altar has concealed) "Ideally you would have somewhere soft to sleep.";
- deadflag = 2;
- "This is the end of the demo. Please form an orderly queue to hand in your feedback.^
- Thank you for playing!";
-]; 
-
-Verb "make"
- * noun -> Make
- * "up" noun -> Make
- * noun "up" -> Make;
-
-Attribute legible;
-
-[ ReadSub;
-  <<Examine noun>>; 
-];
-Extend 'read' first
- * legible -> Read;
-
-Verb "lift"
- * noun -> Turn
- * noun 'up' -> Push
- * noun 'with' held -> Open;
-
-[ WinSub;
- "If only it were that easy."; 
-];
-Verb "win"
- * topic -> Win;
-
-! Verbs list http://www.inform-fiction.org/manual/html/tables.html#tbl6a
-[ HelpSub;
- print "The following is a non-exhaustive list of commands (sufficient to finish the game):^
-  GO north or just NORTH (or in, out, up, down, n, e, s, w, ne and so on)^
-  SEARCH/LOOK AT/LOOK UNDER/EXAMINE (or x) something^
-  INVENTORY or just INV (or i)^
-  DROP/TAKE (or get) something^
-  WEAR (or put on)/DISROBE (or remove) something^
-  OPEN/CLOSE/LOCK/UNLOCK/TURN ON/TURN OFF (or switch) something^
-  PUSH/PULL/MOVE/TURN/UNDO/COVER something^
-  PUT something IN/ON somewhere^
-  ENTER/EXIT [something]^
-  LOOK/LISTEN/TOUCH/TASTE/SMELL/EAT/DRINK [something]^
-  MAKE/RUB/CUT/BURN/DIG/WAKE/KISS/ATTACK (or hit) something^
-  PRAY TO/ON/IN something^
-  LOOK UP/READ ABOUT topic IN something or CONSULT something ABOUT topic^
-  ASK someone ABOUT topic^
-  GIVE/SHOW something TO someone (or SHOW someone something)^
-  TELL someone [TO] ...^
-  THROW something [AT something]^
-  DANCE/HOP/JUMP [ON something]^
-  WAIT/SLEEP/AGAIN^
-  HINT/SCORE/VERSION/HELP/SAVE/RESTORE/UNDO/QUIT";
-];
-
-[ MyObjectListing o;
- if (o hasnt concealed)
-  print "^", (The) o;
-];
-[ HintSub;
- print "Type ~help~ for a list of commands, ~places~ for visited places, ~objects~ for items to interact with or try the following objects:";
- LoopOverScope(MyObjectListing);
-];
-
-Verb "help" * -> Help;
-Verb "hint" * -> Hint;
-
-Extend "give" first
- * 'up' -> Hint;
-
-[ PraySub;
- if (noun == nothing) <<Listen>>;
- if (noun has enterable) <Enter noun>;
- if (noun provides react_before) L__M(##Pray, 1, noun);
-];
-
-[ WorshipSub;
- if (TestScope(noun, player)) print (The) noun, " is unmoved.";
- <<Listen noun>>;
-];
-
-Extend "pray" first
- * 'in'/'on'/'at' noun -> Pray
- * 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
- * 'to' 'the' 'gods' -> Pray
- * 'to' noun -> Worship
- * 'to' noun 'gods' -> Pray;
-
-Extend "look" last ! try other rules before this one
-    * noun -> Examine
-    * 'between' door -> Search;
-
-Extend "lock" first ! try these rules before other ones
-    * "up" noun -> Lock
-    * noun "up" -> Lock;
+! say prayer
+! jump in church
 
 Object newplayer "yourself"
  with name 'you',
@@ -206,7 +90,7 @@ Object body "body"
  has scenery concealed;
 
 Object mind "mind"
- with name "mind" "thoughts" "doubt" "doubts",
+ with name 'mind' 'thoughts' 'doubt' 'doubts',
  article 'your',
  description "You need to focus on finding shelter.",
  before [;
@@ -218,7 +102,7 @@ Object mind "mind"
  has scenery concealed;
 
 Object limbs "limbs"
- with name "leg" "legs" "limb" "limbs" "arm" "arms",
+ with name 'leg' 'legs' 'limb' 'limbs' 'arm' 'arms',
  article "your",
  description "As good-looking as ever.",
  before [;
@@ -230,7 +114,7 @@ Object clothes "clothes" newplayer
  with name 'shirt' 'top' 'trousers' 'clothing' 'clothes' 'vestments' 'garb' 'pants',
  article "your",
  description "As good-looking as ever.",
- add_to_scope pockets,
+ add_to_scope pocket pockets,
  before [;
   Search: "There are pockets in your shirt and trousers.";
   Read: "(first removing shirt)^Across the back of your shirt is emblazoned the phrase ~Gamerr~. You quickly put it back on!";
@@ -239,26 +123,28 @@ Object clothes "clothes" newplayer
  has clothing worn legible pluralname;
 
 Object pocket "shirt pocket"
- with name 'shirt' 'pocket',
+ with name 'shirt' 'pocket' 'pockets',
  article "your",
  description "A decorative pocket, sewn shut.",
  has static;
 
-Object pockets "pockets"
- with name 'trouser' 'pockets//p',
+Object pockets "trouser pockets"
+ with name 'trouser' 'pocket' 'pockets',
  article "your",
  description "Deep pockets, ready for adventure!",
+ capacity 1,
  before [;
   Search: move card to pockets;
   "You find your bank card in your trouser pockets.";
+  Receive: "You can't fit anything more in your pockets.";
  ],
- has static pluralname container;
+ has static pluralname container transparent;
 
 [ Initialise;
   player = newplayer;
   location = Town;
   move bag to player;
-  parser_trace = 2;
+  !parser_trace = 2;
   "^^You've just arrived at Beth'oni a small town in Israel.
    Doubt fills your mind, crippling your thoughts.
    Something is wrong with you, but carrying on won't find it now...
@@ -354,7 +240,8 @@ Object ChurchDoors "church doors"
   Open: if (self hasnt open) rfalse; ! continue
   if (self in Church) "Do you intend to exit the church?";
   "Do you intend to enter the church?";
-  Search: if (self hasnt open) "There is a gap between the doors. It looks like only a latch keeps the doors shut.";
+  Search: give latch ~concealed;
+  if (self hasnt open) "There is a gap between the doors. It looks like only a latch keeps the doors shut.";
  ],
  after [;
   Unlock: print "By slotting your bank card between the doors, you manage to lift the latch.";
@@ -399,12 +286,15 @@ Object latch "latch"
  with name 'latch',
  before [;
    if ((action ~= ##Open or ##Turn || second ~= card) && self in Square && ChurchDoors has locked) "You can't open the latch that way.";
-   if (action == ##Push or ##Pull && ChurchDoors hasnt open) rtrue;
+   if (action == ##Push or ##Pull && self in Church && ChurchDoors hasnt open) "You can't open the latch that way.";
    Open,Turn: if ((self in Church || second == card) && ChurchDoors hasnt open) {
-    give ChurchDoors open ~locked;
+    give ChurchDoors open ~locked ~concealed;
+    move card to pockets;
     "You lift the latch and the door opens.";
    }
-   "You cannot fit your hand between the doors.";
+   if (self in Square) "You cannot fit your hand between the doors.";
+   give ChurchDoors open ~locked;
+   "You lift the latch easily and the door opens.";
    Pull: if (self in Church && ChurchDoors has open) "Do you intend to exit?";
    Push: if (player in Church) <<Close ChurchDoors>>;
    PushDir: if (second == u_obj && self in Church) <<Open ChurchDoors>>;
@@ -418,6 +308,7 @@ Inside Church "Church"
  w_to ChurchDoors,
  react_before [;
   Pray,Listen: if (noun == self or nothing) "Silence - perfect place to sleep!";
+  Jump: "Some mortar dust descends from the ceiling.";
  ];
 
 Object pews "pews" Church

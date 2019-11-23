@@ -1,0 +1,112 @@
+
+Verb 'start' 'stop' 'change' = 'switch';
+Verb 'mount' 'kneel' = 'enter';
+Verb 'dismount' = 'exit';
+Verb 'camp' 'kip' = 'sleep';
+Verb 'bite' = 'taste';
+Verb 'hurt' 'kick' = 'hit';
+Verb 'detach' = 'take';
+Verb 'unchain' = 'unlock';
+Verb 'wheel' = 'push';
+Verb 'dance' = 'jump';
+Verb 'rifle' 'riffle' 'ransack' = 'search';
+Verb 'peek' = 'look';
+
+[ MakeSub;
+ if (noun ~= camp or bed) "You don't have the tools and materials for that.";
+ if (location ~= Church) "This isn't an ideal spot to bed down for the night.";
+ if (cushions has concealed && altar has concealed) "Ideally you would have somewhere soft to sleep.";
+ deadflag = 2;
+ "This is the end of the demo. Please form an orderly queue to hand in your feedback.^
+ Thank you for playing!";
+]; 
+
+Verb "make"
+ * noun -> Make
+ * "up" noun -> Make
+ * noun "up" -> Make;
+
+Attribute legible;
+
+[ ReadSub;
+  <<Examine noun>>; 
+];
+Extend 'read' first
+ * legible -> Read;
+
+Verb "lift"
+ * noun -> Turn
+ * noun 'up' -> Push
+ * noun 'with' held -> Open;
+
+[ WinSub;
+ "If only it were that easy."; 
+];
+Verb "win"
+ * topic -> Win;
+
+! Verbs list http://www.inform-fiction.org/manual/html/tables.html#tbl6a
+[ HelpSub;
+ print "The following is a non-exhaustive list of commands (sufficient to finish the game):^
+  GO north or just NORTH (or in, out, up, down, n, e, s, w, ne and so on)^
+  SEARCH/LOOK AT/LOOK UNDER/EXAMINE (or x) something^
+  INVENTORY or just INV (or i)^
+  DROP/TAKE (or get) something^
+  WEAR (or put on)/DISROBE (or remove) something^
+  OPEN/CLOSE/LOCK/UNLOCK/TURN ON/TURN OFF (or switch) something^
+  PUSH/PULL/MOVE/TURN/UNDO/COVER something^
+  PUT something IN/ON somewhere^
+  ENTER/EXIT [something]^
+  LOOK/LISTEN/TOUCH/TASTE/SMELL/EAT/DRINK [something]^
+  MAKE/RUB/CUT/BURN/DIG/WAKE/KISS/ATTACK (or hit) something^
+  PRAY TO/ON/IN something^
+  LOOK UP/READ ABOUT topic IN something or CONSULT something ABOUT topic^
+  ASK someone ABOUT topic^
+  GIVE/SHOW something TO someone (or SHOW someone something)^
+  TELL someone [TO] ...^
+  THROW something [AT something]^
+  DANCE/HOP/JUMP [ON something]^
+  WAIT/SLEEP/AGAIN^
+  HINT/SCORE/VERSION/HELP/SAVE/RESTORE/UNDO/QUIT";
+];
+
+[ MyObjectListing o;
+ if (o hasnt concealed)
+  print "^", (The) o;
+];
+[ HintSub;
+ print "Type ~help~ for a list of commands, ~places~ for visited places, ~objects~ for items to interact with or try the following objects:";
+ LoopOverScope(MyObjectListing);
+];
+
+Verb "help" * -> Help;
+Verb "hint" * -> Hint;
+
+Extend "give" first
+ * 'up' -> Hint;
+
+[ PraySub;
+ if (noun == nothing) <<Listen>>;
+ if (noun has enterable) <Enter noun>;
+ if (noun provides react_before) L__M(##Pray, 1, noun);
+];
+
+[ WorshipSub;
+ if (TestScope(noun, player)) print (The) noun, " is unmoved.";
+ <<Listen noun>>;
+];
+
+Extend "pray" first
+ * 'in'/'on'/'at' noun -> Pray
+ * 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
+ * 'to' 'the' 'gods' -> Pray
+ * 'to' noun -> Worship
+ * 'to' noun 'gods' -> Pray;
+
+Extend "look" last ! try other rules before this one
+    * noun -> Examine
+    * 'between' door -> Search;
+
+Extend "lock" first ! try these rules before other ones
+    * "up" noun -> Lock
+    * noun "up" -> Lock;

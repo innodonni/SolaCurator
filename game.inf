@@ -20,11 +20,11 @@ Release 1;
 Include "parser";
 
 Object bag "rucksack"
- with name 'bag' 'rucksack' 'backpack' 'pack' 'sack',
+ with name 'bag' 'rucksack' 'backpack' 'pack' 'sack' 'gear' 'belongings' 'camping',
 ! article 'your', ! crashes Z-Machine!
  description "Your rucksack contains all of your worldly belongings (mostly camping gear).",
  before [;
-  Open: if (location ~= pews) "There's no advantage to unpack until you've found a suitable shelter.";
+  Open,LetGo: if (location ~= pews) "There's no advantage to unpack until you've found a suitable shelter.";
   Drop: if (location ~= Church or pews) "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
   PutOn,Transfer,Insert: if (second ~= pews) "Best keep your valuables with you.";
  ],
@@ -36,6 +36,7 @@ Object bag "rucksack"
 
 Constant SACK_OBJECT = bag;
 
+Replace PraySub;
 Include "verblib";
 Include "grammar";
 
@@ -66,7 +67,8 @@ Verb 'detach' = 'take';
 Verb 'unchain' = 'unlock';
 Verb 'wheel' = 'push';
 Verb 'dance' = 'jump';
-Verb 'rifle' 'riffle' 'ransack' 'check' = 'search';
+Verb 'rifle' 'riffle' 'ransack' = 'search';
+Verb 'peek' = 'look';
 
 [ MakeSub;
  if (noun ~= camp or bed) "You don't have the tools and materials for that.";
@@ -76,6 +78,11 @@ Verb 'rifle' 'riffle' 'ransack' 'check' = 'search';
  "This is the end of the demo. Please form an orderly queue to hand in your feedback.^
  Thank you for playing!";
 ]; 
+
+Verb "make"
+ * noun -> Make
+ * "up" noun -> Make
+ * noun "up" -> Make;
 
 Attribute legible;
 
@@ -88,12 +95,13 @@ Extend 'read' first
 Verb "lift"
  * noun -> Turn
  * noun 'up' -> Push
- * noun 'with' second -> Open;
+ * noun 'with' held -> Open;
 
-Verb "make"
- * noun -> Make
- * "up" noun -> Make
- * noun "up" -> Make;
+[ WinSub;
+ "If only it were that easy."; 
+];
+Verb "win"
+ * topic -> Win;
 
 ! Verbs list http://www.inform-fiction.org/manual/html/tables.html#tbl6a
 [ HelpSub;
@@ -138,8 +146,7 @@ Extend "give" first
 [ PraySub;
  if (noun == nothing) <<Listen>>;
  if (noun has enterable) <Enter noun>;
- if (noun provides react_before) <<Pray noun>>;
- <<Listen noun>>;
+ if (noun provides react_before) L__M(##Pray, 1, noun);
 ];
 
 [ WorshipSub;
@@ -155,7 +162,8 @@ Extend "pray" first
  * 'to' noun 'gods' -> Pray;
 
 Extend "look" last ! try other rules before this one
-    * noun -> Examine;
+    * noun -> Examine
+    * 'between' door -> Search;
 
 Extend "lock" first ! try these rules before other ones
     * "up" noun -> Lock
@@ -173,6 +181,14 @@ Object newplayer "yourself"
   Touch: "Still here.";
   Smell,Taste: "Salty. No chance for a wash here, but you had one yesterday.";
   Tell: "You don't feel immensely encouraged";
+ ],
+ react_after [;
+  Inv: if (child(pockets)) {
+    print "^In your trouser pockets:^";
+    !WriteListFrom(child(pockets), FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT);
+    c_style=FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT;
+    wlf_indent=1; WriteListR(child(pockets));
+   }
  ],
  has concealed animate proper transparent;
 
@@ -216,10 +232,11 @@ Object clothes "clothes" newplayer
  description "As good-looking as ever.",
  add_to_scope pockets,
  before [;
-  Read: "(first removing shirt^)^Across the back of your shirt is emblazoned the phrase ~Gamerr~. You quickly put it back on.";
+  Search: "There are pockets in your shirt and trousers.";
+  Read: "(first removing shirt)^Across the back of your shirt is emblazoned the phrase ~Gamerr~. You quickly put it back on!";
   Disrobe,Drop: "You're not ready to tuck yourself in yet.";
  ],
- has clothing worn pluralname;
+ has clothing worn legible pluralname;
 
 Object pocket "shirt pocket"
  with name 'shirt' 'pocket',
@@ -232,8 +249,8 @@ Object pockets "pockets"
  article "your",
  description "Deep pockets, ready for adventure!",
  before [;
-  Search: move card to player;
-  "You find a bank card in your trouser pockets.";
+  Search: move card to pockets;
+  "You find your bank card in your trouser pockets.";
  ],
  has static pluralname container;
 
@@ -241,9 +258,7 @@ Object pockets "pockets"
   player = newplayer;
   location = Town;
   move bag to player;
-#ifdef DEBUG
-  parser_trace=2;
-#endif
+  parser_trace = 2;
   "^^You've just arrived at Beth'oni a small town in Israel.
    Doubt fills your mind, crippling your thoughts.
    Something is wrong with you, but carrying on won't find it now...
@@ -268,15 +283,19 @@ Outside Town "Town"
 Outside Square "Square"
  with name 'town' 'square' 'settlement',
  description "Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.",
- before [;
+ after [;
   Search: "The taller building on the east side appears to be a church. Hopefully the roof is intact.";
  ],
  n_to Town,
- e_to ChurchDoors;
+ e_to ChurchDoors,
+ in_to ChurchDoors;
 
 Object waste "detritus" Square
  with name 'detritus' 'litter' 'waste' 'rubbish' 'junk' 'camper^s',
- description "It's all junk - nothing serviceable."
+ description "It's all junk - nothing serviceable.",
+ before [;
+  Take: "It's all junk - not worth taking.";
+ ],
  has scenery;
 
 Object ChurchBuilding "church building" Square
@@ -291,11 +310,12 @@ Object ChurchBuilding "church building" Square
  ],
  has scenery;
 
-Object card
+Object card "bank card"
  with name 'bank' 'debit' 'credit' 'card',
+ article "your",
  before [;
   Insert,Transfer,PutOn,Drop: "You might want to hold onto that, even though you have no money in the bank at the moment.";
- ]; ! search pockets for credit card to open door? Yes - latch. "search doors" or look [BETWEEN] doors
+ ]; ! "search doors" or look [BETWEEN] doors
 
 Object ChurchDoors "church doors"
  with name 'wooden' 'church' 'door' 'doors',
@@ -305,12 +325,12 @@ Object ChurchDoors "church doors"
   return 1; ! church separate
  ],
  describe [;
-  newline;
-  if (self has open) print_ret self.when_open();
-  print_ret self.when_closed();
+  print "^";
+  if (self has open) { self.when_open(); rtrue; }
+  self.when_closed(); rtrue;
  ],
  add_to_scope handles latch,
- description "The wooden doors have withstood the elements and are still solid and impassable. Their only feature are a round brass handle on each side.",
+ description "The wooden doors have withstood the elements and are still solid and impassable. Their only feature are a round brass handle on each.",
  when_closed "The church doors seem to be latched shut.",
  when_open "The door to the church stands ajar.",
  door_to [;
@@ -319,7 +339,7 @@ Object ChurchDoors "church doors"
  door_dir [;
   if (self in Square) return e_to; return w_to;
  ],
-with_key card,
+ with_key card,
  found_in Square Church,
  before [;
   give self ~concealed;
@@ -334,6 +354,7 @@ with_key card,
   Open: if (self hasnt open) rfalse; ! continue
   if (self in Church) "Do you intend to exit the church?";
   "Do you intend to enter the church?";
+  Search: if (self hasnt open) "There is a gap between the doors. It looks like only a latch keeps the doors shut.";
  ],
  after [;
   Unlock: print "By slotting your bank card between the doors, you manage to lift the latch.";
@@ -359,13 +380,14 @@ with_key card,
  has static concealed door openable lockable locked pluralname;
 
 Object handles "brass handles"
- with name 'knob' 'knobs' 'round' 'brass' 'handle' 'handles',
- description "Round brass knobs.",
+ with name 'old' 'tarnished' 'knob' 'knobs' 'round' 'brass' 'handle' 'handles',
+ description "Round brass knobs, tarnished with age.",
  before [;
    give self ~concealed;
-   if (action == ##Push or ##Pull && ChurchDoors hasnt open) rtrue;
+   if (action == ##Push or ##Pull && ChurchDoors hasnt open) rfalse;
    Turn: "The handles won't turn - they seem to be just to grip the door with.";
    PushDir: if (second == in_obj) <<Push ChurchDoors>>;
+   if (ChurchDoors hasnt open) "Despite your efforts, the doors remain shut.";
    Pull: if (player in Church) "Do you intend to exit?";
    <<Open ChurchDoors>>;
    Push: if (player in Church) <<Close ChurchDoors>>;
@@ -382,6 +404,7 @@ Object latch "latch"
     give ChurchDoors open ~locked;
     "You lift the latch and the door opens.";
    }
+   "You cannot fit your hand between the doors.";
    Pull: if (self in Church && ChurchDoors has open) "Do you intend to exit?";
    Push: if (player in Church) <<Close ChurchDoors>>;
    PushDir: if (second == u_obj && self in Church) <<Open ChurchDoors>>;
@@ -402,7 +425,7 @@ Object pews "pews" Church
  with name 'pew' 'pews',
  description "Plain wooden benches welded to the ground - too narrow to sleep on.",
  before [;
-  if (action ~= ##Examine or ##ThrownAt or ##Reflect)
+  !if (action ~= ##Examine or ##ThrownAt or ##Reflect)
   Kiss: "You feel awkward kissing a surface where many posteriors have been.";
   Touch: "The surface is smooth and inviting. You aren't worried about getting splinters.";
   Jump: print "Glancing around first, you summon the energy to jump onto the pews. Miraculously, they hold your weight. ";
@@ -544,7 +567,7 @@ Object buildings "buildings"
  ];
 
 Object road "road"
- has scenery concealed supporter
+ has scenery concealed supporter enterable
  with name "main" "road" "track" "tracks" "trail" "dust" "dusty" "path",
  description "The road is now no more than a dusty trail, though in the bike tracks you can see that the surface was tarred to a good standard when it was built.",
  found_in Town,
@@ -559,10 +582,14 @@ Object road "road"
 
 Object sun "sun"
  has scenery
- with name "sun" "evening" "sunset" "sun-set" "setting" "shade" "shadow",
- article "the",
+ with name 'sun' 'evening' 'sunset' 'sun-set' 'setting',
+ article 'the',
  found_in [; return (location ofclass Outside); ],
- description "There is still enough daylight to find a spot to settle.";
+ description "There is still enough daylight to find a spot to settle.",
+ before [;
+  Make,Examine: ;
+  default: "You can't reach it.";
+ ];
 
 Object camp "camp"
  has scenery concealed
@@ -570,8 +597,8 @@ Object camp "camp"
  article "a",
  description "You don't have any wood. You'll need to find an abandoned building or roofed structure to keep warm during the night.",
  react_before [;
-  Burn: print_ret self.description;
-  if (action ~= ##Make && self == noun or second) "You haven't made a camp yet.";
+  Burn: if (self == noun or second) { print (string) self.description; rtrue; }
+  default: if (action ~= ##Make && self == noun or second) "You haven't made a camp yet.";
  ];
 
 Object bed "bed"
@@ -580,5 +607,5 @@ Object bed "bed"
  article "a",
  description "All you have is a sleeping bag, but that won't keep you warm out in the open.",
  react_before [;
-  if (action ~= ##Make && self == noun or second) "You haven't made a bed yet.";
+  default: if (action ~= ##Make && self == noun or second) "You haven't made a bed yet.";
  ];

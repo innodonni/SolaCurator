@@ -1,3 +1,15 @@
+Replace PraySub;
+Replace SleepSub;
+Replace JumpSub;
+Include "verblib";
+
+![ InScope;
+!  if (scope_reason == REACT_BEFORE_REASON or REACT_AFTER_REASON)
+!    PlaceInScope(location); ! locations should react_before Jump etc.
+!  rfalse;
+!];
+
+Include "grammar";
 
 Verb 'start' 'stop' 'change' = 'switch';
 Verb 'mount' 'kneel' = 'enter';
@@ -9,8 +21,9 @@ Verb 'detach' = 'take';
 Verb 'unchain' = 'unlock';
 Verb 'wheel' = 'push';
 Verb 'dance' = 'jump';
-Verb 'rifle' 'riffle' 'ransack' = 'search';
+Verb 'rifle' 'riffle' 'ransack' 'visit' 'explore' = 'search';
 Verb 'peek' = 'look';
+Verb 'inspect' = 'examine';
 
 [ MakeSub;
  if (noun ~= camp or bed) "You don't have the tools and materials for that.";
@@ -21,23 +34,40 @@ Verb 'peek' = 'look';
  Thank you for playing!";
 ]; 
 
-Verb "make"
+Verb 'make'
  * noun -> Make
- * "up" noun -> Make
- * noun "up" -> Make;
+ * 'up' noun -> Make
+ * noun 'up' -> Make;
 
 Attribute legible;
 
 [ ReadSub;
   <<Examine noun>>; 
 ];
+
 Extend 'read' first
  * legible -> Read;
 
-Verb "lift"
+Verb 'lift'
  * noun -> Turn
  * noun 'up' -> Push
  * noun 'with' held -> Open;
+
+Verb 'raise' = 'lift';
+
+[ JumpSub;
+ if (noun == nothing) noun = ScopeCeiling(player);
+ if (RunRoutines(location,react_before)~=0) rtrue; ! include location in reactions
+ if (RunRoutines(noun,react_before)~=0) rtrue;
+ if (RunRoutines(location,react_after)~=0) rtrue; ! include location in reactions
+ if (RunRoutines(noun,react_after)~=0) rtrue;
+ if (location ~= noun && noun has enterable) <<Enter noun>>;
+ L__M(##Jump, 1, noun);
+];
+
+Extend 'jump'
+ * 'up'/'on' 'to' noun -> Jump
+ * 'upon'/'to'/'onto'/'in'/'into'/'inside' noun -> Jump;
 
 [ WinSub;
  "If only it were that easy."; 
@@ -85,6 +115,16 @@ Verb "hint" * -> Hint;
 Extend "give" first
  * 'up' -> Hint;
 
+[ SleepSub;
+ if (noun == nothing) <<Make bed>>;
+ if (noun has enterable) <Enter noun>;
+ if (noun provides react_before) L__M(##Sleep, 1, noun);
+];
+
+Extend 'sleep' replace
+ * -> Sleep
+ * 'in'/'on'/'at' noun -> Sleep;
+
 [ PraySub;
  if (noun == nothing) <<Listen>>;
  if (noun has enterable) <Enter noun>;
@@ -92,7 +132,7 @@ Extend "give" first
 ];
 
 [ WorshipSub;
- if (TestScope(noun, player)) print (The) noun, " is unmoved.";
+ if (TestScope(noun, player)) print_ret (The) noun, " ", (IsOrAre) noun, " unmoved.";
  <<Listen noun>>;
 ];
 
@@ -102,6 +142,17 @@ Extend "pray" first
  * 'to' 'the' 'gods' -> Pray
  * 'to' noun -> Worship
  * 'to' noun 'gods' -> Pray;
+
+Extend 'listen'
+ * 'at' door -> Listen;
+
+Extend only 'say' first
+ * 'prayer' 'to' noun -> Pray
+ * 'prayer' 'in'/'on'/'at' noun -> Pray
+ * 'prayer' 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
+ * 'prayer' 'to' 'the' 'gods' -> Pray
+ * 'prayer' 'to' noun -> Worship
+ * 'prayer' 'to' noun 'gods' -> Pray;
 
 Extend "look" last ! try other rules before this one
     * noun -> Examine

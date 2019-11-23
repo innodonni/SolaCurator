@@ -1,7 +1,24 @@
 Replace PraySub;
 Replace SleepSub;
 Replace JumpSub;
+Replace JumpInSub;
+Replace JumpOnSub;
 Include "verblib";
+
+[ GamePreRoutine;
+#Ifdef DEBUG;
+ print "GamePreRoutine: action = ", action;
+ new_line;
+#Endif;
+ if (action ~= ##Jump or ##JumpOn or ##JumpIn) rfalse;
+ if (RunRoutines(location, react_before)~=0) rtrue; ! include location in reactions
+ rfalse;
+];
+[ GamePostRoutine;
+ if (action ~= ##Jump or ##JumpOn or ##JumpIn) rfalse;
+ if (RunRoutines(location, react_after)~=0) rtrue; ! include location in reactions
+ rfalse;
+];
 
 ![ InScope;
 !  if (scope_reason == REACT_BEFORE_REASON or REACT_AFTER_REASON)
@@ -55,19 +72,20 @@ Verb 'lift'
 
 Verb 'raise' = 'lift';
 
-[ JumpSub;
+[ JumpInSub; return JumpSub(); ];
+[ JumpOnSub; return JumpSub(); ];
+[ JumpSub act x1;
  if (noun == nothing) noun = ScopeCeiling(player);
- if (RunRoutines(location,react_before)~=0) rtrue; ! include location in reactions
- if (RunRoutines(noun,react_before)~=0) rtrue;
- if (RunRoutines(location,react_after)~=0) rtrue; ! include location in reactions
- if (RunRoutines(noun,react_after)~=0) rtrue;
- if (location ~= noun && noun has enterable) <<Enter noun>>;
- L__M(##Jump, 1, noun);
+ act = action; x1 = noun;
+ if (location ~= noun && noun has enterable) <Enter noun>;
+ action=act; noun=x1; ! restore values
+ if (player in noun && AfterRoutines()~=0) rtrue;
+ return L__M(action, 1, noun);
 ];
 
 Extend 'jump'
  * 'up'/'on' 'to' noun -> Jump
- * 'upon'/'to'/'onto'/'in'/'into'/'inside' noun -> Jump;
+ * 'to'/'onto'/'inside' noun -> Jump;
 
 [ WinSub;
  "If only it were that easy."; 

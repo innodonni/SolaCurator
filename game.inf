@@ -328,7 +328,6 @@ Object windows "windows" Church
  has scenery pluralname;
 
 Object pews "pews" Church
- has scenery supporter enterable transparent pluralname
  with name 'pew' 'pews',
  description "Plain wooden benches welded to the ground - too narrow to sleep on.",
  before [;
@@ -337,20 +336,19 @@ Object pews "pews" Church
   LookUnder: if (cushions has general) rfalse;
   give cushions ~concealed; "Under each pew are small cushions.";
  ],
- react_after [; ! THIS RUNS BEFORE JumpSub
+ react_after [;
   Enter:
    if (self hasnt general) print "You heave a sigh of relief to have a place to sit at a proper height. Still, you decide the pews aren't wide enough to sleep on.";
    give self general;
    if (cushions has concealed) print " As you unconsciously lean forward to stretch your back, you notice something underneath. ";
-   rtrue; ! THIS ABORTS JumpSub
+   rtrue;
  ],
- react_before [; ! THIS RUNS DURING JumpSub (too late)
-  Jump: if (noun == self) print "Glancing around first, you summon the energy to jump onto the pews. Miraculously, they hold your weight. ";
+ react_before [;
+  Jump: if (noun == self) print "Glancing around first, you summon the energy to jump onto a pew. Miraculously, it holds your weight. ";
   Sleep: if (noun == self) "^The pews are alright to sit on, but not ideal to sleep on.";
-  Listen: if (noun == self && player in self) {
-   "The pew creaks.";
-  }
- ];
+  Listen: if (noun == self && player in self) "The pew creaks.";
+ ],
+ has scenery supporter enterable transparent pluralname;
 
 Object cushions "cushions" pews
  has concealed supporter enterable pluralname
@@ -390,7 +388,6 @@ Object altar "altar" Church
 ! disambiguate table legs!
 
 Object bike "motorbike" Town
- has light static supporter enterable switchable lockable !female if animate
  with name 'motorbike' 'bike' 'electric' 'ride' 'vehicle' 'bicycle' 'motorcycle' 'standard',
  description "It's a standard electric motorbike, and your ticket to finding the City of Peace.",
  initial "Your bike stands chained here.",
@@ -416,7 +413,8 @@ Object bike "motorbike" Town
   Sleep: if (noun == self || (noun == nothing && player in self)) "Nowhere near ideal.";
   Pray: if (noun == self) "You pray fervently for the strength to continue your journey, but the motorbike remains unmoved.";
   Listen: if (noun == self) "Silence - the wonders of electricity.";
- ];
+ ],
+ has light static supporter enterable switchable lockable; !female if animate
 
 Object battery "battery" bike
  has concealed

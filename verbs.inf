@@ -20,12 +20,6 @@ Include "verblib";
  rfalse;
 ];
 
-![ InScope;
-!  if (scope_reason == REACT_BEFORE_REASON or REACT_AFTER_REASON)
-!    PlaceInScope(location); ! locations should react_before Jump etc.
-!  rfalse;
-!];
-
 Include "grammar";
 
 Verb 'start' 'stop' 'change' = 'switch';
@@ -42,10 +36,14 @@ Verb 'rifle' 'riffle' 'ransack' 'visit' 'explore' = 'search';
 Verb 'peek' = 'look';
 Verb 'inspect' = 'examine';
 
+Extend only 'check' first
+ * 'in' noun -> Search;
+
 [ MakeSub;
  if (noun ~= camp or bed) "You don't have the tools and materials for that.";
  if (location ~= Church) "This isn't an ideal spot to bed down for the night.";
  if (cushions has concealed && altar has concealed) "Ideally you would have somewhere soft to sleep.";
+ score = score + 20;
  deadflag = 2;
  "This is the end of the demo. Please form an orderly queue to hand in your feedback.^
  Thank you for playing!";

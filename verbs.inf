@@ -7,17 +7,57 @@ Include "verblib";
 
 [ GamePreRoutine;
 #Ifdef DEBUG;
- print "GamePreRoutine: action = ", action;
- new_line;
+ print "GamePreRoutine: action = ", action; new_line;
 #Endif;
- if (action ~= ##Jump or ##JumpOn or ##JumpIn) rfalse;
- if (RunRoutines(location, react_before)~=0) rtrue; ! include location in reactions
+ if (action == ##Examine or ##Search && s_obj == noun or second && location == Town) "It looks like there are more buildings down in the square.";
+ if (action == ##Examine or ##Search && noun in compass && ZRegion(location.(noun.door_dir))==2 or 3) return PrintOrRun(location,noun.door_dir);
+ if (action == ##Jump or ##JumpOn or ##JumpIn && RunRoutines(location, react_before)~=0) rtrue; ! include location in reactions
+ Answer: if (noun == player && RunRoutines(player, before)~=0) rtrue;
+ default:
  rfalse;
 ];
 [ GamePostRoutine;
- if (action ~= ##Jump or ##JumpOn or ##JumpIn) rfalse;
- if (RunRoutines(location, react_after)~=0) rtrue; ! include location in reactions
+ if (action == ##Jump or ##JumpOn or ##JumpIn && RunRoutines(location, react_after)~=0) rtrue; ! include location in reactions
  rfalse;
+];
+
+[ UnknownVerb word i;
+  objectloop (i has transparent && i ofclass Room)
+  {
+    if (WordInProperty(word,i,name))
+    {
+      verb_wordnum=0;
+      return 'go';
+    }
+  }
+  rfalse;
+];
+
+[ TeleportScope i;
+  switch (scope_stage)
+    {
+      1: rfalse;
+      2: objectloop (i ofclass Room) {
+          if (i has transparent && i hasnt concealed)
+          {
+           if (action_to_be == ##Teleport && i has visited)
+            PlaceInScope(i);
+           if (i has visited)
+            ScopeWithin(i);
+          }
+         }
+         rtrue;
+      3: "That doesn't seem to be anywhere you've been.";
+    }
+];
+
+[ TeleportSub rm;
+  if (noun ofclass Room && noun has transparent && noun hasnt concealed)
+   { print "(visiting ", (the) noun, ")^"; PlayerTo (noun, 2); rtrue; }
+  rm = ScopeCeiling(noun);
+  if (rm ~= nothing && rm has transparent && rm hasnt concealed && rm ofclass Room)
+   { print "(finding ", (the) noun, " in ", (the) rm, ")^"; PlayerTo (rm, 2); rtrue; }
+  if (noun in compass) <<Go noun>>;
 ];
 
 Include "grammar";
@@ -26,15 +66,31 @@ Verb 'start' 'stop' 'change' = 'switch';
 Verb 'mount' 'kneel' = 'enter';
 Verb 'dismount' = 'exit';
 Verb 'camp' 'kip' = 'sleep';
-Verb 'bite' = 'taste';
+Verb 'lick' 'bite' = 'taste';
 Verb 'hurt' 'kick' = 'hit';
-Verb 'detach' = 'take';
+Verb 'detach' 'grab' = 'take';
 Verb 'unchain' = 'unlock';
 Verb 'wheel' = 'push';
 Verb 'dance' = 'jump';
-Verb 'rifle' 'riffle' 'ransack' 'visit' 'explore' = 'search';
+Verb 'rifle' 'riffle' 'ransack' 'explore' = 'search';
 Verb 'peek' = 'look';
 Verb 'inspect' = 'examine';
+Verb 'kindle' = 'burn';
+Verb 'pour' = 'empty';
+Verb 'grip' = 'touch';
+Verb 'visit' 'travel' = 'go';
+
+Extend 'go' first
+ * scope=TeleportScope -> Teleport
+ * 'near'/'nearer' 'to' scope=TeleportScope -> Teleport
+ * 'near'/'nearer'/'to'/'toward'/'towards' scope=TeleportScope -> Teleport;
+
+Extend 'examine' first
+ * scope=TeleportScope -> Examine
+ * noun 'to' noun=ADirection -> Examine;
+
+Extend 'search'
+ * 'through' noun -> Search;
 
 Extend only 'check' first
  * 'in' noun -> Search;
@@ -49,10 +105,20 @@ Extend only 'check' first
  Thank you for playing!";
 ]; 
 
+Verb 'use'
+ * enterable -> Enter
+ * 'exit'/'entrance' -> VagueGo
+ * noun -> SwitchOn;
+
 Verb 'make'
  * noun -> Make
+ * noun noun -> Make
+ * noun 'in' noun -> Make
  * 'up' noun -> Make
  * noun 'up' -> Make;
+
+Extend 'put' first
+ * 'up' noun -> Make;
 
 Attribute legible;
 
@@ -61,7 +127,8 @@ Attribute legible;
 ];
 
 Extend 'read' first
- * legible -> Read;
+ * legible -> Read
+ * legible 'about' topic -> Consult;
 
 Verb 'lift'
  * noun -> Turn
@@ -89,6 +156,7 @@ Extend 'jump'
  "If only it were that easy."; 
 ];
 Verb "win"
+ * -> Win
  * topic -> Win;
 
 ! Verbs list http://www.inform-fiction.org/manual/html/tables.html#tbl6a
@@ -125,11 +193,43 @@ Verb "win"
  LoopOverScope(MyObjectListing);
 ];
 
-Verb "help" * -> Help;
+Verb "help"
+ * -> Help
+ * topic -> Help;
+
 Verb "hint" * -> Hint;
 
 Extend "give" first
+ * animate 'a' 'hint' -> Hint
  * 'up' -> Hint;
+
+Extend "tell" first
+ * animate 'to' topic -> Tell;
+
+[ DoSub w prev i;
+ print "You attempt to ";
+ wn = consult_from;
+ while((w = NextWordStopped())~=-1) {
+  print w;
+  prev = wn-1;
+ }
+ ! need a full stop? check last char
+ i=WordLength(prev)-1;
+ if (w->i ~= '.') print '.';
+ new_line;
+ rtrue;
+]; 
+
+Verb "do"
+ * topic -> Do;
+
+[ TrySub;
+ "~Do or do not. There is no try.~^^Sorry, I can't understand infinitive verbs.";
+];
+
+Verb "try"
+ * noun -> Open
+ * topic -> Try;
 
 [ SleepSub;
  if (noun == nothing) <<Make bed>>;
@@ -163,6 +263,7 @@ Extend 'listen'
  * 'at' door -> Listen;
 
 Extend only 'say' first
+ * 'prayer' -> Pray
  * 'prayer' 'to' noun -> Pray
  * 'prayer' 'in'/'on'/'at' noun -> Pray
  * 'prayer' 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
@@ -170,10 +271,19 @@ Extend only 'say' first
  * 'prayer' 'to' noun -> Worship
  * 'prayer' 'to' noun 'gods' -> Pray;
 
-Extend "look" last ! try other rules before this one
+Extend 'look' replace
+    *                                           -> Look
+    * 'at' noun                                 -> Examine
+    * 'at' noun 'to'/'towards'/'in' noun=ADirection  -> Examine
+    * 'inside'/'in'/'into'/'through'/'on' noun  -> Search
+    * 'under' noun                              -> LookUnder
+    * noun=ADirection                           -> Examine
+    * 'up' topic 'in' noun                      -> Consult reverse
     * noun -> Examine
-    * 'between' door -> Search;
+    * 'between' door -> Search
+    * 'for' noun -> Examine
+    * 'to' noun=ADirection                      -> Examine;
 
-Extend "lock" first ! try these rules before other ones
+Extend "lock" first ! try other rules after these
     * "up" noun -> Lock
     * noun "up" -> Lock;

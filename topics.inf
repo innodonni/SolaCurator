@@ -5,7 +5,7 @@ Topic -> foo with name 'match' 'terms';
 Topic -> bar with name 'foo' 'bar';
 
 Class Book
- with name 'reference' 'book',
+ with name 'reference' 'book' 'manual',
  before [;
   Consult:
    switch(second)

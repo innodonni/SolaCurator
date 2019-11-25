@@ -63,7 +63,8 @@
 ! the player gains more information topics can be moved in and out of
 ! the Topics object at will.
 
-[ TopicScope;
+[ TopicScope tmp;
+    tmp = wn;
     switch(scope_stage)
     {
      1: rfalse;
@@ -79,6 +80,7 @@ Class 	Topic
 
 Extend 'look' first
     * 					-> Look
+    * noun = ADirection			-> Examine ! Adonikam bug fix
     * 'up' scope = TopicScope 'in' noun	-> Consult reverse;
 
 Extend 'consult' first

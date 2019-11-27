@@ -33,19 +33,33 @@ Include "verblib";
   rfalse;
 ];
 
-[ TeleportScope i;
-  switch (scope_stage)
-    {
-      1: rfalse;
-      2: objectloop (i ofclass Room) {
+[ ScanLoc i;
           if (i has transparent && i hasnt concealed)
           {
-           if (action_to_be == ##Teleport && i has visited)
+           if (action_to_be == ##Teleport or ##Examine or ##Search && i has visited)
             PlaceInScope(i);
            if (i has visited)
             ScopeWithin(i);
           }
-         }
+];
+
+[ ScanObj i room;
+          room = ScopeCeiling(i);
+          if (room has transparent && room hasnt concealed)
+          {
+           if (action_to_be == ##Teleport or ##Examine or ##Search)
+            PlaceInScope(i);
+           if (i has transparent or open)
+            ScopeWithin(i);
+          }
+];
+
+[ TeleportScope i;
+  switch (scope_stage)
+    {
+      1: rfalse;
+      2: objectloop (i ofclass Room) ScanLoc(i);
+         objectloop (i has moved) ScanObj(i);
          rtrue;
       3: "That doesn't seem to be anywhere you've been.";
     }
@@ -80,17 +94,27 @@ Verb 'pour' = 'empty';
 Verb 'grip' = 'touch';
 Verb 'visit' 'travel' = 'go';
 
+Extend 'sit'
+ * 'down' 'in' supporter -> Enter
+ * noun=ADirection -> Look;
+
+Extend 'climb'
+ * 'on'/'onto' noun -> Enter;
+
 Extend 'go' first
  * scope=TeleportScope -> Teleport
  * 'near'/'nearer' 'to' scope=TeleportScope -> Teleport
  * 'near'/'nearer'/'to'/'toward'/'towards' scope=TeleportScope -> Teleport;
 
 Extend 'examine' first
- * scope=TeleportScope -> Examine
+ * scope=TeleportScope -> Examine;
+Extend 'examine' last
  * noun 'to' noun=ADirection -> Examine;
 
 Extend 'search'
- * 'through' noun -> Search;
+ * 'through' noun -> Search
+ * scope=TeleportScope -> Search
+ * 'through' scope=TeleportScope -> Search;
 
 Extend only 'check' first
  * 'in' noun -> Search;
@@ -99,7 +123,7 @@ Extend only 'check' first
  if (noun ~= camp or bed) "You don't have the tools and materials for that.";
  if (location ~= Church) "This isn't an ideal spot to bed down for the night.";
  if (cushions has concealed && altar has concealed) "Ideally you would have somewhere soft to sleep.";
- score = score + 20;
+ if (bed hasnt general) score = score + 20; give bed general;
  deadflag = 2;
  "This is the end of the demo. Please form an orderly queue to hand in your feedback.^
  Thank you for playing!";
@@ -273,6 +297,7 @@ Extend only 'say' first
 
 Extend 'look' replace
     *                                           -> Look
+    * 'around'                                  -> Search
     * 'at' noun                                 -> Examine
     * 'at' noun 'to'/'towards'/'in' noun=ADirection  -> Examine
     * 'inside'/'in'/'into'/'through'/'on' noun  -> Search

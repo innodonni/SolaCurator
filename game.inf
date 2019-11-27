@@ -84,6 +84,16 @@ Object newplayer "yourself"
     wlf_indent=1; WriteListR(child(pockets));
    }
  ],
+ each_turn [;
+  if (parent(player) ~= pews && parent(papers) ~= bag) {
+   give papers ~open; move papers to bag; move bag to player;
+   print "You place the papers gently back in your bag. You don't want to lose any pages accidentally.^";
+  }
+  if (parent(card) ~= bag or nothing) {
+   move card to bag;
+   print "You put your bank card away in your bag for safe-keeping.^";
+  }
+ ],
  has concealed animate proper transparent;
 
 Object body "body"
@@ -142,11 +152,11 @@ Object pocket "shirt pocket"
 Object pockets "trouser pockets"
  with name 'trouser' 'pocket' 'pockets',
  article "your",
- description "Deep pockets, ready for adventure!",
+ description "Deep pockets, ready for adventure! Still, you try not to use them in case anything falls out.",
  capacity 1,
  before [;
   Search: move card to pockets;
-  "You find your bank card in your trouser pockets.";
+  "To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.";
   Receive: "You can't fit anything more in your pockets.";
  ],
  has static pluralname container transparent;
@@ -360,7 +370,7 @@ Inside Church "Church"
  with name 'church',
  description "The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.",
  before [;
-  Look: if (self hasnt general) score = score + 20; give self general;
+  if (self hasnt general) score = score + 20; give self general;
  ],
  w_to ChurchDoors,
  out_to ChurchDoors,
@@ -373,11 +383,11 @@ Inside Church "Church"
  ];
 
 Object windows "windows" Church
- with name 'tall' 'arched' 'high' 'windows',
- description "Tall, arched windows let in light high out of reach.",
+ with name 'tall' 'arched' 'high' 'windows' 'window' 'sunlight',
+ description "Tall, arched windows let in sunlight high out of reach.",
  before [;
   Examine,ThrownAt: ;
-  default: "You can't reach them.";
+  default: "You can't reach the windows.";
  ],
  has scenery pluralname;
 
@@ -429,12 +439,14 @@ Object cushions "cushions" Church
 
 Object altar "altar" Church
  has static concealed supporter enterable
- with name 'altar' 'stone' 'table' 'alter',
- description "What you assume to be the altar is an unembellished stone table. Any cloth, cross or other religious artefacts seem to have been removed for safekeeping.",
+ with name 'altar' 'stone' 'table' 'alter' 'unembellished' 'bare',
+ description "What you assume to be the altar is a bare, unembellished stone table. Any cloth, cross or other religious artefacts seem to have been removed for safekeeping.",
  before [;
+  Examine: give self ~concealed;
   Touch,Rub,Climb,Enter,Push,Pull: 
-  if (self has concealed) score = score + 5;
-  give self ~concealed;
+  if (self hasnt general) score = score + 5;
+  give self general ~concealed;
+  give altarlegs ~concealed;
   "As you put your weight on the altar, it wobbles. If the legs aren't all the same length, you might as well sleep on the floor.";
   LookUnder: <<Examine altarlegs>>;
  ],
@@ -445,8 +457,8 @@ Object altar "altar" Church
  ];
 
 Object altarlegs "altar legs" Church
- has scenery pluralname
- with name 'altar' 'stone' 'table' 'alter' 'legs',
+ has scenery concealed pluralname
+ with name 'altar' 'stone' 'table' 'alter' 'legs' 'bare' 'unembellished',
  description "Stubby stone legs protrude from the bottom of the altar. They are high enough off the ground to allow the altar to wobble, but not high enough for anything to go underneath.";
 
 Object bike "motorbike" Town
@@ -514,12 +526,12 @@ Book papers "pile of papers" bag
   return n;
  ],
  !invent [; if (inventory_stage == 1) rtrue; rfalse; ], ! hiding crashes Z-Machine
- description "In addition to your journal, you have collected various notes. They are far too interesting to give a single glance. You resolve to read them once you have taken the weight off your legs.",
+ description "In addition to your journal is a pile of various notes you have collected.",
  before [;
   if (action == ##Read or ##Consult or ##Search && parent(player) ~= pews) "First priority is to find a place to rest.";
   if (action == ##Read or ##Consult or ##Search && self hasnt open) "The journal is bound shut with bulging elastic straps.";
   Take: if (parent(player) ~= pews) "First priority is to find a place to rest.";
-  Read: "The first page begins:^Research topics / article ideas (year):^
+  Read: "The first page of your journal begins:^Research topics / article ideas (year):^
         Calendar dates - does history matter any more? (863)^
         Inking - ancient printing revised for the modern era (868)^
         Goat psychology - eyewitnesses and ~left behind~ syndrome (877)^
@@ -528,7 +540,7 @@ Book papers "pile of papers" bag
         Abysmal release - devillish designs for humanity (993)^
         God incarnate - what is love?^
         ^No number has been written for the last entry.";
-  Search: "There's too many pages to rifle through.";
+  Search: "There's too many pages to rifle through, but you could look something up.";
   Open,Push,Pull: if (parent(player) ~= pews) "Not standing here. You don't want to have to chase any pages that might fall out.";
   if (self hasnt general) score = score + 5; give self general;
   if (self has open) rtrue; ! default Push/Pull if open??
@@ -537,6 +549,9 @@ Book papers "pile of papers" bag
   Transfer,Insert,PutOn,Drop: give self ~open; move self to bag;
   "You place the papers gently back in your bag. You don't want to lose any pages accidentally.";
   LookUnder: "The back of your journal is stuffed full of loose pages that you plan to read later. The reverse of the back page is blank, besides a few smudges from your inky fingers due to being the lowest in the pile.";
+ ],
+ after [;
+  Examine: if (parent(player) ~= pews) print "They are far too interesting to give a single glance. You resolve to read them once you have taken the weight off your legs.^";
  ];
 
 Object roofs "roofs"

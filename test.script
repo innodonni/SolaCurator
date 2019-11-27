@@ -1,0 +1,86 @@
+visit bike
+x bike
+x buildings
+search street
+search buildings
+ne
+x board
+search board
+read board
+go south
+x square
+x buildings
+search buildings
+search square
+search dwellings
+x church
+x graffiti
+search graffiti
+x doors
+pull knob
+twist knob
+touch knob
+touch door
+push door
+listen at doors
+look between doors
+x latch
+x clothes
+search clothes
+x pockets
+x trouser pockets
+search trouser pockets
+x card  
+remove card from bag
+drop card
+open church door with card
+close church door
+lift latch with card
+pull church door
+lift latch
+raise latch with card
+enter church
+x windows
+get window
+push doors
+lift latch
+pull knob
+sit down
+sleep
+make fire
+make bed
+x altar
+pray at altar
+jump over altar
+jump on altar
+climb on altar
+sleep on altar
+look under altar
+x altar legs
+jump over pews
+jump
+listen
+sleep on pew
+sit in pew
+touch door
+look under pews
+take cushion
+put cushion on pew
+throw cushion at windows
+drop bag
+open bag
+take file
+x file
+read file
+unstrap file
+open file
+read file
+search file
+look up foo in file
+get up
+take bag
+put file away
+drop file
+sleep on ground
+make bed
+undo

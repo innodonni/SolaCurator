@@ -1,0 +1,211 @@
+pray
+sleep
+dance
+dance in
+dance on
+*hop on one leg
+*hop on leg
+*hop in self
+*visit bike and hop over bike
+jump
+jump in
+jump on
+jump over
+mount
+kneel
+enter
+dismount
+exit
+kindle
+pour
+empty
+*visit pew and empty bag on pew
+*visit bike and empty bag on bike
+*empty bag on bed
+*go to church and empty bag onto altar
+*go to town and empty bag into road
+grip
+visit
+travel
+raise
+go to
+go near
+peek
+inspect
+examine
+*go road and examine building to north
+*visit bike and examine building to north-east
+*find road. examine building to south
+*find bag. rifle through bag
+*search for bag. riffle through bag
+*square. search through waste
+ransack
+explore
+search
+*find bag. check in bag
+*make camp
+*make bed
+*make nonsense
+*visit bike. use bike
+*use exit
+*visit church doors. use door
+*visit square. use waste
+*make camp bed
+*visit bike. make bike sun
+*visit bike. make sun in bike
+*visit bike. make bike up
+*visit altar. make up story
+*visit church. put up tent
+read
+*read book about cheese
+*visit battery. lift bike up
+*visit chain. lift bike
+*visit bike. lift bike with bag
+*visit sun. jump up to sun
+*visit camp. jump inside tent
+*win the game
+*lose the game
+*go south-east
+*se
+look under
+look at
+*look up
+*i
+drop
+get
+*visit bike and get off bike
+detach
+grab
+wear
+remove
+*take file from bag
+*remove file from bag
+*insert arm in bag
+*put body in bag
+*put on accent
+open
+close
+lock
+unchain
+unlock
+turn on
+turn off
+start
+*start fight
+stop
+change
+switch
+push
+wheel
+pull
+move
+*visit bike. move bag to bike
+*transfer file to bag
+turn
+twist
+undo
+cover
+*put bag in bag
+*visit bike. put bag on bike
+lick
+bite
+taste
+listen
+listen to
+touch
+smell
+eat
+drink
+rub
+cut
+burn
+dig
+wake
+wake up
+kiss
+hit
+hurt
+kick
+*look up foo in file
+*read about bar in file
+*consult file about bar
+*ask self about purpose
+*give bag to self
+*show bag to self
+*show self the finger
+*tell self to pull oneself together
+*throw bag at self
+wait
+hint
+score
+help
+*help me find de way
+*give me a hint
+*give up
+*tell me to do something
+*do a jig
+*try door
+*try to eat a sandwich
+camp
+camp in
+camp on
+camp at
+kip
+kip in
+kip on
+kip at
+sleep
+sleep in
+sleep on
+sleep at
+*pray to God I can find the door
+pray to
+pray in
+*visit pew. listen at door
+*say prayer to bike
+*say prayer on bike
+*say prayer to God
+look
+look at
+*go to town. look at building to south
+*square. look at building to south-east
+*town. look at building to north-east
+*go to square. look at building to east
+*out. look through sun
+*look east
+*look south
+*look north-east
+*look south-east
+look between
+look for
+*look to east
+*look to north-east
+*look to south-east
+*look to east
+*look to south
+lock up
+fill
+wave
+tie
+swing on
+blow
+clean
+*set trap
+*visit bike. set bike on road
+*set sun
+*set bag down on road
+*set file to rest on road
+buy
+*ask self for bag
+sing
+swim
+*dive into water
+*dive in water
+sorry
+oops
+*blast this game
+*bother this game
+*damn game
+*think of my happy place
+yes
+no

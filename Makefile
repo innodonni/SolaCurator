@@ -14,10 +14,13 @@ game.blb: *.inf *.h
 clean:
 	$(RM) game.z5 release.inf release.z5 game.blb test.input test.actual web/interpreter/story.zblorb.js
 
-test.input: test.script
+test.input: test.script nouns.txt verbs.txt
 	echo "script on" > test.input
 	echo "test.actual" >> test.input
 	cat test.script >> test.input
+	cat nouns.txt >> test.input
+	grep \* verbs.txt | sed -e 's/^\*//g' >> test.input
+	#grep -v \* verbs.txt | while read i; do echo $$i >> test.input; sed "s/^/$$i /" nouns.txt >> test.input; done
 	echo "quit" >> test.input
 	echo "y" >> test.input
 	echo >> test.input
@@ -26,7 +29,8 @@ test: game.z5 test.input test.expected
 	inform game.inf game.z5
 	$(RM) test.actual
 	/usr/local/share/inform7/Interpreters/dumb-frotz game.z5 <test.input
-	diff test.actual test.expected && rm test.actual test.input
+	$(RM) game.z5
+	diff test.actual test.expected && $(RM) test.actual test.input
 
 release: parchment
 

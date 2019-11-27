@@ -16,6 +16,7 @@ Constant MANUAL_PRONOUNS;
 Constant AMUSING_PROVIDED;
 Constant MAX_SCORE = 90;
 Release 1;
+Serial "191125";
 
 [ strong str;
     style bold;
@@ -155,13 +156,15 @@ Object pockets "trouser pockets"
   location = Town;
   move bag to player;
   !parser_trace = 2;
-  "^^You've just arrived at Beth'oni a small town in Israel.
+  Banner();
+  print "^You've just arrived at Beth'oni a small town in Israel.
    Doubt fills your mind, crippling your thoughts.
    Something is wrong with you, but carrying on won't find it now...
    it's time to stop for the night.
    The sun's heat is rapidly weakening and the nights here are frightfully cold.
    You chain your motorbike here to conserve battery charge,
-   shoulder your bag and turn to face the task of making camp.^";
+   shoulder your bag and turn to face the task of making camp.";
+  return 2;
 ];
 
 Class Room;

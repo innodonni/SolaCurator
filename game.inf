@@ -9,7 +9,7 @@
 ! jump in church
 
 Constant Story "SOLA CURATOR";
-Constant Headline "^A post-apocalyptic adventure^by Adonikam Virgo^";
+Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^";
 !Constant DEBUG; ! compile with -D
 Constant DEATH_MENTION_UNDO;
 Constant MANUAL_PRONOUNS;
@@ -163,7 +163,7 @@ Object pockets "trouser pockets"
    it's time to stop for the night.
    The sun's heat is rapidly weakening and the nights here are frightfully cold.
    You chain your motorbike here to conserve battery charge,
-   shoulder your bag and turn to face the task of making camp.";
+   shoulder your bag and turn to face the task of making camp.^";
   return 2;
 ];
 

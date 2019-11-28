@@ -8,7 +8,7 @@ game.z5: *.inf *.h
 
 all: clean test run
 
-.PHONY: all clean test run ci release parchment quixe
+.PHONY: all clean test bless run ci release parchment quixe
 
 game.blb: *.inf *.h
 	inform -GH +include_path=/usr/share/inform6/library/,./ game.inf game.blb
@@ -33,7 +33,10 @@ test: game.z5 test.input test.expected
 	/usr/local/share/inform7/Interpreters/dumb-frotz game.z5 <test.input
 	$(RM) game.z5
 	{ { { { diff test.actual test.expected 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.actual test.input
-	#diff test.actual test.expected | less && $(RM) test.actual test.input
+
+bless: test.actual
+	mv test.actual test.expected
+	git add test.expected
 
 release: parchment
 

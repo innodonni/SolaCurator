@@ -9,7 +9,12 @@
 ! jump in church
 
 Constant Story "SOLA CURATOR";
-Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^";
+Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^
+                  Interpreted by the Quixe web-based glulx interpreter.^
+                  Source available at http://github.com/innodonni/SolaCurator^
+                  GoNeighbour by Alan Trewartha. Info by Jesse Burneko.^
+                  PrintSlow by D Cornelson (glulx port by Adonikam Virgo).^
+                  HelpRoutines, NewbieGrammar and ExpertGrammar by Emily Short.^";
 !Constant DEBUG; ! compile with -D
 Constant DEATH_MENTION_UNDO;
 Constant MANUAL_PRONOUNS;

@@ -214,16 +214,16 @@ Verb "info"
 Extend "tell" first
  * animate 'to' topic -> Tell;
 
-[ DoSub w prev i;
- print "You attempt to ";
- wn = consult_from;
- while((w = NextWordStopped())~=-1) {
-  print w;
-  prev = wn-1;
+[ DoSub w i;
+ print "You attempt to";
+ for (w=1; w<=NumberWords(); w++) {
+  print (char) 32;
+  for (i=0; i<WordLength(w); i++)
+   print (char) WordAddress(w)->i;
  }
  ! need a full stop? check last char
- i=WordLength(prev)-1;
- if (w->i ~= '.') print '.';
+ i=WordLength(w-1)-1;
+ if (WordAddress(w-1)->i ~= 46) print (char) 46;
  new_line;
  rtrue;
 ]; 

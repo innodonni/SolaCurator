@@ -171,7 +171,10 @@ Object pockets "trouser pockets"
   return 2;
 ];
 
-Class Room;
+Include ">smartcantgo.h";
+
+Class Room
+ with cant_go [; SmartCantGo(); ];
 
 Class Outside
  with class Room,

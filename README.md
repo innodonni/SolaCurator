@@ -7,6 +7,8 @@ Source available at https://github.com/innodonni/SolaCurator
 
 Interpreted by the Quixe web-based glulx interpreter.
 
+Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
+
 GoNeighbour by Alan Trewartha.
 
 Info by Jesse Burneko.

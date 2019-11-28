@@ -216,9 +216,9 @@ Extend "tell" first
 
 [ DoSub w i;
  print "You attempt to";
- for (w=1; w<=NumberWords(); w++) {
+ for (w=1: w<=NumberWords(): w++) {
   print (char) 32;
-  for (i=0; i<WordLength(w); i++)
+  for (i=0: i<WordLength(w): i++)
    print (char) WordAddress(w)->i;
  }
  ! need a full stop? check last char

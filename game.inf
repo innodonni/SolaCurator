@@ -18,12 +18,6 @@ Constant MAX_SCORE = 90;
 Release 1;
 Serial "191125";
 
-[ strong str;
-    style bold;
-    print (string) str;
-    style roman;
-];
-
 [ Amusing;
  "Have you tried the following:^
  search self^
@@ -89,15 +83,15 @@ Object newplayer "yourself"
    give papers ~open; move papers to bag; move bag to player;
    print "You place the papers gently back in your bag. You don't want to lose any pages accidentally.^";
   }
-  if (parent(card) ~= bag or nothing) {
-   move card to bag;
-   print "You put your bank card away in your bag for safe-keeping.^";
+  if (parent(card) ~= pockets or nothing) {
+   move card to pockets;
+   print "You put your bank card away in your pocket until you need to use it.^";
   }
  ],
  has concealed animate proper transparent;
 
 Object body "body"
- with name 'torso' 'body' 'groin' 'privates' 'head' 'hand' 'hands//p',
+ with name 'torso' 'body' 'groin' 'privates' 'head' 'hand' 'hands',
  article 'your',
  description "From what you can tell, everything is in its place.",
  before [;
@@ -159,7 +153,7 @@ Object pockets "trouser pockets"
   "To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.";
   Receive: "You can't fit anything more in your pockets.";
  ],
- has static pluralname container transparent;
+ has static pluralname container open transparent;
 
 [ Initialise;
   player = newplayer;
@@ -440,12 +434,18 @@ Object cushions "cushions" Church
 Object altar "altar" Church
  has static concealed supporter enterable
  with name 'altar' 'stone' 'table' 'alter' 'unembellished' 'bare',
+! parse_name [ i word; ! presence of parse_name forces disambiguation
+!  if (parser_action == ##TheSame) return -2;
+!  for (::i++) {
+!   word=NextWord();
+!   if (~~WordInProperty(word,self,name)) return i;
+!  }
+! ],
  description "What you assume to be the altar is a bare, unembellished stone table. Any cloth, cross or other religious artefacts seem to have been removed for safekeeping.",
  before [;
-  Examine: give self ~concealed;
+  give self ~concealed;
   Touch,Rub,Climb,Enter,Push,Pull: 
-  if (self hasnt general) score = score + 5;
-  give self general ~concealed;
+  if (self hasnt general) score = score + 5; give self general;
   give altarlegs ~concealed;
   "As you put your weight on the altar, it wobbles. If the legs aren't all the same length, you might as well sleep on the floor.";
   LookUnder: <<Examine altarlegs>>;
@@ -458,8 +458,18 @@ Object altar "altar" Church
 
 Object altarlegs "altar legs" Church
  has scenery concealed pluralname
- with name 'altar' 'stone' 'table' 'alter' 'legs' 'bare' 'unembellished',
- description "Stubby stone legs protrude from the bottom of the altar. They are high enough off the ground to allow the altar to wobble, but not high enough for anything to go underneath.";
+ with name 'altar' 'stone' 'table' 'alter' 'leg' 'legs' 'bare' 'unembellished',
+ parse_name [ i word; ! presence of parse_name forces disambiguation
+  if (parser_action == ##TheSame) return -2;
+  for (::i++) {
+   word=NextWord();
+   if (~~WordInProperty(word,self,name)) return i;
+  }
+ ],
+ description "Stubby stone legs protrude from the bottom of the altar. They are high enough off the ground to allow the altar to wobble, but not high enough for anything to go underneath.",
+ before [;
+  give self ~concealed;
+ ];
 
 Object bike "motorbike" Town
  with name 'motorbike' 'bike' 'electric' 'ride' 'vehicle' 'bicycle' 'motorcycle' 'standard',
@@ -599,7 +609,7 @@ Object sun "sun"
  with name 'sun' 'evening' 'sunset' 'sun-set' 'setting',
  article 'the',
  found_in [; return (location ofclass Outside); ],
- description "There is still enough daylight to find a spot to settle.",
+ description "There is still enough daylight to find a more suitable spot to settle.",
  before [;
   Make,Examine,Listen,Worship: ;
   default: "You can't reach it.";

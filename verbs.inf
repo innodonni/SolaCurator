@@ -13,12 +13,28 @@ Include "verblib";
  if (action == ##Examine or ##Search && noun in compass && ZRegion(location.(noun.door_dir))==2 or 3) return PrintOrRun(location,noun.door_dir);
  if (action == ##Jump or ##JumpOn or ##JumpIn && RunRoutines(location, react_before)~=0) rtrue; ! include location in reactions
  Answer: if (noun == player && RunRoutines(player, before)~=0) rtrue;
- default:
+ default: ;
  rfalse;
 ];
 [ GamePostRoutine;
  if (action == ##Jump or ##JumpOn or ##JumpIn && RunRoutines(location, react_after)~=0) rtrue; ! include location in reactions
  rfalse;
+];
+
+[ ChooseObjects obj code; 
+  !code = 0 if expecting to exclude from "all", 1 if expected to include in "all"
+  !0	  to accept the parser's decision;
+  !1	  to force the object to be included; or
+  !2	  to force the object to be excluded.
+  if (code < 2) { if (obj has scenery || obj == allbodyparts) return 2; rfalse; }
+
+  ! otherwise score preferences from 1-9
+  if (action_to_be == ##Eat && obj has edible) return 3;
+  if (obj == altar) return 9; ! doesn't work
+  if (obj == altarlegs) return 8;
+  if (obj == church) return 3;
+  if (obj hasnt scenery && obj ~= allbodyparts) return 2;
+  return 1;
 ];
 
 [ UnknownVerb word i;
@@ -60,6 +76,8 @@ Include "verblib";
       1: rfalse;
       2: objectloop (i ofclass Room) ScanLoc(i);
          objectloop (i has moved) ScanObj(i);
+         if (action_to_be == ##Examine or ##Search)
+          return noun ofclass Room;
          rtrue;
       3: "That doesn't seem to be anywhere you've been.";
     }
@@ -76,26 +94,24 @@ Include "verblib";
 
 Include "grammar";
 
-Verb 'start' 'stop' 'change' = 'switch';
+Verb 'change' = 'switch';
 Verb 'mount' 'kneel' = 'enter';
 Verb 'dismount' = 'exit';
 Verb 'camp' 'kip' = 'sleep';
-Verb 'lick' 'bite' = 'taste';
-Verb 'hurt' 'kick' = 'hit';
-Verb 'detach' 'grab' = 'take';
+Verb 'lick' = 'taste';
+Verb 'hurt' = 'hit';
+Verb 'detach' = 'take';
 Verb 'unchain' = 'unlock';
 Verb 'wheel' = 'push';
-Verb 'dance' = 'jump';
 Verb 'rifle' 'riffle' 'ransack' 'explore' = 'search';
 Verb 'peek' = 'look';
 Verb 'inspect' = 'examine';
-Verb 'kindle' = 'burn';
 Verb 'pour' = 'empty';
 Verb 'grip' = 'touch';
 Verb 'visit' 'travel' = 'go';
 
 Extend 'sit'
- * 'down' 'in' supporter -> Enter
+ * 'down' 'on'/'in' supporter -> Enter
  * noun=ADirection -> Look;
 
 Extend 'climb'
@@ -106,8 +122,8 @@ Extend 'go' first
  * 'near'/'nearer' 'to' scope=TeleportScope -> Teleport
  * 'near'/'nearer'/'to'/'toward'/'towards' scope=TeleportScope -> Teleport;
 
-Extend 'examine' first
- * scope=TeleportScope -> Examine;
+!Extend 'examine' first
+! * scope=TeleportScope -> Examine;
 Extend 'examine' last
  * noun 'to' noun=ADirection -> Examine;
 
@@ -122,17 +138,12 @@ Extend only 'check' first
 [ MakeSub;
  if (noun ~= camp or bed) "You don't have the tools and materials for that.";
  if (location ~= Church) "This isn't an ideal spot to bed down for the night.";
- if (cushions has concealed && altar has concealed) "Ideally you would have somewhere soft to sleep.";
+ if (cushions has concealed || altar has concealed) "Ideally you would have somewhere soft to sleep.";
  if (bed hasnt general) score = score + 20; give bed general;
  deadflag = 2;
  "This is the end of the demo. Please form an orderly queue to hand in your feedback.^
  Thank you for playing!";
 ]; 
-
-Verb 'use'
- * enterable -> Enter
- * 'exit'/'entrance' -> VagueGo
- * noun -> SwitchOn;
 
 Verb 'make'
  * noun -> Make
@@ -179,53 +190,26 @@ Extend 'jump'
 [ WinSub;
  "If only it were that easy."; 
 ];
-Verb "win"
+Verb "win" "lose"
  * -> Win
  * topic -> Win;
-
-! Verbs list http://www.inform-fiction.org/manual/html/tables.html#tbl6a
-[ HelpSub;
- print "The following is a non-exhaustive list of commands (sufficient to finish the game):^
-  GO north or just NORTH (or in, out, up, down, n, e, s, w, ne and so on)^
-  SEARCH/LOOK AT/LOOK UNDER/EXAMINE (or x) something^
-  INVENTORY or just INV (or i)^
-  DROP/TAKE (or get) something^
-  WEAR (or put on)/DISROBE (or remove) something^
-  OPEN/CLOSE/LOCK/UNLOCK/TURN ON/TURN OFF (or switch) something^
-  PUSH/PULL/MOVE/TURN/UNDO/COVER something^
-  PUT something IN/ON somewhere^
-  ENTER/EXIT [something]^
-  LOOK/LISTEN/TOUCH/TASTE/SMELL/EAT/DRINK [something]^
-  MAKE/RUB/CUT/BURN/DIG/WAKE/KISS/ATTACK (or hit) something^
-  PRAY TO/ON/IN something^
-  LOOK UP/READ ABOUT topic IN something or CONSULT something ABOUT topic^
-  ASK someone ABOUT topic^
-  GIVE/SHOW something TO someone (or SHOW someone something)^
-  TELL someone [TO] ...^
-  THROW something [AT something]^
-  DANCE/HOP/JUMP [ON something]^
-  WAIT/SLEEP/AGAIN^
-  HINT/SCORE/VERSION/HELP/SAVE/RESTORE/UNDO/QUIT";
-];
-
-[ MyObjectListing o;
- if (o hasnt concealed)
-  print "^", (The) o;
-];
-[ HintSub;
- print "Type ~help~ for a list of commands, ~places~ for visited places, ~objects~ for items to interact with or try the following objects:";
- LoopOverScope(MyObjectListing);
-];
 
 Verb "help"
  * -> Help
  * topic -> Help;
 
-Verb "hint" * -> Hint;
+[ MyObjectListing o;
+ if (o hasnt concealed)
+  print "^", (The) o;
+];
+[ InfoSub;
+ print "Type ~verbs~ for a list of actions, ~places~ for visited places, ~objects~ for items to interact with or try the following objects:";
+ LoopOverScope(MyObjectListing);
+];
 
-Extend "give" first
- * animate 'a' 'hint' -> Hint
- * 'up' -> Hint;
+Verb "info"
+ * -> Info
+ * topic -> Info;
 
 Extend "tell" first
  * animate 'to' topic -> Tell;
@@ -251,14 +235,11 @@ Verb "do"
  "~Do or do not. There is no try.~^^Sorry, I can't understand infinitive verbs.";
 ];
 
-Verb "try"
- * noun -> Open
- * topic -> Try;
-
 [ SleepSub;
  if (noun == nothing) <<Make bed>>;
  if (noun has enterable) <Enter noun>;
- if (noun provides react_before) L__M(##Sleep, 1, noun);
+ if (noun provides react_before) return L__M(##Sleep, 1, noun);
+ <<Examine sun>>;
 ];
 
 Extend 'sleep' replace
@@ -312,3 +293,47 @@ Extend 'look' replace
 Extend "lock" first ! try other rules after these
     * "up" noun -> Lock
     * noun "up" -> Lock;
+
+Include ">printslow.h";
+[ CheeseSample;
+  PrintSlowSettings.Speed = 10;
+  PrintSlowSettings.Override = false;
+  printslow("^> look^");
+  <Look>;
+  printslow("^> inventory^");
+  <Inv>;
+  printslow("^> examine clothes^");
+  <Examine clothes>;
+  printslow("^> drop rucksack^");
+  <Drop bag>;
+  printslow("^> search papers^");
+  <Search papers>;
+];
+
+Include ">HelpRoutines.h";
+Constant NO_HELP_GRAMMAR;
+Include ">NewbieGrammar.h";
+
+Extend "give" first
+ * animate 'a' 'hint' -> HintHelp
+ * 'up' -> HintHelp;
+
+Extend 'what'
+ * IsAmAre 'that'/'that?'/'those'/'those?' -> NewbieGrammar
+ * IsAmAre 'my' topic -> MustXMe;
+
+Include ">ExpertGrammar.h";
+
+Extend only 'start'
+ * noun -> SwitchOn;
+
+Extend 'bite' replace
+ * edible -> Eat
+ * animate -> Attack
+ * noun -> Taste;
+
+Extend only "try"
+ * topic -> Try;
+
+Extend 'use'
+ * 'exit'/'entrance' -> VagueGo;

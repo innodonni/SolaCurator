@@ -1,15 +1,17 @@
 run: game.z5
+	[ -z "$(OPTS)" ] || rm -f game.z5
+	$(MAKE) game.z5
 	frotz $<
 
 game.z5: *.inf *.h
-	inform -pseDX game.inf game.z5
+	inform -pseDX $(OPTS) game.inf game.z5
 
 all: clean test run
 
 .PHONY: all clean test run ci release parchment quixe
 
 game.blb: *.inf *.h
-	inform -G +include_path=/usr/share/inform6/library/,./ game.inf game.blb
+	inform -GH +include_path=/usr/share/inform6/library/,./ game.inf game.blb
 
 clean:
 	$(RM) game.z5 release.inf release.z5 game.blb test.input test.actual web/interpreter/story.zblorb.js
@@ -30,7 +32,8 @@ test: game.z5 test.input test.expected
 	$(RM) test.actual
 	/usr/local/share/inform7/Interpreters/dumb-frotz game.z5 <test.input
 	$(RM) game.z5
-	diff test.actual test.expected && $(RM) test.actual test.input
+	{ { { { diff test.actual test.expected 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.actual test.input
+	#diff test.actual test.expected | less && $(RM) test.actual test.input
 
 release: parchment
 

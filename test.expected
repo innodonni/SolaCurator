@@ -2,6 +2,7 @@ Start of a transcript of
 SOLA CURATOR - A post-apocalyptic adventure, by Adonikam Virgo.
 Interpreted by the Quixe web-based glulx interpreter.
 Source available at https://github.com/innodonni/SolaCurator
+Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
 GoNeighbour by Alan Trewartha. Info by Jesse Burneko.
 PrintSlow by D Cornelson (glulx port by Adonikam Virgo).
 HelpRoutines, NewbieGrammar and ExpertGrammar by Emily Short.
@@ -899,7 +900,7 @@ First priority is to find a place to rest.
 First priority is to find a place to rest.
 
 >ask self about purpose
-There is no reply.
+To talk to someone, please type TALK TO PERSON.
 
 >give bag to self
 You juggle the rucksack for a while, but don't achieve much.
@@ -1144,13 +1145,7 @@ There's no advantage to unpack until you've found a suitable shelter.
 You aren't holding that!
 
 >ask self for bag
-You're carrying:
-  a rucksack (which is open)
-    a pile of papers
-  your clothes (being worn)
-
-In your trouser pockets:
-  your bank card
+To talk to someone, please type TALK TO PERSON.
 
 >dive into water
 I only understood you as far as wanting to dive.

@@ -337,3 +337,66 @@ Extend only "try"
 
 Extend 'use'
  * 'exit'/'entrance' -> VagueGo;
+
+Property quip;
+Include ">gtalk.h";
+
+[TalkToSub;
+  if (noun has animate) {
+    "You can't think of anything to say.";
+  }
+  else {               !inanimate object
+    if (noun has pluralname)
+      print_ret (The) noun, " don't reply.";
+    else
+      print_ret (The) noun, " doesn't reply.";
+  }
+];
+
+[NotTalkSub;
+  if (noun ~= player) "To talk to someone, please type TALK TO PERSON.";
+];
+
+Extend only 'speak' replace
+  * creature        -> TalkTo
+  * 'to' creature   -> TalkTo
+  * 'with' creature -> TalkTo
+  * noun            -> TalkTo
+  * 'to' noun       -> TalkTo
+  * 'with' noun     -> TalkTo;
+
+Verb 'talk' 't//'
+  * creature        -> TalkTo
+  * 'to' creature   -> TalkTo
+  * 'with' creature -> TalkTo
+  * noun            -> TalkTo
+  * 'to' noun       -> TalkTo
+  * 'with' noun     -> TalkTo;
+
+! The following should be a complete list of 
+! non-TALK verbs to replace, except that you
+! may also want to add something like the 
+! following to each of your NPC objects:
+!      life [;
+!        Order: NotTalkSub(); rtrue;
+!      ];
+! so that "MAN, GO N" is also replaced.
+
+Extend 'answer' replace            ! = 'say' 'shout' 'speak'
+  *                    -> NotTalk  ! (Except we replaced
+  * topic              -> NotTalk; ! 'speak' on its own above.)
+Extend 'ask' replace
+  *                    -> NotTalk
+  * topic              -> NotTalk;
+!Extend 'tell' replace
+!  *                    -> NotTalk
+!  * topic              -> NotTalk;
+Extend 'no' replace
+  *                    -> NotTalk
+  * topic              -> NotTalk;
+Extend 'yes' replace               ! = 'y//'
+  *                    -> NotTalk
+  * topic              -> NotTalk;
+Extend 'sorry' replace
+  *                    -> NotTalk
+  * topic              -> NotTalk;

@@ -339,7 +339,9 @@ Extend 'use'
  * 'exit'/'entrance' -> VagueGo;
 
 Property quip;
+Constant QuipsOnByDefault;
 Include ">gtalk.h";
+Include ">dialogue.inf";
 
 [TalkToSub;
   if (noun has animate) {

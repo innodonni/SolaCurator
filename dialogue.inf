@@ -1,0 +1,214 @@
+! This is my attempt to replicate features of Ink into gtalk.h.
+! In gtalk.h, we have a default "What would you like to say?" instead of a "Gather",
+! where the NPC says something to prompt a reply.
+! In the before TalkTo: switch, we can print "The NPC says ~something~", and set killq to true.
+! It might then be worth having a "default options" function to ensure it is then reset.
+
+! I will always want to know if the player knows the character's name yet, but don't want to
+! waste memory with storing this as a flag in its own property. Instead, a qflags-esque prop
+! can store my bitflags. In fact, I will want a way to query these, like the {condition} syntax.
+! This could be implemented again with a default "each_turn"-esque function that checks these
+! and calls the appropriate qon/qoff for any flags that I have set, and disables any quips
+! with exhausted sub-menus too.
+
+! Knots and stitches are basically SubMenu quips that once exhausted need a way to "Gather".
+! To gather, I need a way to test that the menu is exhausted?
+[ qavail character quipnum numoptions o q avail;
+ quipnum = quipnum * 10 + 4;
+ ! get the total number of options, whether on or off
+! print "qavail getting numoptions";
+ numoptions = character.quip(quipnum, 0);
+ ! if we have any options at all, count those that are on
+ for (o = 1 : o <= numoptions : o++) {
+!  print "qavail getting quip option ",o;
+  q = character.quip(quipnum, o);
+!  print "qavail testing quip ",q;
+  if (character.qtest(q))
+   avail++;
+ }
+ return avail;
+];
+[ qsng character quipnum numoptions o q;
+ quipnum = quipnum * 10 + 4;
+ ! get the total number of options, whether on or off
+! print "getting numoptions";
+ numoptions = character.quip(quipnum, 0);
+ ! return the first one
+ for (o = 1 : o <= numoptions : o++) {
+!  print "getting quip ", o;
+  q = character.quip(quipnum, o);
+!  print "testing quip ", q;
+  if (character.qtest(q))
+   return q;
+ }
+ return 0;
+];
+[ qret character quipnum returnquipnum b avail;
+! print "calling qavail";
+ avail = qavail(character,quipnum);
+ if (avail == 1) { ! select a single option automatically
+!   print "calling qsng";
+   qtransfer = qsng(character,quipnum);
+ }
+ else if (avail == 0) {
+!   print "none avail";
+   character.qoff(quipnum);
+   qtransfer = returnquipnum;
+ }
+ else qtransfer = quipnum;
+ if (b > 0) return qtransfer;
+ return avail;
+];
+
+! Sequences (for sticky options or options not yet chosen)
+! Cycles (better than a shuffle if trying to improve variation)
+[ qcyc seq a1 a2 a3 a4 a5 a6;
+!   print "seq=",seq;
+ if (qopt(sender, seq) == 6) qsetopt(sender, seq, 1); ! cycle
+ else qsetopt(sender, seq, qopt(sender, seq)+1);
+ if (a3 == 0 && qopt(sender,seq) == 3) qsetopt(sender, seq, 1);
+ else if (a4 == 0 && qopt(sender,seq) == 4) qsetopt(sender, seq, 1);
+ else if (a5 == 0 && qopt(sender,seq) == 5) qsetopt(sender, seq, 1);
+ else if (a6 == 0 && qopt(sender,seq) == 6) qsetopt(sender, seq, 1);
+! print "states=",sender.qseqstates;
+ seq = qopt(sender, seq) - 1; !store the looked up next option in the param no longer needed
+! print "opt=",seq;
+ switch (seq)
+ {
+  0: print (string) a1;
+  1: print (string) a2;
+  2: print (string) a3;
+  3: print (string) a4;
+  4: print (string) a5;
+  5: print (string) a6;
+ }
+ new_line;
+];
+! Once-only is just a sequence ending in empty string
+! Shuffle - just call random("string1","string2")
+! self can be referenced as sender, because it will always be called from quip.
+! A function can be called with at most seven arguments. A message can be called with at most five.
+! Sequences should be able to eventually divert
+! so if I make a6 be a quip number, if 0 it doesn't divert, otherwise it does.
+[ qseq seq a1 a2 a3 a4 a5 diversion;
+!   print "seq=",seq;
+ if (qopt(sender, seq) < 4)
+  qsetopt(sender, seq, qopt(sender, seq)+1);
+ if (a3 == 0 && qopt(sender,seq) == 3) qsetopt(sender, seq, 2);
+ else if (a4 == 0 && qopt(sender,seq) == 4) qsetopt(sender, seq, 3);
+ else if (a5 == 0 && qopt(sender,seq) == 5) qsetopt(sender, seq, 4);
+ seq = qopt(sender, seq) - 1; !store the looked up next option in the param no longer needed
+!   print "opt=",seq;
+ switch (seq)
+ {
+  0: print (string) a1;
+  1: print (string) a2;
+  2: print (string) a3;
+  3: print (string) a4;
+  4: if (diversion~=0) qtransfer = diversion; print (string) a5;
+ }
+ new_line;
+];
+
+! In this case, a property similar to qflags is needed to allow the sequence to remember,
+! for the current object, the current option for a given sequence. So define one...
+! Limiting each sequence to a maximum of 5 means each one would fit in 3 bits, so
+! allows 5 or 10 sequence states to be stored, depending on WORDSIZE.
+! WORDSIZE 2:
+! <---   top byte    --->   <--- bottom byte  --->
+! __ 15 14 13 12 11 10  9   8  7  6  5  4  3  2  1
+!    |seq 5 | |seq 4 |  |seq 3 |  |seq 2|  |seq 1|
+! Now we just need a way to query the property:
+Array Masks
+ --> 7  ! the first 3 bits
+    56  ! the second 3 bits
+   448  ! the third 3 bits
+  3584  ! the fourth 3 bits
+ 28672; ! the fifth 3 bits
+! These masks can be multiplied by 256 to get the upper masks
+[ qopt character seqnum pos mask state tmp; ! seqnum can be 1 to WORDSIZE
+ pos = seqnum - 1; ! 0-4 or 0-9
+ mask = Masks-->(pos%5);
+! print "qopt states=",character.qseqstates," mask=",mask;
+ if (WORDSIZE > 2 && pos > 4) mask = mask * 65536;
+! print "mask adjusted=",mask;
+ state = character.qseqstates & mask;
+ ! now need to bitshift back to the true value
+ if (pos > 4) { ! shift an extra bit due to 16th bit being unused
+#IfDef TARGET_ZCODE;
+  @log_shift state (-1) -> tmp;
+#IfNot;
+  @ushiftr state 1 tmp;
+#EndIf;
+  state = tmp;
+! print "shifted 1=",state;
+ }
+ while (pos > 0) {
+#IfDef TARGET_ZCODE;
+  @log_shift state (-3) -> tmp;
+#IfNot;
+  @ushiftr state 3 tmp;
+#EndIf;
+  state = tmp;
+! print "shifted 3=",state;
+  pos--;
+ }
+! print "qopt seq=",seqnum," state=",state;
+ return state;
+];
+! And a way to set the property
+[ qsetopt character seqnum opt pos mask state tmp; ! seqnum can be 1 to WORDSIZE
+! print "qsetopt seq ",seqnum," to ",opt;
+ pos = seqnum - 1; ! 0-4 or 0-9
+ mask = Masks-->(pos%5);
+ if (WORDSIZE > 2 && pos > 4) mask = mask * 65536;
+ state = opt;
+! print "state=",state;
+ if (pos > 4) { ! shift an extra bit due to 16th bit being unused
+#IfDef TARGET_ZCODE;
+  @log_shift state 1 -> tmp;
+#IfNot;
+  @shiftl state 1 tmp;
+#EndIf;
+  state = tmp;
+! print "shifted 1=",state;
+ }
+ while (pos > 0) { ! need to shift
+#IfDef TARGET_ZCODE;
+  @log_shift state 3 -> tmp;
+#IfNot;
+  @shiftl state 3 tmp;
+#EndIf;
+  state = tmp;
+!  print "state=",state;
+  pos--;
+ }
+ ! first need to clear all bits
+! print "state=",state;
+! print "mask=",mask;
+! print "before=",character.qseqstates;
+ character.qseqstates = character.qseqstates & ~mask;
+! print "masked=",character.qseqstates;
+ character.qseqstates = character.qseqstates | state;
+! print "after=",character.qseqstates;
+];
+
+
+! CHOICE_COUNT so far (for showing maximum of 3 items at a time)
+
+! [] - a way to expand upon the menu option. (otherwise, must be manually repeated)
+
+! disallow a loop more than n times (perhaps per conversation, to avoid exhausting options)
+
+! labelling quip numbers allowing them to be 'qtransfer'red to by name
+
+! note that I could also have default behaviour for quips in a certain range
+! by including the following before the switch(a):
+! if (a < 100) self.Man::quip(a,b);
+
+! note also that some amount of higher-order functions can be made to return Routines,
+! provided the return value is called with the .call(params) syntax.
+! however, this cannot allow returning closures, where state could be preserved
+
+! it might also be useful to change the polyfill default for a global property:
+! location.Object::cant_go = "Another blank wall. Tsk!";

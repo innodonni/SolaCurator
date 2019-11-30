@@ -651,7 +651,8 @@ Object bed "bed"
 Class Man
  has male animate proper
  class Character
- with life [;
+ with qseqstates 0,
+ life [;
   Answer: NotTalkSub(); rtrue;
   Order:  NotTalkSub(); rtrue;
  ],
@@ -663,20 +664,61 @@ Class Man
       11: ! Main menu: no quip name needed
       12: ! Main menu: no reply needed
       13: qtype = MainMenu;
-          qqon = true;
+          killz = true;
       14: ! Here's where we define all the options that are
           ! ever available from the main menu. For an 
           ! explanation of this syntax, consult the comments
           ! at the beginning of Gtalk.h, specifically Step 5.
-          return Qlist(b,   1,   ! number of quips in this list
-                            2);  ! Quip #2
+          return Qlist(b,   1,  ! number of quips in this list
+                            2); ! Quip #2
       ! Quip #2
       21: "~Hi there, who are you?~";
-      22: self.qoff(2); !self.qon(3, 4);
-          "~My name's ", (the) self, ".~"; 
-      23: qqon = true;
+      22: self.qoff(2);
+          "~I'm ", (the) self, ".~"; 
  } rfalse; ];
 
-Man jeff "Jeff"
- with name 'jeff',
- description "It's Jeff.";
+Man ben "Ben"
+ with name 'ben',
+ description "It's Ben.",
+ quip [ a b; switch (a) {
+      ! Quip #1: Main menu
+      11: ! Main menu: no quip name needed
+      12: ! Main menu: no reply needed
+      13: qtype = MainMenu;
+          killz = true;
+      14: ! Here's where we define all the options that are
+          ! ever available from the main menu. For an 
+          ! explanation of this syntax, consult the comments
+          ! at the beginning of Gtalk.h, specifically Step 5.
+          ! Note that if the conversation is initiated a second time,
+          ! this could be a fresh list
+          return Qlist(b,   2,   ! number of quips in this list
+                            2,   ! Quip #2
+                            5);  ! Quip #5
+      ! Quip #2
+      21: qseq(1,"~Hi there, who are you?~","~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~");
+      22: qcyc(2,"~Ben. Just Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
+      23: killz = true; ! disallow saying nothing
+          qtransfer = 1; ! top-level quip; return to menu by default
+      ! Quip #5
+      51: "~Are you blind?~";
+      52: "~I prefer the term 'visually less acute'.~"; 
+      53: killz = true; ! disallow saying nothing
+          killq = true; ! never say "What would you like to say?" for SubMenus
+          qtype = SubMenu;
+          qret(self, 5, 1, b); !fallback is 1 (the main menu)
+      54: return Qlist(b,   2,   ! number of quips in this list
+                            6, 7);
+      ! Quip #6
+      61: "~How visually acute are you, then?~";
+      62: self.qoff(6);
+          qret(self, 5, 1, b); !fallback is 1 (the main menu)
+          "~I get by. I'm not completely blind.~"; 
+      64: return qret(self, 5, 1, b); !fallback is 1 (the main menu)
+      ! Quip #7
+      71: "~So you can see me then.~";
+      72: self.qoff(7);
+          qret(self, 5, 1, b); !fallback is 1 (the main menu)
+          "~Yes, I know someone's there, but not who.~"; 
+      74: return qret(self, 5, 1, b); !fallback is 1 (the main menu)
+ } rfalse; ];

@@ -1,3 +1,4 @@
+! Copyleft Adonikam Virgo. See LICENCE.md for MIT licence.
 ! This is my attempt to replicate features of Ink into gtalk.h.
 ! In gtalk.h, we have a default "What would you like to say?" instead of a "Gather",
 ! where the NPC says something to prompt a reply.

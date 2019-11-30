@@ -1,3 +1,4 @@
+! Copyleft Adonikam Virgo. See LICENCE.md for MIT licence.
 #Include ">Info.h";
 
 Object Topics;

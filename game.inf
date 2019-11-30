@@ -1,7 +1,3 @@
-! foreach(new object) stand on object?
-! foreach(new object) Listen Smell, Taste [noun] Touch Search Cut Remove
-! Burn/Light (dangerous, achieve little)
-
 ! x mirror on bike, kick wheel/tyre (on bike)
 ! ground = down. touch ground = possible from bike
 ! transfer bike to road -> fixed in place :(
@@ -10,8 +6,8 @@
 
 Constant Story "SOLA CURATOR";
 Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^
-                  Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.^
                   Source available at https://github.com/innodonni/SolaCurator^
+                  Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.
                   Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
                   Flags by Adam Cadre and Fredrik Ramsberg.
                   GoNeighbour by Alan Trewartha. Info by Jesse Burneko.
@@ -64,6 +60,18 @@ Include ">GoNeighbour.h";
 Include ">verbs.inf";
 Include ">topics.inf";
 
+! Flag definitions:
+! 0: Has the player seen the billboard/the word Jerusalem?
+! 1: Is Ben idle (has the player had the initial conversation)?
+! 2: Has the player seen the Church (with no graffiti on it)?
+! 3: Has the player felt the fresh woodstain on the door?
+! 4: Has the player unlocked the Church before?
+! 5: Has the player examined themselves (can answer "what are you after?")?
+! 6: 
+! 7: 
+Constant FLAGCOUNT = 8;
+Include ">newflags.h";
+
 Object newplayer "yourself"
  with name 'you',
  description "You consider yourself a ~truther~. There isn't as much money in journalism as there was last century when you started, but the freedom it affords you means more than wealth. It doesn't much matter what you write anyway, in post-truth society.",
@@ -77,6 +85,9 @@ Object newplayer "yourself"
   Smell,Taste: "Salty. No chance for a wash here, but you had one yesterday.";
   Tell: "You don't feel immensely encouraged.";
   Answer: "You don't hear an echo here.";
+ ],
+ after [;
+  Examine: SetFlag(5);
  ],
  react_after [;
   Inv: if (child(pockets)) {
@@ -206,7 +217,7 @@ Object board "billboard" Town
  with name 'old' 'billboard' 'board' 'writing' 'hoarding' 'advertisement',
  description "Whatever was on the billboard peeled off long ago and it is now host to a veritable bulletin board of writing from visitors.",
  before [;
-  Read: if (self hasnt general) score = score + 5; give self general;
+  Read: if (FlagOff(0)) score = score + 5; SetFlag(0);
   "Much of what has been written is in an old language you recognise as English, but there is some modern Arabic as well. From what you can read, you aren't the first person travelling this route to Jerusalem for answers.";
   Search: "You smile wryly; searching in the digital sense wouldn't be possible because the Internet is a thing of the past. You don't notice any familiar names without reading it in full.";
   LookUnder: "Just drifts of dust from the road and discarded dried up marker pens.";
@@ -250,7 +261,7 @@ Object ChurchBuilding "church building" Square
  with name 'tall' 'taller' 'church' 'building' 'buildings' 'indoors',
  description "The church building seems to be the only one not covered in graffiti.",
  before [;
-  Examine: give ChurchDoors ~concealed;
+  Examine: SetFlag(2); give ChurchDoors ~concealed;
   Enter,Go: <<Enter ChurchDoors>>;
  ],
  after [;
@@ -304,9 +315,10 @@ Object ChurchDoors "church doors"
   if (self hasnt open) "There is a gap between the doors. It looks like only a latch keeps the doors shut.";
   Enter: if (player in Church) give self ~enterable;
          if (player in Square) give self enterable;
+  Touch: SetFlag(3); "The door has been looked after, perhaps was even stained this year.";
  ],
  after [;
-  Unlock: print "By slotting your bank card between the doors, you manage to lift the latch. ";
+  Unlock: SetFlag(4); print "By slotting your bank card between the doors, you manage to lift the latch. ";
   Close: give self locked;
   if (self in Church && self hasnt general) { score = score + 5; give self general; }
   "The doors latch shut, locking intruders out.";
@@ -359,6 +371,7 @@ Object latch "latch"
     if (player in pews) "You can't reach the doors from the pew.";
     give ChurchDoors open ~locked ~concealed;
     move card to pockets;
+    SetFlag(4);
     "You lift the latch and the door opens.";
    }
    if (player in Square) "You cannot fit your hand between the doors.";

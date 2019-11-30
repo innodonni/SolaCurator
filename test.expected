@@ -1,11 +1,11 @@
 Start of a transcript of
 SOLA CURATOR - A post-apocalyptic adventure, by Adonikam Virgo.
-Interpreted by the Quixe web-based glulx interpreter.
 Source available at https://github.com/innodonni/SolaCurator
-Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
-GoNeighbour by Alan Trewartha. Info by Jesse Burneko.
-PrintSlow by D Cornelson (glulx port by Adonikam Virgo).
-HelpRoutines, NewbieGrammar and ExpertGrammar by Emily Short.
+Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin. Talk by Greg
+Boettcher, Krister Fundin, and Mark J. Tilford. Flags by Adam Cadre and Fredrik
+Ramsberg. GoNeighbour by Alan Trewartha. Info by Jesse Burneko. PrintSlow by D
+Cornelson (glulx port by Adonikam Virgo). HelpRoutines, NewbieGrammar and
+ExpertGrammar by Emily Short.
 Release 1 / Serial number 191125 / Inform v6.33 Library v6.12.2 S
 Standard interpreter 1.0 (1F) / Library serial number 180611
 
@@ -109,7 +109,7 @@ The handles won't turn - they seem to be just to grip the door with.
 You feel nothing unexpected.
 
 >touch door
-You feel nothing unexpected.
+The door has been looked after, perhaps was even stained this year.
 
 >push door
 The church doors seem to be locked.
@@ -288,7 +288,7 @@ forward to stretch your back, you notice something underneath.
 [The score has just gone up by five points.]
 
 >touch door
-You feel nothing unexpected.
+The door has been looked after, perhaps was even stained this year.
 
 >look under pews
 Under each pew are small cushions.

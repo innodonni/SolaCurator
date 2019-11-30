@@ -10,11 +10,12 @@
 
 Constant Story "SOLA CURATOR";
 Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^
-                  Interpreted by the Quixe web-based glulx interpreter.^
+                  Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.^
                   Source available at https://github.com/innodonni/SolaCurator^
-                  Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.^
-                  GoNeighbour by Alan Trewartha. Info by Jesse Burneko.^
-                  PrintSlow by D Cornelson (glulx port by Adonikam Virgo).^
+                  Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
+                  Flags by Adam Cadre and Fredrik Ramsberg.
+                  GoNeighbour by Alan Trewartha. Info by Jesse Burneko.
+                  PrintSlow by D Cornelson (glulx port by Adonikam Virgo).
                   HelpRoutines, NewbieGrammar and ExpertGrammar by Emily Short.^";
 !Constant DEBUG; ! compile with -D
 Constant DEATH_MENTION_UNDO;
@@ -23,6 +24,7 @@ Constant AMUSING_PROVIDED;
 Constant MAX_SCORE = 90;
 Release 1;
 Serial "191125";
+Array UUID_ARRAY string "UUID://E2BE7957-5592-4C9D-958A-71FB1EF76928//";
 
 [ Amusing;
  "Have you tried the following:^

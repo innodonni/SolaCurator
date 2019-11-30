@@ -5,9 +5,11 @@ available at https://opensource.org/licenses/mit-license.php.
 
 Source available at https://github.com/innodonni/SolaCurator
 
-Interpreted by the Quixe web-based glulx interpreter.
+Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.
 
 Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
+
+Flags by Adam Cadre and Fredrik Ramsberg.
 
 GoNeighbour by Alan Trewartha.
 

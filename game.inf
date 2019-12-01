@@ -68,8 +68,8 @@ Include ">topics.inf";
 ! 3: Has the player felt the fresh woodstain on the door?
 ! 4: Has the player unlocked the Church before?
 ! 5: Has the player examined themselves (can answer "what are you after?")?
-! 6: 
-! 7: 
+! 6: Has Ben told the player about his son?
+! 7: Has the player accepted the terms of use of the church?
 Constant FLAGCOUNT = 8;
 Include ">newflags.h";
 
@@ -696,10 +696,17 @@ Class Man
 Man ben "Ben"
  with name 'ben',
  description "It's Ben.",
+ before [;
+  ! select(1), because Quip #1 is the main menu.
+  TalkTo: self.select(1); SetFlag(1); rtrue;
+ ],
  quip [ a b; switch (a) {
       ! Quip #1: Main menu
       11: ! Main menu: no quip name needed
-      12: ! Main menu: no reply needed
+      12: ! Main menu: normally no reply needed
+          if (FlagOff(1)) { "~You there!?~^
+          An old man is here, sitting on an upturned paint tin. From his tan, he looks local, but it's hard to tell how old he is - he could be 500.^
+          He doesn't turn to face you as you arrive."; }
       13: qtype = MainMenu;
           killz = true;
       14: ! Here's where we define all the options that are
@@ -708,15 +715,27 @@ Man ben "Ben"
           ! at the beginning of Gtalk.h, specifically Step 5.
           ! Note that if the conversation is initiated a second time,
           ! this could be a fresh list
-          return Qlist(b,   2,   ! number of quips in this list
+          return Qlist(b,   3,   ! number of quips in this list
                             2,   ! Quip #2
-                            5);  ! Quip #5
-      ! Quip #2
+                            5,   ! Quip #5
+                           10);  ! Quip #10
+      ! Quip #2 etc.
       21: qseq(1,"~Hi there, who are you?~","~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~");
       22: qcyc(2,"~Ben. Just Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
       23: killz = true; ! disallow saying nothing
           qtransfer = 1; ! top-level quip; return to menu by default
-      ! Quip #5
+
+      31: random("~Are you the vicar?~","~Are you the vicar, then?~","~You're the vicar, right?~","~Is the church yours?~");
+      32: self.qoff(3); "Of sorts.";
+      33: qtransfer = 1; ! top-level quip; return to menu by default
+
+      41: qseq(3,"~What are you doing here?~","~What are you doing?~");
+      42: self.qoff(4);
+          if (FlagOn(6)) "~My son and I were heading to Jerusalem.~";
+          else "~Pottering.~";
+      43: killz = true; ! disallow saying nothing
+          qtransfer = 1; ! top-level quip; return to menu by default
+
       51: "~Are you blind?~";
       52: "~I prefer the term 'visually less acute'.~"; 
       53: killz = true; ! disallow saying nothing
@@ -725,16 +744,46 @@ Man ben "Ben"
           qret(self, 5, 1, b); !fallback is 1 (the main menu)
       54: return Qlist(b,   2,   ! number of quips in this list
                             6, 7);
-      ! Quip #6
+
       61: "~How visually acute are you, then?~";
       62: self.qoff(6);
           qret(self, 5, 1, b); !fallback is 1 (the main menu)
           "~I get by. I'm not completely blind.~"; 
       64: return qret(self, 5, 1, b); !fallback is 1 (the main menu)
-      ! Quip #7
+
       71: "~So you can see me then.~";
       72: self.qoff(7);
           qret(self, 5, 1, b); !fallback is 1 (the main menu)
           "~Yes, I know someone's there, but not who.~"; 
       74: return qret(self, 5, 1, b); !fallback is 1 (the main menu)
+
+      101: "~Can I help you?~";
+      102: "~Yes you can. I've lost my radio.~ he says, frankly."; 
+      103: killz = true; ! disallow saying nothing
+           killq = true; ! never say "What would you like to say?" for SubMenus
+           qtype = SubMenu;
+           qret(self, 10, 1, b);
+      104: return Qlist(b,   2,   ! number of quips in this list
+                            11, 12);
+
+      111: "~That's it?~";
+      112: self.qoff(11);
+           qret(self, 10, 1, b); !fallback is 1 (the main menu)
+           if(score < 5 && self.qtest(12)) "~Yes, that's all.~ he says, stiffly. ~Can you help or not?~";
+           else { SetFlag(6); "~No, I suppose not. My son hasn't returned, and the radio is the way I could reach him.~ he laments. ~It's him I'm really after.~"; }
+      114: return qret(self, 10, 1, b);
+
+      121: "~What does it look like?~";
+      122: self.qoff(12);
+           qret(self, 10, 1, b);
+           "~It's a hand-held walkie-talkie gizmo, a sort of greyish black.~"; 
+      124: return qret(self, 10, 1, b);
+
+!    *   Do you know a way into the church?
+!    -   - "I might!", he says, brightly. <>
+!          "You want to stay in the church do you? <>
+!          I have rules. No candles or naked flames. No graffiti. No judgement!"
+!    *   * (flag7) [Accept]Sounds alright to me.
+!    *   * (reject) [Reject]Think I'll take my chances.
+!    {reject} (flag7) Alright, I'll follow your rules. Let me in the church!
  } rfalse; ];

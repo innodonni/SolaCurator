@@ -184,6 +184,9 @@ Object pockets "trouser pockets"
   location = Town;
   move bag to player;
   InitDoors();
+#IfDef DEBUG;
+  random(-1); ! set seed
+#EndIf;
   !parser_trace = 2;
   Banner();
   print "^You've just arrived at Beth'oni a small town in Israel.

@@ -121,6 +121,7 @@ Ifndef NOISY_DIR_TOS;
 Message "** LeadsTo assuming quiet *_to (NOISY_DIR_TOS not defined) **";
 Endif;
 [ LeadsTo direction thisroom k tmp tmp2;
+! There may be more reasons to avoid recursion here...?
    if (~~(direction provides door_dir)) rfalse;
    if (~~(thisroom provides direction.door_dir)) rfalse;
    k=thisroom.(direction.door_dir);

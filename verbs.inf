@@ -1,9 +1,23 @@
 ! Copyleft Adonikam Virgo. See LICENCE.md for MIT licence.
+Object LibraryMessages
+ with before [ previous_parent;
+  ! lm_n is the variation number, lm_o may be the noun involved
+  Go: if (lm_n == 1 && lm_o has supporter) {
+          print "(first getting off ", (the) lm_o, ")^";
+          previous_parent = parent(player);
+          keep_silent = true; <Exit>; keep_silent = false;
+          if (player in parent(previous_parent)) <<Go noun>>;
+          rtrue;
+      }
+  Prompt: print "^>"; rtrue;
+ ];
+
 Replace PraySub;
 Replace SleepSub;
 Replace JumpSub;
 Replace JumpInSub;
 Replace JumpOnSub;
+Replace ExamineSub;
 Include "verblib";
 
 [ GamePreRoutine;
@@ -13,7 +27,7 @@ Include "verblib";
  if (action == ##Examine or ##Search && s_obj == noun or second && location == Town) "It looks like there are more buildings down in the square.";
  if (action == ##Examine or ##Search && noun in compass && ZRegion(location.(noun.door_dir))==2 or 3) return PrintOrRun(location,noun.door_dir);
  if (action == ##Jump or ##JumpOn or ##JumpIn && RunRoutines(location, react_before)~=0) rtrue; ! include location in reactions
- Answer: if (noun == player && RunRoutines(player, before)~=0) rtrue;
+ if (action == ##Examine && noun ofclass Room) <<Look>>;
  default: ;
  rfalse;
 ];
@@ -31,9 +45,13 @@ Include "verblib";
 
   ! otherwise score preferences from 1-9
   if (action_to_be == ##Eat && obj has edible) return 3;
-  if (obj == altar) return 9; ! doesn't work
-  if (obj == altarlegs) return 8;
-  if (obj == church) return 3;
+  if (obj == pews or bike) return 9;
+  if (obj == altar) { no_infer_message = true; return 8; } ! doesn't work
+  if (obj == altarlegs) return 7;
+  if (obj == buildings) { no_infer_message = true; return 4; }
+  if (obj == Church) return 3; ! doesn't work
+  if (obj == ChurchDoors) { if (action_to_be ~= ##Enter) no_infer_message = true; return 2; }
+  if (obj == ChurchBuilding) { if (action_to_be == ##Enter) no_infer_message = true; return 1; }
   if (obj hasnt scenery && obj ~= allbodyparts) return 2;
   return 1;
 ];
@@ -51,16 +69,18 @@ Include "verblib";
 ];
 
 [ ScanLoc i;
+          !print "Scanning room ",(the)i;
           if (i has transparent && i hasnt concealed)
           {
            if (action_to_be == ##Teleport or ##Examine or ##Search && i has visited)
             PlaceInScope(i);
-           if (i has visited)
+           if (i has visited && i ~= ScopeCeiling(player)) ! 2nd check prevents recursion
             ScopeWithin(i);
           }
 ];
 
 [ ScanObj i room;
+          !print "Scanning object ",(the)i;
           room = ScopeCeiling(i);
           if (room has transparent && room hasnt concealed)
           {
@@ -75,22 +95,45 @@ Include "verblib";
   switch (scope_stage)
     {
       1: rfalse;
+      ! Note that noun is not set at this stage!!!
       2: objectloop (i ofclass Room) ScanLoc(i);
          objectloop (i has moved) ScanObj(i);
          if (action_to_be == ##Examine or ##Search)
-          return noun ofclass Room;
+          return i ofclass Room; ! || parent(noun) == parent(player);
          rtrue;
-      3: "That doesn't seem to be anywhere you've been.";
+      3: "That doesn't seem to be anywhere you can get to.";
     }
 ];
 
-[ TeleportSub rm;
+[ TeleportSub rm ceiling;
+  !print "TeleportSub";
   if (noun ofclass Room && noun has transparent && noun hasnt concealed)
    { print "(visiting ", (the) noun, ")^"; PlayerTo (noun, 2); rtrue; }
+  !print "ScopeCeiling(noun)";
   rm = ScopeCeiling(noun);
-  if (rm ~= nothing && rm has transparent && rm hasnt concealed && rm ofclass Room)
-   { print "(finding ", (the) noun, " in ", (the) rm, ")^"; PlayerTo (rm, 2); rtrue; }
+  !print "ScopeCeiling(location)";
+  ceiling = ScopeCeiling(location);
+  if (rm ~= nothing && rm has transparent && rm hasnt concealed && rm ofclass Room) {
+   !print "valid room";
+   if (rm == ceiling && ceiling ~= location) { ! the player needs to exit an enterable
+    !print "leaving location";
+    !<Exit location>; !FIXME use reachable library
+   }
+   if (rm == ceiling && ceiling == location) { ! successfully exited
+    !print "found ", (the) noun, " action_to_be", action_to_be;
+    !print "rm=",(the)rm," ceiling=",(the)ceiling," location=",(the)location;
+   }
+   else  { !disambiguate???
+    print "(finding ", (the) noun, " in ", (the) rm, ")^"; PlayerTo (rm, 2); rtrue;
+   }
+  }
   if (noun in compass) <<Go noun>>;
+  if (action == ##Examine && TestScope(noun)) {
+   !print "Teleporting to examine, and found in scope.^";
+   rfalse;
+  }
+  !else
+   !print "Teleporting to examine, but out of scope.^";
 ];
 
 Include "grammar";
@@ -115,7 +158,12 @@ Extend 'sit'
  * 'down' 'on'/'in' supporter -> Enter
  * noun=ADirection -> Look;
 
+Extend 'get'
+ * 'on' 'to' noun -> Enter
+ * 'off' -> Exit;
+
 Extend 'climb'
+ * 'on' 'to' noun -> Enter
  * 'on'/'onto' noun -> Enter;
 
 Extend 'go' first
@@ -123,9 +171,31 @@ Extend 'go' first
  * 'near'/'nearer' 'to' scope=TeleportScope -> Teleport
  * 'near'/'nearer'/'to'/'toward'/'towards' scope=TeleportScope -> Teleport;
 
-!Extend 'examine' first
-! * scope=TeleportScope -> Examine;
+[ ExamineSub i;
+    if (location == thedark) return L__M(##Examine, 1, noun);
+    if (TeleportSub()~=0) {
+#IfDef DEBUG;
+      print "ExamineSub: Teleported^";
+#EndIf;
+    }
+    i = noun.description;
+    if (i == 0) {
+        if (noun has container)
+            if (noun has open or transparent) <<Search noun, actor>>;
+            else return L__M(##Search, 5, noun);
+        if (noun has switchable) { L__M(##Examine, 3, noun); rfalse; }
+        !print "ExamineSub: library message 2^";
+        return L__M(##Examine, 2, noun);
+    }
+    i = PrintOrRun(noun, description);
+    if (i < 2 && noun has switchable) L__M(##Examine, 3, noun);
+    AfterRoutines();
+];
+
+Extend 'examine' first
+ * scope=TeleportScope -> Examine; !avoid "not something you need to refer to..."
 Extend 'examine' last
+! * noun=TeleportScope -> Examine !specifically handle objects unreachable by standard Examine
  * noun 'to' noun=ADirection -> Examine;
 
 Extend 'search'
@@ -338,6 +408,9 @@ Extend only "try"
 
 Extend 'use'
  * 'exit'/'entrance' -> VagueGo;
+
+Extend only 'kiss' ! can kiss objects, but not embrace large ones
+ * noun -> Kiss; ! added last so creature handling unaffected
 
 Property quip;
 Constant QuipsOnByDefault;

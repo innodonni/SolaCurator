@@ -20,7 +20,11 @@ kindle
 pour
 empty
 *visit pew and empty bag on pew
+*visit pew. empty bag on pew
 *visit bike and empty bag on bike
+*visit bike. get off. move bike to road
+*visit bike. down. transfer bike to road
+*visit bike. get down. get on to bike. get up
 *empty bag on bed
 *go to church and empty bag onto altar
 *go to town and empty bag into road
@@ -144,6 +148,8 @@ help
 *give up
 *tell me to do something
 *do a jig
+*do a jig.
+*do a jig. do karaoke
 *try door
 *try to eat a sandwich
 camp
@@ -209,3 +215,8 @@ oops
 *think of my happy place
 yes
 no
+talk to
+say hello to
+*talk to God
+*talk to self
+*say sausage to self

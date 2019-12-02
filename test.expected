@@ -9,17 +9,26 @@ ExpertGrammar by Emily Short.
 Release 1 / Serial number 191125 / Inform v6.33 Library v6.12.2 S
 Standard interpreter 1.0 (1F) / Library serial number 180611
 
+>search self
+Your mind is too clouded for introspection right now.
+
+>change mind
+You can't put your mind to it.
+
+>give bag to self
+You juggle the rucksack for a while, but don't achieve much.
+
+>say prayer to motorcycle gods
+You pray fervently for the strength to continue your journey, but the motorbike
+remains unmoved.
+
+>read shirt
+(first removing shirt)
+Across the back of your shirt is emblazoned the phrase "Gamerr". You quickly put
+it back on!
+
 >visit bike
-(finding the motorbike in the Town)
-
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
+You get onto the motorbike.
 
 >x bike
 It's a standard electric motorbike, and your ticket to finding the City of
@@ -31,6 +40,7 @@ On the motorbike are a battery and a chain.
 None of the dwellings here appear to be inhabitable.
 
 >search street
+(first getting off the motorbike)
 You find nothing of interest.
 
 >search buildings
@@ -64,13 +74,19 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 >x square
-That's not something you need to refer to in the course of this game.
+
+Square
+Many travellers have passed through here before you. The square is no more than
+a few dozen paces across surrounded by buildings, but is littered with detritus
+from campers. The street continues north out of town.
 
 >x buildings
-Which do you mean, the dwellings or the church building?
+The taller building on the east side appears to be a church. Hopefully the roof
+is intact.
 
 >search buildings
-Which do you mean, the dwellings or the church building?
+The taller building on the east side appears to be a church. Hopefully the roof
+is intact.
 
 >search square
 The taller building on the east side appears to be a church. Hopefully the roof
@@ -81,7 +97,6 @@ The taller building on the east side appears to be a church. Hopefully the roof
 is intact.
 
 >x church
-(the church doors)
 The wooden doors have withstood the elements and are still solid and impassable.
 Their only feature is a round brass handle on each.
 
@@ -162,7 +177,7 @@ unlock the church doors.
 You put your bank card away in your pocket until you need to use it.
 
 >push door
-You open the church doors.
+Do you intend to enter the church?
 
 >close church door
 The doors latch shut, locking intruders out.
@@ -183,7 +198,6 @@ You cannot fit your hand between the doors.
 You lift the latch and the door opens.
 
 >enter church
-(the church doors)
 
 Church
 The church is furnished with altar and pews and is quite a contrast from the
@@ -212,9 +226,10 @@ You lift the latch easily and the door opens.
 Do you intend to exit?
 
 >sit down
-(on the altar)
-As you put your weight on the altar, it wobbles. If the legs aren't all the same
-length, you might as well sleep on the floor.
+You heave a sigh of relief to have a place to sit at a proper height. Still, you
+decide the pews aren't wide enough to sleep on. As you unconsciously lean
+forward to stretch your back, you notice something underneath. You get onto the
+pews.
 
 [The score has just gone up by five points.]
 
@@ -228,35 +243,33 @@ Ideally you would have somewhere soft to sleep.
 Ideally you would have somewhere soft to sleep.
 
 >x altar
-(the altar)
 What you assume to be the altar is a bare, unembellished stone table. Any cloth,
 cross or other religious artefacts seem to have been removed for safekeeping.
 
 >pray at altar
-(the altar)
 Silence - perfect time to sleep!
 
 >jump over altar
-(the altar)
 You achieve nothing by this.
 
->jump on altar
-(the altar)
+>sleep on altar
 As you put your weight on the altar, it wobbles. If the legs aren't all the same
 length, you might as well sleep on the floor.
-Jumping upon the altar would achieve nothing here.
+
+[The score has just gone up by five points.]
+
+>jump on altar
+The altar is too high to jump onto. Perhaps climbing would be less ambitious.
 
 >climb on altar
-(the altar)
 As you put your weight on the altar, it wobbles. If the legs aren't all the same
 length, you might as well sleep on the floor.
 
 >sleep on altar
-(the altar)
 Nowhere near ideal.
 
 >look under altar
-(the altar)
+(first getting off the pews)
 Stubby stone legs protrude from the bottom of the altar. They are high enough
 off the ground to allow the altar to wobble, but not high enough for anything to
 go underneath.
@@ -282,12 +295,14 @@ You hear nothing unexpected.
 The pews are alright to sit on, but not ideal to sleep on.
 
 >sit in pew
-You heave a sigh of relief to have a place to sit at a proper height. Still, you
-decide the pews aren't wide enough to sleep on. As you unconsciously lean
-forward to stretch your back, you notice something underneath. 
-[The score has just gone up by five points.]
+ As you unconsciously lean forward to stretch your back, you notice something
+underneath. You get onto the pews.
+
+>kiss pews
+You feel awkward kissing a surface where many posteriors have been.
 
 >touch door
+(first getting off the pews)
 The door has been looked after, perhaps was even stained this year.
 
 >look under pews
@@ -298,9 +313,12 @@ Under each pew are small cushions.
 >take cushion
 There are too many cushions to do that.
 
+>taste cushion
+The wool against your teeth makes you shiver unpleasantly.
+
 >put cushion on pew
 (first taking the cushions)
-Dropped.
+You put the cushions on the pews.
 
 >throw cushion at windows
 (first taking the cushions)
@@ -315,16 +333,27 @@ Time to make up your bed!
 You open the rucksack.
 
 >take file
-Taken.
+First priority is to find a place to rest.
 
 >x file
 In addition to your journal is a pile of various notes you have collected.
+They are far too interesting to give a single glance. You resolve to read them
+once you have taken the weight off your legs.
 
 >read file
-The journal is bound shut with bulging elastic straps.
+First priority is to find a place to rest.
 
 >unstrap file
 That's not a verb I recognise.
+
+>transfer bag to pew
+You put the rucksack on the pews.
+
+>sit down
+You get onto the pews.
+
+On the pews you can see a rucksack (in which is a pile of papers) and some
+cushions.
 
 >open file
 You carefully undo the straps that wrap up your notes and bind your journal
@@ -352,13 +381,13 @@ There's too many pages to rifle through, but you could look something up.
 Blab
 
 >get up
-(of the altar)
-You aren't on the altar.
+You get off the pews.
 
 >take bag
 Taken.
 
 >put file away
+(first taking the pile of papers out of the rucksack)
 I didn't understand that sentence.
 
 >drop file
@@ -366,9 +395,6 @@ You place the papers gently back in your bag. You don't want to lose any pages
 accidentally.
 
 >sleep on ground
-There is still enough daylight to find a more suitable spot to settle.
-
->make bed
 This is the end of the demo. Please form an orderly queue to hand in your
 feedback.
 Thank you for playing!
@@ -378,10 +404,13 @@ Thank you for playing!
 
 
 
-In that game you scored 90 out of a possible 90, in 79 turns.
+In that game you scored 90 out of a possible 90, in 91 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
+>make bed
+Please give one of the answers above.
+
 >undo
 Church
 [Previous turn undone.]
@@ -446,13 +475,29 @@ That's not a verb I recognise.
 That's not a verb I recognise.
 
 >church building
-That's not a verb I recognise.
+
+Church
+The church is furnished with altar and pews and is quite a contrast from the
+mess outside. Sunlight streams in through high windows, but the room is
+welcomingly cool.
+
+The door to the church stands ajar.
+
+On the pews are some cushions.
+
+You can also see an altar here.
 
 >bank card
 That's not a verb I recognise.
 
 >church doors
-That's not a verb I recognise.
+
+Square
+Many travellers have passed through here before you. The square is no more than
+a few dozen paces across surrounded by buildings, but is littered with detritus
+from campers. The street continues north out of town.
+
+The door to the church stands ajar.
 
 >brass handles
 That's not a verb I recognise.
@@ -461,7 +506,17 @@ That's not a verb I recognise.
 That's not a verb I recognise.
 
 >Church
-That's not a verb I recognise.
+
+Church
+The church is furnished with altar and pews and is quite a contrast from the
+mess outside. Sunlight streams in through high windows, but the room is
+welcomingly cool.
+
+The door to the church stands ajar.
+
+On the pews are some cushions.
+
+You can also see an altar here.
 
 >windows
 That's not a verb I recognise.
@@ -512,12 +567,8 @@ That's not a verb I recognise.
 You can't see any such thing.
 
 >hop on leg
-(that)
-Generally speaking, there is no need to refer to your body parts individually in
-interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented,
-for instance; WEAR SHOES is enough.  And unless you get some hint to the
-contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY
-MOUTH.
+(the altar legs)
+Jumping upon the altar legs would achieve nothing here.
 
 >hop in self
 Jumping in you would achieve nothing here.
@@ -543,21 +594,40 @@ orientation within them.  Instead, you should rely on absolute compass
 directions.  If you wish to visit a new location or return to a previous one,
 you will have to type the directions to take you there -- NORTH, UP, etc.
 
+>visit pew. empty bag on pew
+The game does not keep track of your path through the rooms, nor your
+orientation within them.  Instead, you should rely on absolute compass
+directions.  If you wish to visit a new location or return to a previous one,
+you will have to type the directions to take you there -- NORTH, UP, etc.
+
 >visit bike and empty bag on bike
-(finding the motorbike in the Town)
+You get onto the motorbike.
 
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+On the motorbike you can see a battery and a chain.
+pile of papers: There's no advantage to unpack until you've found a suitable
+shelter.
 
-Your bike stands chained here.
+>visit bike. get off. move bike to road
+But you're already on the motorbike.
+You get off the motorbike.
+The motorbike is fixed in place.
 
-On the motorbike are a battery and a chain.
-pile of papers: You place the papers gently back in your bag. You don't want to
-lose any pages accidentally.
+>visit bike. down. transfer bike to road
+You get onto the motorbike.
+
+On the motorbike you can see a battery and a chain.
+You get off the motorbike.
+The motorbike is fixed in place.
+
+>visit bike. get down. get on to bike. get up
+You get onto the motorbike.
+
+On the motorbike you can see a battery and a chain.
+You get off the motorbike.
+You get onto the motorbike.
+
+On the motorbike you can see a battery and a chain.
+You get off the motorbike.
 
 >empty bag on bed
 You haven't made a bed yet.
@@ -574,7 +644,6 @@ The door to the church stands ajar.
 You can't see any such thing.
 
 >go to town and empty bag into road
-(the Town)
 (visiting the Town)
 
 Town
@@ -587,38 +656,19 @@ east.
 Your bike stands chained here.
 
 On the motorbike are a battery and a chain.
-pile of papers: You place the papers gently back in your bag. You don't want to
-lose any pages accidentally.
+pile of papers: There's no advantage to unpack until you've found a suitable
+shelter.
 
 >go road and examine building to north
-(finding the road in the Town)
-
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
+You get onto the road.
 None of the dwellings here appear to be inhabitable.
 
 >visit bike and examine building to north-east
-(finding the motorbike in the Town)
+(getting off the road)
+You get onto the motorbike.
 
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
-You can't see any such thing.
+On the motorbike you can see a battery and a chain.
+That doesn't seem to be anywhere you can get to.
 
 >find road. examine building to south
 The road is in plain sight!
@@ -633,6 +683,7 @@ The rucksack is already in your possession!
 In the rucksack is a pile of papers.
 
 >square. search through waste
+(first getting off the motorbike)
 
 Square
 Many travellers have passed through here before you. The square is no more than
@@ -679,7 +730,6 @@ You'll have to say which compass direction to go in.
 You can't see any such thing.
 
 >visit square. use waste
-(the Square)
 (visiting the Square)
 
 Square
@@ -709,37 +759,17 @@ On the motorbike are a battery and a chain.
 You don't have the tools and materials for that.
 
 >visit bike. make sun in bike
-(finding the motorbike in the Town)
+You get onto the motorbike.
 
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
+On the motorbike you can see a battery and a chain.
 You don't have the tools and materials for that.
 
 >visit bike. make bike up
-(finding the motorbike in the Town)
-
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
+But you're already on the motorbike.
 You don't have the tools and materials for that.
 
 >visit altar. make up story
-That doesn't seem to be anywhere you've been.
+That doesn't seem to be anywhere you can get to.
 
 >visit church. put up tent
 (finding the church building in the Square)
@@ -771,33 +801,13 @@ On the motorbike are a battery and a chain.
 You decide to leave the bike here until you've found a place to stay the night.
 
 >visit chain. lift bike
-(finding the chain in the Town)
-
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
+The chain is not something you can enter.
 The motorbike is fixed in place.
 
 >visit bike. lift bike with bag
-(finding the motorbike in the Town)
+You get onto the motorbike.
 
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
+On the motorbike you can see a battery and a chain.
 The motorbike is not something you can open.
 
 >visit sun. jump up to sun
@@ -815,12 +825,14 @@ If only it were that easy.
 If only it were that easy.
 
 >go south-east
-That doesn't seem to be anywhere you've been.
+That doesn't seem to be anywhere you can get to.
 
 >se
+(first getting off the motorbike)
 You can go only south.
 
 >look up
+You can go only south.
 You see nothing unexpected in that direction.
 
 >i
@@ -833,7 +845,7 @@ In your trouser pockets:
   your bank card
 
 >visit bike and get off bike
-You can't use multiple objects with that verb.
+That doesn't seem to be anywhere you can get to.
 
 >take file from bag
 There's no advantage to unpack until you've found a suitable shelter.
@@ -854,41 +866,20 @@ You can't see any such thing.
 You can't see any such thing.
 
 >visit bike. move bag to bike
-(finding the motorbike in the Town)
+You get onto the motorbike.
 
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
+On the motorbike you can see a battery and a chain.
 Best keep your valuables with you.
 
 >transfer file to bag
-You place the papers gently back in your bag. You don't want to lose any pages
-accidentally.
+There's no advantage to unpack until you've found a suitable shelter.
 
 >put bag in bag
 Best keep your valuables with you.
 
 >visit bike. put bag on bike
-(finding the motorbike in the Town)
-
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
-Best keep your valuables with you.
+But you're already on the motorbike.
+Dropped.
 
 >look up foo in file
 First priority is to find a place to rest.
@@ -903,6 +894,8 @@ First priority is to find a place to rest.
 To talk to someone, please type TALK TO PERSON.
 
 >give bag to self
+(first taking the rucksack)
+(first getting off the motorbike)
 You juggle the rucksack for a while, but don't achieve much.
 
 >show bag to self
@@ -1017,6 +1010,12 @@ You don't feel immensely encouraged.
 >do a jig
 You attempt to do a jig.
 
+>do a jig.
+You attempt to do a jig .
+
+>do a jig. do karaoke
+You attempt to do a jig . do karaoke.
+
 >try door
 "Do or do not. There is no try."
 
@@ -1031,7 +1030,7 @@ Sorry, I can't understand infinitive verbs.
 You hear nothing unexpected.
 
 >visit pew. listen at door
-That doesn't seem to be anywhere you've been.
+That doesn't seem to be anywhere you can get to.
 
 >say prayer to bike
 You pray fervently for the strength to continue your journey, but the motorbike
@@ -1067,11 +1066,21 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
-Which do you mean, the dwellings or the church building?
+You can't see any such thing.
 
 >town. look at building to north-east
-You see nothing unexpected in that direction.
-Which do you mean, the dwellings or the church building?
+
+Town
+Once a farming settlement, the buildings here are the ruined shells of simple
+dwellings. Most of the roofs caved in centuries ago, but if you can find one
+intact it's still your best bet for staying warm overnight. The street continues
+south towards a square and the main road stretches out of town to the north-
+east.
+
+Your bike stands chained here.
+
+On the motorbike are a battery and a chain.
+You can't see any such thing.
 
 >go to square. look at building to east
 (visiting the Square)
@@ -1082,16 +1091,29 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
-Which do you mean, the dwellings or the church building?
+The taller building on the east side appears to be a church. Hopefully the roof
+is intact.
 
 >out. look through sun
 But you aren't in anything at the moment.
 You can't reach it.
 
 >look east
+
+Church
+The church is furnished with altar and pews and is quite a contrast from the
+mess outside. Sunlight streams in through high windows, but the room is
+welcomingly cool.
+
+The door to the church stands ajar.
+
+On the pews are some cushions.
+
+You can also see an altar here.
 You see nothing unexpected in that direction.
 
 >look south
+You can go only west or out.
 You see nothing unexpected in that direction.
 
 >look north-east
@@ -1101,6 +1123,7 @@ You can't see any such thing.
 You can't see any such thing.
 
 >look to east
+You can go only west or out.
 You see nothing unexpected in that direction.
 
 >look to north-east
@@ -1110,9 +1133,11 @@ You can't see any such thing.
 You can't see any such thing.
 
 >look to east
+You can go only west or out.
 You see nothing unexpected in that direction.
 
 >look to south
+You can go only west or out.
 You see nothing unexpected in that direction.
 
 >set trap
@@ -1164,6 +1189,15 @@ Real adventurers do not use such language.
 
 >think of my happy place
 I only understood you as far as wanting to think.
+
+>talk to God
+You can't see any such thing.
+
+>talk to self
+You can't think of anything to say.
+
+>say sausage to self
+You don't hear an echo here.
 
 >quit
 Are you sure you want to quit? y

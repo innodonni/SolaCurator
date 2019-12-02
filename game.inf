@@ -1,4 +1,11 @@
 ! Copyleft Adonikam Virgo. See LICENCE.md for MIT licence.
+
+! sleep on altar (should translate to enter altar initially)
+! make bed from cushions (don't have the tools)
+! make bed on floor (after finding cushions and trying altar)
+! search bag (in church with bag open)
+! make bed with supplies (in church with bag open)
+
 ! x mirror on bike, kick wheel/tyre (on bike)
 ! ground = down. touch ground = possible from bike
 ! transfer bike to road -> fixed in place :(
@@ -58,6 +65,7 @@ Object bag "rucksack"
 Constant SACK_OBJECT = bag;
 
 Include ">GoNeighbour.h";
+Include ">outofrch.h";
 Include ">verbs.inf";
 Include ">topics.inf";
 
@@ -78,6 +86,9 @@ Object newplayer "yourself"
  description "You consider yourself a ~truther~. There isn't as much money in journalism as there was last century when you started, but the freedom it affords you means more than wealth. It doesn't much matter what you write anyway, in post-truth society.",
  capacity 100,
  add_to_scope body mind limbs clothes camp bed,
+ life [;
+  Answer: "You don't hear an echo here.";
+ ],
  before [;
   Attack,Cut,Take,Disrobe,Drop: "If you need a break, type ~save~ or ~quit~.";
   Rub: "You brush off the dust that accumulated on your clothing during the journey.";
@@ -85,7 +96,6 @@ Object newplayer "yourself"
   Touch: "Still here.";
   Smell,Taste: "Salty. No chance for a wash here, but you had one yesterday.";
   Tell: "You don't feel immensely encouraged.";
-  Answer: "You don't hear an echo here.";
  ],
  after [;
   Examine: SetFlag(5);
@@ -209,7 +219,7 @@ Outside Town "Town"
  with name 'street' 'town' 'settlement',
  description "Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.",
  react_before [;
-  Examine,Search: if (noun == self) <<Search buildings>>;
+  !Examine,Search: if (noun == self) { print "(",(the) buildings,")^"; <<Search buildings>>; }
  ],
  ne_to "You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.",
  s_to Square;
@@ -311,22 +321,30 @@ Object ChurchDoors "church doors"
   Open: if (self hasnt open) rfalse; ! continue
   if (self in Church) "Do you intend to exit the church?";
   "Do you intend to enter the church?";
-  Search:
-  if (latch has concealed) score = score + 5; give latch ~concealed;
+  Search: self.foundlatch();
   if (self hasnt open) "There is a gap between the doors. It looks like only a latch keeps the doors shut.";
   Enter: if (player in Church) give self ~enterable;
          if (player in Square) give self enterable;
   Touch: SetFlag(3); "The door has been looked after, perhaps was even stained this year.";
  ],
+ foundlatch [;
+  if (latch has concealed) score = score + 5; give latch ~concealed;
+ ],
+ unlock [;
+    SetFlag(4);
+    self.foundlatch();
+    give self ~concealed ~locked open;
+    give Church transparent; !teleportable only while open
+ ],
  after [;
-  Unlock: SetFlag(4); print "By slotting your bank card between the doors, you manage to lift the latch. ";
-  Close: give self locked;
+  Unlock: self.unlock(); print "By slotting your bank card between the doors, you manage to lift the latch. ";
+  Close: give self locked; give Church ~transparent; !teleportable only while open
   if (self in Church && self hasnt general) { score = score + 5; give self general; }
   "The doors latch shut, locking intruders out.";
  ],
  react_before [;
   Pray: if (noun == self) {
-    give self ~concealed ~locked open;
+    self.unlock();
     self.describe();
     rtrue;
   }
@@ -369,14 +387,13 @@ Object latch "latch"
    if ((action ~= ##Open or ##Turn || second ~= card) && TestScope(Square,player) && ChurchDoors has locked) "You can't open the latch that way.";
    if (action == ##Push or ##Pull && TestScope(Church,player) && ChurchDoors hasnt open) "You can't open the latch that way.";
    Open,Turn: if ((TestScope(Church,player) || second == card) && ChurchDoors hasnt open) {
-    if (player in pews) "You can't reach the doors from the pew.";
-    give ChurchDoors open ~locked ~concealed;
+    if (pews == parent(player)) "You can't reach the doors from the pew.";
+    ChurchDoors.unlock();
     move card to pockets;
-    SetFlag(4);
     "You lift the latch and the door opens.";
    }
    if (player in Square) "You cannot fit your hand between the doors.";
-   give ChurchDoors open ~locked;
+   ChurchDoors.unlock();
    "You lift the latch easily and the door opens.";
    Pull: if (TestScope(Church,player) && ChurchDoors has open) "Do you intend to exit?";
    Push: if (TestScope(Church,player)) <<Close ChurchDoors>>;
@@ -398,7 +415,7 @@ Inside Church "Church"
   Pray,Listen: if (noun == self or nothing) "Silence - perfect place to sleep!";
  ],
  react_after [;
-  Jump: print "^Some mortar dust descends from the ceiling.^";
+  Jump,JumpOn,JumpIn: print "^Some mortar dust descends from the ceiling.^";
  ];
 
 Object windows "windows" Church
@@ -410,7 +427,7 @@ Object windows "windows" Church
  ],
  has scenery pluralname;
 
-Object pews "pews" Church
+InsideOrOn pews "pews" Church
  with name 'pew' 'pews',
  description "Plain wooden benches welded to the ground - too narrow to sleep on.",
  before [;
@@ -426,18 +443,22 @@ Object pews "pews" Church
    if (self hasnt general) score = score + 5;
    give self general;
    if (cushions has concealed) print " As you unconsciously lean forward to stretch your back, you notice something underneath. ";
-   rtrue;
+   !rtrue;
  ],
  react_before [;
-  Jump: if (noun == self) print "Glancing around first, you summon the energy to jump onto a pew. Miraculously, it holds your weight. ";
+  if(self.InsideOrOn::react_before()~=0) rtrue;
+  JumpOn,JumpIn: if (noun == self) print "Glancing around first, you summon the energy to jump onto a pew. Miraculously, it holds your weight. ";
   Sleep: if (noun == self) "^The pews are alright to sit on, but not ideal to sleep on.";
-  Listen: if (noun == self && player in self) "The pew creaks.";
+  Listen: if (noun == self && self == parent(player)) "The pew creaks.";
  ],
+ limittake true,
+ droponfloor false,
+ includefloor false,
  has scenery supporter enterable transparent pluralname;
 
 Object cushions "cushions" Church
  has concealed supporter enterable pluralname
- with name 'small' 'wool' 'woolen' 'woollen' 'embroidered' 'prayer' 'kneeling' 'cushion' 'cushions' 'church^s', ! Genitive (of ) not supported
+ with name 'small' 'wool' 'woolen' 'woollen' 'embroidered' 'designs' 'prayer' 'kneeling' 'cushion' 'cushions' 'church^s', ! Genitive (of ) not supported
  description "The kneeling cushions for prayer have simple designs embroidered in wool on the surface, none with discernable text.",
  before [;
   PushDir,Take: "There are too many cushions to do that.";
@@ -469,15 +490,15 @@ Object altar "altar" Church
  description "What you assume to be the altar is a bare, unembellished stone table. Any cloth, cross or other religious artefacts seem to have been removed for safekeeping.",
  before [;
   give self ~concealed;
-  Touch,Rub,Climb,Enter,Push,Pull: 
+  Sleep,Touch,Rub,Climb,Enter,Push,Pull: 
   if (self hasnt general) score = score + 5; give self general;
   give altarlegs ~concealed;
   "As you put your weight on the altar, it wobbles. If the legs aren't all the same length, you might as well sleep on the floor.";
   LookUnder: <<Examine altarlegs>>;
  ],
  react_before [;
-  Sleep: if (noun == self) "Nowhere near ideal.";
-  Jump: if (noun == self) "The altar is too high to jump onto. Perhaps climbing would be less ambitious.";
+  Sleep: if (noun == self && self has general) "Nowhere near ideal.";
+  JumpOn: if (noun == self) "The altar is too high to jump onto. Perhaps climbing would be less ambitious.";
   Pray: if (noun == self or nothing) "Silence - perfect time to sleep!";
  ];
 
@@ -496,20 +517,19 @@ Object altarlegs "altar legs" Church
   give self ~concealed;
  ];
 
-Object bike "motorbike" Town
+InsideOrOn bike "motorbike" Town
  with name 'motorbike' 'bike' 'electric' 'ride' 'vehicle' 'bicycle' 'motorcycle' 'standard',
  description "It's a standard electric motorbike, and your ticket to finding the City of Peace.",
  initial "Your bike stands chained here.",
- d_to Town, ! IF bike is STATIC
  before [;
   Take: "The bike is much too large and heavy for you to carry, and there's no need to wheel it along anywhere right now.";
   Push,Pull,PushDir: "You decide to leave the bike here until you've found a place to stay the night.";
-  Squeeze,LookUnder: if (player in self) "You're too stiff from the ride."; 
+  Squeeze,LookUnder: if (self == parent(player)) "You're too stiff from the ride."; 
   !PutOn,Transfer,Insert: if (second ~= road) "It's best to keep the bike out of sight for now.";
   Lock: "The bike is already chained up.";
   Unlock,SwitchOn: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
   Taste:
-    if (player in self) "You're too stiff from the ride.";
+    if (self == parent(player)) "You're too stiff from the ride.";
     "Yuck!";
   Touch: "The bike is still hot from being out in the sun.";
   Rub: "You touch the bike, but there is no dust or grease on the surface.";
@@ -519,10 +539,15 @@ Object bike "motorbike" Town
   Examine: <<Search self>>;
  ],
  react_before [;
-  Sleep: if (noun == self || (noun == nothing && player in self)) "Nowhere near ideal.";
+  if(self.InsideOrOn::react_before()~=0) rtrue;
+  Go: if (self == parent(player) && noun == d_obj) <<Exit self>>;
+  Sleep: if (noun == self || (noun == nothing && self == parent(player))) "Nowhere near ideal.";
   Pray: if (noun == self) "You pray fervently for the strength to continue your journey, but the motorbike remains unmoved.";
   Listen: if (noun == self) "Silence - the wonders of electricity.";
  ],
+ limittake true,
+ droponfloor true,
+ includefloor false,
  has light static supporter enterable switchable lockable; !female if animate
 
 Object battery "battery" bike
@@ -581,8 +606,9 @@ Book papers "pile of papers" bag
   if (self has open) rtrue; ! default Push/Pull if open??
   give self open;
   "You carefully undo the straps that wrap up your notes and bind your journal closed.";
-  Transfer,Insert,PutOn,Drop: give self ~open; move self to bag;
-  "You place the papers gently back in your bag. You don't want to lose any pages accidentally.";
+  Transfer,Insert,PutOn,Drop: if (parent(self) ~= bag) { give self ~open; move self to bag;
+   "You place the papers gently back in your bag. You don't want to lose any pages accidentally.";
+  }
   LookUnder: "The back of your journal is stuffed full of loose pages that you plan to read later. The reverse of the back page is blank, besides a few smudges from your inky fingers due to being the lowest in the pile.";
  ],
  after [;
@@ -598,13 +624,13 @@ Object roofs "roofs"
   Take: "The shifted rubble sends up a plume of dust and you toss it back, eyes watering. It wouldn't make for very good bedding material.";
   Open,Push,Pull: "There's no use. You'd rather sleep in the open than shift rubble about, so you press on, hoping for a clean space to camp.";
   Search,LookUnder:
-    if (player in bike) "You can't reach the roofs from the bike.";
+    if (bike == parent(player)) "You can't reach the roofs from the bike."; !outofrch.h
     "The hopes of scavenging anything are slim, and the allure can wait until morning when you're more fresh.";
  ];
 
-Object buildings "dwellings"
+Object buildings "various buildings"
  has scenery pluralname enterable
- with name 'ruins' 'ruined' 'building' 'buildings' 'wall' 'walls' 'shells' 'simple' 'dwellings' 'rooms' 'abandoned' 'roofed' 'structure' 'structures' 'doorways',
+ with name 'ruins' 'ruined' 'building' 'buildings' 'wall' 'walls' 'shells' 'simple' 'dwellings' 'rooms' 'abandoned' 'roofed' 'structure' 'structures' 'doorways' 'various' 'houses',
  description "None of the dwellings here appear to be inhabitable.",
  found_in Town Square,
  before [;
@@ -612,22 +638,26 @@ Object buildings "dwellings"
   Examine,Search: if (location == Square) <<Search Square>>;
  ];
 
-Object road "road"
- has scenery concealed supporter enterable
+InsideOrOn road "road"
  with name "main" "road" "track" "tracks" "trail" "dust" "dusty" "path",
  description "The road is now no more than a dusty trail, though in the bike tracks you can see that the surface was tarred to a good standard when it was built.",
  found_in Town,
  before [;
   Taste:
-    if (player in bike) "You're too stiff from the ride to reach down from the motorbike.";
+    if (bike == parent(player)) "You're too stiff from the ride to reach down from the motorbike.";
     "Yuck!";
   Touch,Rub:
-    if (player in bike) "You're too stiff from the ride to reach down from the motorbike.";
+    if (bike == parent(player)) "You're too stiff from the ride to reach down from the motorbike.";
   LookUnder: "You'd have to dig a hole first."; Dig: "You'd need more than a shovel to dig road tar.";
  ],
  react_before [;
-  Sleep: if (noun == self || (noun == nothing && player in self)) "Nowhere near ideal.";
- ];
+  if(self.InsideOrOn::react_before()~=0) rtrue;
+  Sleep: if (noun == self || (noun == nothing && self == parent(player))) "Nowhere near ideal.";
+ ],
+ limittake false,
+ droponfloor true,
+ includefloor true,
+ has scenery concealed supporter enterable;
 
 Object sun "sun"
  has scenery

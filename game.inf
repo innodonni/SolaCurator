@@ -513,7 +513,6 @@ InsideOrOn bike "motorbike" Town
   Take: "The bike is much too large and heavy for you to carry, and there's no need to wheel it along anywhere right now.";
   Push,Pull,PushDir: "You decide to leave the bike here until you've found a place to stay the night.";
   Squeeze,LookUnder: if (self == parent(player)) "You're too stiff from the ride."; 
-  !PutOn,Transfer,Insert: if (second ~= road) "It's best to keep the bike out of sight for now.";
   Lock: "The bike is already chained up.";
   Unlock,SwitchOn: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
   Taste:
@@ -528,6 +527,7 @@ InsideOrOn bike "motorbike" Town
  ],
  react_before [;
   if(self.InsideOrOn::react_before()~=0) rtrue;
+  PutOn,Transfer,Insert: if (noun == self) "It's best to keep the bike out of sight for now.";
   Go: if (self == parent(player) && noun == d_obj) <<Exit self>>;
   Sleep: if (noun == self || (noun == nothing && self == parent(player))) "Nowhere near ideal.";
   Pray: if (noun == self) "You pray fervently for the strength to continue your journey, but the motorbike remains unmoved.";

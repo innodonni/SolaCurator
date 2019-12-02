@@ -327,6 +327,7 @@ Class InsideOrOn
  topholder
  [ o1 o2;
 
+  if (o1 in compass) return o1;
   while (o1 ~= location)
   {  o2 = ObjectScopedBySomething(o1);
      if (o2 == 0) o2 = parent(o1);

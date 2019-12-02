@@ -158,6 +158,8 @@ Extend 'sit'
  * 'down' 'on'/'in' supporter -> Enter
  * noun=ADirection -> Look;
 
+Extend 'get' first
+ * 'up' -> Exit;
 Extend 'get'
  * 'on' 'to' noun -> Enter
  * 'off' -> Exit;

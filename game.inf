@@ -17,6 +17,8 @@ Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^
                   Source available at https://github.com/innodonni/SolaCurator^
                   Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.
                   Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
+                  Doors by L. Ross Raszewski and Max Kalus.
+                  OutOfReach by Marnie Parker. Dirs by Gunther Schmidl.
                   Flags by Adam Cadre and Fredrik Ramsberg.
                   GoNeighbour by Alan Trewartha. Info by Jesse Burneko.
                   PrintSlow by D Cornelson (glulx port by Adonikam Virgo).
@@ -68,6 +70,10 @@ Include ">GoNeighbour.h";
 Include ">outofrch.h";
 Include ">verbs.inf";
 Include ">topics.inf";
+Include ">doors.h";
+Include ">doors2.h";
+Constant ShowRooms;
+Include ">dirs_2.h";
 
 ! Flag definitions:
 ! 0: Has the player seen the billboard/the word Jerusalem?
@@ -189,6 +195,7 @@ Object pockets "trouser pockets"
   player = newplayer;
   location = Town;
   move bag to player;
+  InitDoors();
   !parser_trace = 2;
   Banner();
   print "^You've just arrived at Beth'oni a small town in Israel.
@@ -289,7 +296,7 @@ Object card "bank card"
   Insert,Transfer,PutOn,Drop: "You might want to hold onto that, even though you have no money in the bank at the moment.";
  ];
 
-Object ChurchDoors "church doors"
+DirDoor ChurchDoors "church doors"
  with name 'wooden' 'church' 'door' 'doors//p' 'doorway' 'entrance' 'exit',
  describe [;
   print "^";
@@ -300,14 +307,16 @@ Object ChurchDoors "church doors"
  description "The wooden doors have withstood the elements and are still solid and impassable. Their only feature is a round brass handle on each.",
  when_closed "The church doors seem to be latched shut.",
  when_open "The door to the church stands ajar.",
- door_to [;
-  if (self in Square) return Church; return Square;
- ],
- door_dir [;
-  if (self in Square) return e_to; return w_to;
- ],
+ e_to Church,
+ w_to Square,
+! door_to [;
+!  if (self in Square) return Church; return Square;
+! ],
+! door_dir [;
+!  if (self in Square) return e_to; return w_to;
+! ],
  with_key card,
- found_in Square Church,
+! found_in Square Church,
  before [;
   give self ~concealed;
   if (action == ##Pull) print "(first taking the handle)^";
@@ -350,19 +359,7 @@ Object ChurchDoors "church doors"
   }
   Listen: if (noun == self) "Silence - perfect place to sleep!";
   Sleep: if (noun == self || (noun == d_obj && player in Church)) <<Make bed>>;
-  Go: if (noun.door_dir() == self.door_dir())
-   return self.open_by_myself();
-  Enter: if (noun == self) return self.open_by_myself();
  ], 
- open_by_myself [ ks;
-  if (self has open) rfalse;
-  print "(first opening ", (the) self, ")^";
-  ks = keep_silent;
-  keep_silent = true;
-  <Open self>;
-  keep_silent = ks;
-  if (self hasnt open) rtrue;
- ],
  has static concealed door openable lockable locked enterable pluralname;
 
 Object handles "brass handles"

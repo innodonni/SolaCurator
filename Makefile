@@ -1,17 +1,19 @@
+MAX_LABELS=10000
+
 run: game.z5
-	[ -z "$(OPTS)" ] || rm -f game.z5
+	rm -f game.z5
 	$(MAKE) game.z5
 	frotz $<
 
 game.z5: *.inf *.h
-	inform -pseDX $(OPTS) game.inf game.z5
+	inform '$$MAX_LABELS=$(MAX_LABELS)' -pseDX game.inf game.z5
 
 all: clean test run
 
 .PHONY: all clean test bless run ci release parchment quixe
 
 game.blb: *.inf *.h
-	inform -GH +include_path=/usr/share/inform6/library/,./ game.inf game.blb
+	inform '$$MAX_LABELS=$(MAX_LABELS)' -GH +include_path=/usr/share/inform6/library/,./ game.inf game.blb
 
 clean:
 	$(RM) game.z5 release.inf release.z5 game.blb test.input test.actual web/interpreter/story.zblorb.js
@@ -28,7 +30,7 @@ test.input: test.script nouns.txt verbs.txt
 	echo >> test.input
 
 test: game.z5 test.input test.expected
-	inform game.inf game.z5
+	inform '$$MAX_LABELS=$(MAX_LABELS)' game.inf game.z5
 	$(RM) test.actual
 	/usr/local/share/inform7/Interpreters/dumb-frotz game.z5 <test.input
 	$(RM) game.z5

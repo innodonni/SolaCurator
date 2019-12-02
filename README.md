@@ -9,6 +9,10 @@ Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.
 
 Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
 
+Doors by L. Ross Raszewski and Max Kalus.
+
+OutOfReach by Marnie Parker. Dirs by Gunther Schmidl.
+
 Flags by Adam Cadre and Fredrik Ramsberg.
 
 GoNeighbour by Alan Trewartha.

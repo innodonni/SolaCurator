@@ -2,12 +2,16 @@ Start of a transcript of
 SOLA CURATOR - A post-apocalyptic adventure, by Adonikam Virgo.
 Source available at https://github.com/innodonni/SolaCurator
 Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin. Talk by Greg
-Boettcher, Krister Fundin, and Mark J. Tilford. Flags by Adam Cadre and Fredrik
-Ramsberg. GoNeighbour by Alan Trewartha. Info by Jesse Burneko. PrintSlow by D
-Cornelson (glulx port by Adonikam Virgo). HelpRoutines, NewbieGrammar and
-ExpertGrammar by Emily Short.
+Boettcher, Krister Fundin, and Mark J. Tilford. Doors by L. Ross Raszewski and
+Max Kalus. OutOfReach by Marnie Parker. Dirs by Gunther Schmidl. Flags by Adam
+Cadre and Fredrik Ramsberg. GoNeighbour by Alan Trewartha. Info by Jesse
+Burneko. PrintSlow by D Cornelson (glulx port by Adonikam Virgo). HelpRoutines,
+NewbieGrammar and ExpertGrammar by Emily Short.
 Release 1 / Serial number 191125 / Inform v6.33 Library v6.12.2 S
 Standard interpreter 1.0 (1F) / Library serial number 180611
+
+>dirs
+You can go south (to the Square) or northeast.
 
 >search self
 Your mind is too clouded for introspection right now.

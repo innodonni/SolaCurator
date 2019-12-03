@@ -15,6 +15,7 @@ Object LibraryMessages
 Replace PraySub;
 Replace SleepSub;
 Replace JumpSub;
+Replace JumpOverSub;
 Replace JumpInSub;
 Replace JumpOnSub;
 Replace ExamineSub;
@@ -26,13 +27,16 @@ Include "verblib";
 #Endif;
  if (action == ##Examine or ##Search && s_obj == noun or second && location == Town) "It looks like there are more buildings down in the square.";
  if (action == ##Examine or ##Search && noun in compass && ZRegion(location.(noun.door_dir))==2 or 3) return PrintOrRun(location,noun.door_dir);
- if (action == ##Jump or ##JumpOn or ##JumpIn && RunRoutines(location, react_before)~=0) rtrue; ! include location in reactions
+ if (action == ##Jump or ##JumpOn or ##JumpIn or ##JumpOver && RunRoutines(location, react_before)~=0) rtrue; ! include location in reactions
  if (action == ##Examine && noun ofclass Room) <<Look>>;
  default: ;
  rfalse;
 ];
 [ GamePostRoutine;
- if (action == ##Jump or ##JumpOn or ##JumpIn && RunRoutines(location, react_after)~=0) rtrue; ! include location in reactions
+#Ifdef DEBUG;
+ print "GamePostRoutine: action = ", action; new_line;
+#Endif;
+ if (action == ##Jump or ##JumpOn or ##JumpIn or ##JumpOver && RunRoutines(location, react_after)~=0) rtrue; ! include location in reactions
  rfalse;
 ];
 
@@ -209,24 +213,45 @@ Extend only 'check' first
  * 'in' noun -> Search;
 
 [ MakeSub;
- if (noun ~= camp or bed) "You don't have the tools and materials for that.";
+ if (noun ~= camp or bed || second == cushions or altar or d_obj) "You don't have the tools and materials for that.";
  if (location ~= Church) "This isn't an ideal spot to bed down for the night.";
- if (cushions has concealed || altar has concealed) "Ideally you would have somewhere soft to sleep.";
+ if ((second ~= bag) && (cushions has concealed || altar has concealed)) "Ideally you would have somewhere soft to sleep.";
+ else if (second == bag && bag hasnt open) print "(first opening your rucksack)^";
  if (bed hasnt general) score = score + 20; give bed general;
+ give bag open;
  deadflag = 2;
  "This is the end of the demo. Please form an orderly queue to hand in your feedback.^
  Thank you for playing!";
 ]; 
 
+[ Makeable;
+  return noun == bed or camp;
+];
+
 Verb 'make'
  * noun -> Make
- * noun noun -> Make
- * noun 'in' noun -> Make
+ * noun noun -> Make reverse
+ * noun 'in'/'with'/'on'/'from' noun -> Make
  * 'up' noun -> Make
  * noun 'up' -> Make;
 
+Extend 'set' first
+ * 'up' noun=Makeable -> Make
+ * 'up' noun noun=Makeable -> Make reverse
+ * 'up' noun=Makeable 'in'/'with'/'on'/'from' noun -> Make
+ * noun=Makeable 'up' 'in'/'with'/'on'/'from' noun -> Make
+ * noun=Makeable 'up' -> Make;
+Extend 'set'
+ * noun 'to' 'rest' 'on' supporter -> PutOn
+ * noun 'down' 'on'/'onto' supporter -> PutOn;
+
 Extend 'put' first
- * 'up' noun -> Make;
+ * noun 'away' 'in' container -> Insert
+ * 'up' noun=Makeable -> Make
+ * 'up' noun noun=Makeable -> Make reverse
+ * 'up' noun=Makeable 'in'/'with'/'on'/'from' noun -> Make
+ * noun=Makeable 'up' 'in'/'with'/'on'/'from' noun -> Make
+ * noun=Makeable 'up' -> Make;
 
 Attribute legible;
 
@@ -247,12 +272,13 @@ Verb 'raise' = 'lift';
 
 [ JumpInSub; return JumpSub(); ];
 [ JumpOnSub; return JumpSub(); ];
+[ JumpOverSub; return JumpSub(); ];
 [ JumpSub act x1;
  if (noun == nothing) noun = ScopeCeiling(player);
  act = action; x1 = noun;
- if (location ~= noun && noun has enterable) <Enter noun>;
+ if (location ~= noun && action ~= ##JumpOver && noun has enterable) <Enter noun>;
  action=act; noun=x1; ! restore values
- if (player in noun && AfterRoutines()~=0) rtrue;
+ if ((action == ##JumpOver || player in noun) && AfterRoutines()~=0) rtrue;
  return L__M(action, 1, noun);
 ];
 
@@ -309,7 +335,7 @@ Verb "do"
 ];
 
 [ SleepSub;
- if (noun == nothing) <<Make bed>>;
+ if (noun == nothing or d_obj) <<Make bed>>;
  if (noun has enterable) <Enter noun>;
  if (noun provides react_before) return L__M(##Sleep, 1, noun);
  <<Examine sun>>;

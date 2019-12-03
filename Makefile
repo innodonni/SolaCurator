@@ -38,7 +38,7 @@ test: game.z5 test.input test.expected
 
 bless: test.actual
 	mv test.actual test.expected
-	git add test.expected
+	git add test.expected test.script verbs.txt nouns.txt
 
 release: parchment
 

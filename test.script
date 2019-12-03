@@ -56,6 +56,13 @@ sit down
 sleep
 make fire
 make bed
+search bag
+touch bag
+smell bag
+make bed on floor
+sleep on ground
+make bed with supplies
+undo
 x altar
 pray at altar
 jump over altar
@@ -75,9 +82,12 @@ touch door
 look under pews
 take cushion
 taste cushion
+make bed from cushions
 put cushion on pew
 throw cushion at windows
-drop bag
+make bed with camping gear
+undo
+drop belongings
 open bag
 take file
 x file
@@ -93,6 +103,5 @@ get up
 take bag
 put file away
 drop file
-sleep on ground
 make bed
 undo

@@ -246,6 +246,41 @@ Ideally you would have somewhere soft to sleep.
 >make bed
 Ideally you would have somewhere soft to sleep.
 
+>search bag
+Besides your journal, you have everything you need to set up camp.
+
+>touch bag
+The backpack is a scratchy polyester canvas. They don't make them like they used
+to.
+
+>smell bag
+You smell nothing unexpected.
+
+>make bed on floor
+You don't have the tools and materials for that.
+
+>sleep on ground
+Ideally you would have somewhere soft to sleep.
+
+>make bed with supplies
+(first opening your rucksack)
+This is the end of the demo. Please form an orderly queue to hand in your
+feedback.
+Thank you for playing!
+
+
+    *** You have won ***
+
+
+
+In that game you scored 70 out of a possible 90, in 61 turns.
+
+Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
+suggestions for AMUSING things to do or QUIT?
+>undo
+Church
+[Previous turn undone.]
+
 >x altar
 What you assume to be the altar is a bare, unembellished stone table. Any cloth,
 cross or other religious artefacts seem to have been removed for safekeeping.
@@ -254,6 +289,8 @@ cross or other religious artefacts seem to have been removed for safekeeping.
 Silence - perfect time to sleep!
 
 >jump over altar
+
+Some mortar dust descends from the ceiling.
 You achieve nothing by this.
 
 >sleep on altar
@@ -284,6 +321,8 @@ off the ground to allow the altar to wobble, but not high enough for anything to
 go underneath.
 
 >jump over pews
+
+Some mortar dust descends from the ceiling.
 You achieve nothing by this.
 
 >jump
@@ -320,6 +359,9 @@ There are too many cushions to do that.
 >taste cushion
 The wool against your teeth makes you shiver unpleasantly.
 
+>make bed from cushions
+You don't have the tools and materials for that.
+
 >put cushion on pew
 (first taking the cushions)
 You put the cushions on the pews.
@@ -328,7 +370,26 @@ You put the cushions on the pews.
 (first taking the cushions)
 There are too many cushions to do that.
 
->drop bag
+>make bed with camping gear
+(first opening your rucksack)
+This is the end of the demo. Please form an orderly queue to hand in your
+feedback.
+Thank you for playing!
+
+
+    *** You have won ***
+
+
+
+In that game you scored 80 out of a possible 90, in 83 turns.
+
+Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
+suggestions for AMUSING things to do or QUIT?
+>undo
+Church
+[Previous turn undone.]
+
+>drop belongings
 Time to make up your bed!
 
 [The score has just gone up by five points.]
@@ -391,14 +452,15 @@ You get off the pews.
 Taken.
 
 >put file away
-(first taking the pile of papers out of the rucksack)
-I didn't understand that sentence.
+(in the rucksack)
+The pile of papers is already here.
 
 >drop file
+(first taking the pile of papers out of the rucksack)
 You place the papers gently back in your bag. You don't want to lose any pages
 accidentally.
 
->sleep on ground
+>make bed
 This is the end of the demo. Please form an orderly queue to hand in your
 feedback.
 Thank you for playing!
@@ -408,13 +470,10 @@ Thank you for playing!
 
 
 
-In that game you scored 90 out of a possible 90, in 91 turns.
+In that game you scored 90 out of a possible 90, in 98 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
->make bed
-Please give one of the answers above.
-
 >undo
 Church
 [Previous turn undone.]
@@ -1166,12 +1225,12 @@ You aren't holding that!
 You can't reach it.
 
 >set bag down on road
-I only understood you as far as wanting to set the rucksack down.
+Best keep your valuables with you.
 
 >set file to rest on road
 There's no advantage to unpack until you've found a suitable shelter.
-There's no advantage to unpack until you've found a suitable shelter.
-You aren't holding that!
+You need to be holding the pile of papers before you can put it on top of
+something else.
 
 >ask self for bag
 To talk to someone, please type TALK TO PERSON.

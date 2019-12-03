@@ -36,14 +36,15 @@ Replace Refers; !provided by GoNeighbour.h
 Include "parser";
 
 Object bag "rucksack"
- with name 'bag' 'rucksack' 'backpack' 'pack' 'sack' 'gear' 'belongings' 'camping' 'kit' 'stock',
+ with name 'bag' 'rucksack' 'backpack' 'pack' 'sack' 'gear' 'belongings' 'camping' 'kit' 'stock' 'supplies',
  !article 'your', ! crashes Z-Machine!
  description "Your rucksack contains all of your worldly belongings (mostly camping gear).",
  before [;
+  Search: if (location == Church or pews) "Besides your journal, you have everything you need to set up camp.";
   Open,LetGo: if (location ~= Church or pews) "There's no advantage to unpack until you've found a suitable shelter.";
   Drop: if (location ~= Church or pews) "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
   PutOn,Transfer,Insert: if (second ~= pews) "Best keep your valuables with you.";
-  Touch: "The backpack is a scratch polyester canvas. They don't make them like they used to.";
+  Touch: "The backpack is a scratchy polyester canvas. They don't make them like they used to.";
  ],
  after [;
   Drop: if (self hasnt general) score = score + 5; give self general;
@@ -403,7 +404,7 @@ Inside Church "Church"
   Pray,Listen: if (noun == self or nothing) "Silence - perfect place to sleep!";
  ],
  react_after [;
-  Jump,JumpOn,JumpIn: print "^Some mortar dust descends from the ceiling.^";
+  Jump,JumpOn,JumpIn,JumpOver: print "^Some mortar dust descends from the ceiling.^";
  ];
 
 Object windows "windows" Church

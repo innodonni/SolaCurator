@@ -526,6 +526,7 @@ Object bins "bins"
   if (se_obj.number == 3) "The bins are already out of the way.";
   if (se_obj.number == 2) {
    print "You heave the last bin aside. ";
+   give ChurchYard ~concealed transparent;
    Square.se_to = ChurchYard;
   }
   else print "You heave a bin aside. ";
@@ -563,7 +564,8 @@ Outside ChurchYard "Churchyard"
  nw_to Square,
  n_to GardenGate,
  w_to "The back door to the church is locked.",
- s_to "The mound to the south is oddly lush with grass and slightly boggy.";
+ s_to "The mound to the south is oddly lush with grass and slightly boggy.",
+ has concealed ~transparent;
 
 DirDoor GardenGate "garden gate"
  with name 'garden' 'gate' 'fence',

@@ -33,3 +33,9 @@ road
 sun
 campfire
 bed
+ben
+yard
+gate
+bins
+rubbish
+upturned can

@@ -405,6 +405,7 @@ Inside Church "Church"
  ],
  w_to ChurchDoors,
  out_to ChurchDoors,
+ e_to "The back door to the church is locked.",
  react_before [;
   Wait: "You begin to feel even more drowsy.";
   Pray,Listen: if (noun == self or nothing) "Silence - perfect place to sleep!";

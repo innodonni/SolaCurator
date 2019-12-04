@@ -540,7 +540,7 @@ Extend 'answer' replace            ! = 'say' 'shout' 'speak'
   *                    -> NotTalk  ! (Except we replaced
   * topic              -> NotTalk; ! 'speak' on its own above.)
 [ CallOutSub;
- if (parent(player) ~= Square) NotTalkSub();
+ if (parent(player) ~= Square or Church or pews) NotTalkSub();
  SetFlag(1);
  "~Yoohoo!~. It sounds like it's coming from behind the church.";
 ];

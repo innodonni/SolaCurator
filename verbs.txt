@@ -220,3 +220,7 @@ say hello to
 *talk to God
 *talk to self
 *say sausage to self
+pick
+shout
+speak
+check

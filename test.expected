@@ -852,12 +852,40 @@ That's not a verb I recognise.
 >bed
 That's not a verb I recognise.
 
+>ben
+That's not a verb I recognise.
+
+>yard
+(visiting the Churchyard)
+
+Churchyard
+The bare yard behind the church is strewn with tufts of weeds.
+
+You can see a garden gate, some bins (in which is rubbish) and an upturned can
+(on which is Ben) here.
+
+>gate
+That's not a verb I recognise.
+
+>bins
+That's not a verb I recognise.
+
+>rubbish
+That's not a verb I recognise.
+
+>upturned can
+That's not a verb I recognise.
+
 >hop on one leg
 You can't see any such thing.
 
 >hop on leg
-(the altar legs)
-Jumping upon the altar legs would achieve nothing here.
+(that)
+Generally speaking, there is no need to refer to your body parts individually in
+interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented,
+for instance; WEAR SHOES is enough.  And unless you get some hint to the
+contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY
+MOUTH.
 
 >hop in self
 Jumping in you would achieve nothing here.
@@ -1402,8 +1430,7 @@ You can't see any such thing.
 You can't see any such thing.
 
 >look to east
-You can go only west or out.
-You see nothing unexpected in that direction.
+The back door to the church is locked.
 
 >look to north-east
 You can't see any such thing.
@@ -1412,8 +1439,7 @@ You can't see any such thing.
 You can't see any such thing.
 
 >look to east
-You can go only west or out.
-You see nothing unexpected in that direction.
+The back door to the church is locked.
 
 >look to south
 You can go only west or out.

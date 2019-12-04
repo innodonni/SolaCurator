@@ -12,7 +12,7 @@ Object LibraryMessages
   Strong: print "You don't need to ";
           print (address) verb_word;
           print_ret " anything right now.";
-  Prompt: if (turns == 0) print "^What next? (beginners, type help<ENTER>) >"; else print "^>"; rtrue;
+  Prompt: if (turns == 0) print "^What next? (beginners, type help<ENTER>)^>"; else print "^>"; rtrue;
  ];
 
 Replace PraySub;

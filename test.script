@@ -23,17 +23,31 @@ x church
 x graffiti
 search graffiti
 x doors
+listen at gap
+rub gap
 pull knob
 twist knob
 touch knob
 touch door
 push door
+pick the lock
+pick litter
+collect waste
+pick door
 listen at doors
 look between doors
 x latch
+say prayers
+pray that game ends
+pray that bed appears
+pray that doors open
+pray to God that door opens
+pray to God that doors open
+pray to God for doors to open
 x clothes
 search clothes
 x pockets
+x shirt pocket
 x trouser pockets
 search trouser pockets
 x card  
@@ -47,6 +61,7 @@ pull church door
 lift latch
 raise latch with card
 enter church
+x latch
 x windows
 get window
 push doors
@@ -59,6 +74,7 @@ make bed
 search bag
 touch bag
 smell bag
+say prayers
 make bed on floor
 sleep on ground
 make bed with supplies
@@ -105,3 +121,41 @@ put file away
 drop file
 make bed
 undo
+exit church building
+leave
+se
+x trash
+insert card in trashcan
+put bag in dustbin
+clear ground
+clean waste
+transfer waste to trash-can
+search bin
+pull bin
+shout
+go around church building
+se
+smell bins
+shift bins
+again
+g
+g
+smell bins
+se
+1
+2
+1
+1
+1
+2
+1
+1
+1
+0
+w
+s
+n
+jump over gate
+climb gate
+put papers on can
+visit Ben

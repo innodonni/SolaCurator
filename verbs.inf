@@ -9,6 +9,9 @@ Object LibraryMessages
           if (player in parent(previous_parent)) <<Go noun>>;
           rtrue;
       }
+  Strong: print "You don't need to ";
+          print (address) verb_word;
+          print_ret " anything right now.";
   Prompt: print "^>"; rtrue;
  ];
 
@@ -148,7 +151,7 @@ Verb 'dismount' = 'exit';
 Verb 'camp' 'kip' = 'sleep';
 Verb 'lick' = 'taste';
 Verb 'hurt' = 'hit';
-Verb 'detach' = 'take';
+Verb 'detach' 'collect' = 'take';
 Verb 'unchain' = 'unlock';
 Verb 'wheel' = 'push';
 Verb 'rifle' 'riffle' 'ransack' 'explore' = 'search';
@@ -210,7 +213,19 @@ Extend 'search'
  * 'through' scope=TeleportScope -> Search;
 
 Extend only 'check' first
+ * door -> Open
  * 'in' noun -> Search;
+
+[ PickVagueSub;
+ if (noun hasnt door)
+  print_ret "You need to choose a verb as well as choose ", (the) noun,".";
+ if (second ~= nothing)
+  print_ret "You cannot pick ", (the) noun, " with ", (the) second;
+ "You don't have a set of lockpicks.";
+];
+Extend 'pick'
+ * noun -> PickVague
+ * noun 'with' held -> PickVague;
 
 [ MakeSub;
  if (noun ~= camp or bed || second == cushions or altar or d_obj) "You don't have the tools and materials for that.";
@@ -347,8 +362,9 @@ Extend 'sleep' replace
 
 [ PraySub;
  if (noun == nothing) <<Listen>>;
- if (noun has enterable) <Enter noun>;
- if (noun provides react_before) L__M(##Pray, 1, noun);
+ if (noun has enterable && noun ~= parent(player)) <Enter noun>;
+ if (noun provides react_before) return L__M(##Pray, 1, noun);
+ if (TestScope(noun, player)) print_ret (The) noun, " ", CSubjectHas(noun,false), " insufficient authority to grant your request.";
 ];
 
 [ WorshipSub;
@@ -356,17 +372,37 @@ Extend 'sleep' replace
  <<Listen noun>>;
 ];
 
+[ PrayTopicSub;
+ if (noun == nothing) {
+  wn = consult_from;
+  while(wn<consult_from+consult_words && NextWordStopped()~=-1 or 'door' or 'doors');
+  if (NextWordStopped() == -1) <<Listen>>;
+  "God knows what you're after. Maybe you're just standing in the wrong place.";
+ };
+ if (TestScope(noun, player)) print_ret (The) noun, " ", (IsOrAre) noun, " unmoved to grant your request.";
+ <<Listen noun>>;
+];
+
 Extend "pray" first
  * 'in'/'on'/'at' noun -> Pray
- * 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
+ * 'to' 'Jesus'/'god'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
  * 'to' 'the' 'gods' -> Pray
  * 'to' noun -> Worship
- * 'to' noun 'gods' -> Pray;
+ * 'to' noun 'gods' -> Pray
+ * 'in'/'on'/'at' noun 'that' topic -> Pray
+ * 'in'/'on'/'at' noun 'for' topic -> Pray
+ * 'that' topic -> PrayTopic
+ * 'for' topic -> PrayTopic
+ * 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' 'that' topic -> PrayTopic
+ * 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' 'for' topic -> PrayTopic
+ * 'to' noun 'that' topic -> PrayTopic
+ * 'to' noun 'for' topic -> PrayTopic;
 
 Extend 'listen'
  * 'at' door -> Listen;
 
 Extend only 'say' first
+ * 'prayers' -> Pray
  * 'prayer' -> Pray
  * 'prayer' 'to' noun -> Pray
  * 'prayer' 'in'/'on'/'at' noun -> Pray
@@ -378,6 +414,7 @@ Extend only 'say' first
 Extend 'look' replace
     *                                           -> Look
     * 'around'                                  -> Search
+    !* 'around' door                             -> Search
     * 'at' noun                                 -> Examine
     * 'at' noun 'to'/'towards'/'in' noun=ADirection  -> Examine
     * 'inside'/'in'/'into'/'through'/'on' noun  -> Search
@@ -423,6 +460,18 @@ Extend 'what'
 
 Include ">ExpertGrammar.h";
 
+Extend only 'leave' replace
+ * -> Exit
+ * noun=ADirection -> Go
+ * noun -> Enter
+ * 'through' noun -> Enter;
+
+Extend only 'depart' replace
+ * -> Exit
+ * noun=ADirection -> Go
+ * noun -> Enter
+ * 'through' noun -> Enter;
+
 Extend only 'start'
  * noun -> SwitchOn;
 
@@ -432,6 +481,7 @@ Extend 'bite' replace
  * noun -> Taste;
 
 Extend only "try"
+ * enterable -> Open
  * topic -> Try;
 
 Extend 'use'
@@ -489,6 +539,14 @@ Verb 'talk' 't//'
 Extend 'answer' replace            ! = 'say' 'shout' 'speak'
   *                    -> NotTalk  ! (Except we replaced
   * topic              -> NotTalk; ! 'speak' on its own above.)
+[ CallOutSub;
+ if (parent(player) ~= Square) NotTalkSub();
+ SetFlag(1);
+ "~Yoohoo!~. It sounds like it's coming from behind the church.";
+];
+Extend only 'shout' first
+  * -> CallOut
+  * topic -> CallOut;
 Extend 'ask' replace
   *                    -> NotTalk
   * topic              -> NotTalk;

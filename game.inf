@@ -66,7 +66,7 @@ Include ">dirs_2.h";
 
 ! Flag definitions:
 ! 0: Has the player seen the billboard/the word Jerusalem?
-! 1: Is Ben idle (has the player had the initial conversation)?
+! 1: Has the player shouted in the Square and heard a response?
 ! 2: Has the player seen the Church (with no graffiti on it)?
 ! 3: Has the player felt the fresh woodstain on the door?
 ! 4: Has the player unlocked the Church before?
@@ -165,7 +165,7 @@ Object clothes "clothes" newplayer
 Object pocket "shirt pocket"
  with name 'shirt' 'pocket' 'pockets',
  article "your",
- description "A decorative pocket, sewn shut.",
+ description "A decorative pocket, sewn shut. Good thing too - you don't trust pockets.",
  has static;
 
 Object pockets "trouser pockets"
@@ -224,9 +224,10 @@ Outside Town "Town"
  s_to Square;
 
 Object board "billboard" Town
- with name 'old' 'billboard' 'board' 'writing' 'hoarding' 'advertisement',
+ with name 'old' 'billboard' 'board' 'writing' 'hoarding' 'advertisement' 'dried' 'marker' 'pens' 'drift' 'drifts', !candidates for Scenic.h?
  description "Whatever was on the billboard peeled off long ago and it is now host to a veritable bulletin board of writing from visitors.",
  before [;
+  Take: "Worthless.";
   Read: if (FlagOff(0)) score = score + 5; SetFlag(0);
   "Much of what has been written is in an old language you recognise as English, but there is some modern Arabic as well. From what you can read, you aren't the first person travelling this route to Jerusalem for answers.";
   Search: "You smile wryly; searching in the digital sense wouldn't be possible because the Internet is a thing of the past. You don't notice any familiar names without reading it in full.";
@@ -244,12 +245,14 @@ Outside Square "Square"
  ],
  n_to Town,
  e_to ChurchDoors,
- in_to ChurchDoors;
+ in_to ChurchDoors,
+ se_to 0;
 
 Object waste "detritus" Square
- with name 'detritus' 'litter' 'waste' 'rubbish' 'junk' 'campers^',
+ with name 'detritus' 'litter' 'waste' 'rubbish' 'garbage' 'junk' 'campers^',
  description "It's all junk - nothing serviceable.",
  before [;
+  Rub: "You can't face tidying all of this rubbish.";
   Take: "It's all junk - not worth taking.";
  ],
  react_before [;
@@ -326,7 +329,7 @@ DirDoor ChurchDoors "church doors"
   if (self hasnt open) "There is a gap between the doors. It looks like only a latch keeps the doors shut.";
   Enter: if (player in Church) give self ~enterable;
          if (player in Square) give self enterable;
-  Touch: SetFlag(3); "The door has been looked after, perhaps was even stained this year.";
+  Touch: SetFlag(3); "The door has been looked after, perhaps was even stained this year. The edges of the doors between the handles have been worn away.";
  ],
  foundlatch [;
   if (latch has concealed) score = score + 5; give latch ~concealed;
@@ -367,16 +370,18 @@ Object handles "brass handles"
    <<Open ChurchDoors>>;
    Push: if (player in Church) <<Close ChurchDoors>>;
    "Do you intend to enter?";
+   Search: "From the arrangement of the holes around the handles, it looks like the door used to have a Norfolk latch, but it has been replaced.";
  ],
  has static concealed pluralname;
 
 Object latch "latch"
- with name 'latch',
+ with name 'latch' 'gap' 'edge' 'edges' 'between' 'black' 'metal' 'hole' 'holes' 'bar' 'catch' 'strike' 'Norfolk' 'Suffolk',
+ description "The latch mechanism on the doors is a flat black metal bar that slots down into a catch.",
  before [;
    if ((action ~= ##Open or ##Turn || second ~= card) && TestScope(Square,player) && ChurchDoors has locked) "You can't open the latch that way.";
    if (action == ##Push or ##Pull && TestScope(Church,player) && ChurchDoors hasnt open) "You can't open the latch that way.";
    Open,Turn: if ((TestScope(Church,player) || second == card) && ChurchDoors hasnt open) {
-    if (pews == parent(player)) "You can't reach the doors from the pew.";
+    !if (pews == parent(player)) "You can't reach the doors from the pew.";
     ChurchDoors.unlock();
     move card to pockets;
     "You lift the latch and the door opens.";
@@ -388,6 +393,7 @@ Object latch "latch"
    Push: if (TestScope(Church,player)) <<Close ChurchDoors>>;
    PushDir: if (second == u_obj && TestScope(Church,player)) <<Open ChurchDoors>>;
    "You can't open the latch that way.";
+   Examine: if (player in Square) "In the gap between the doors, you can make out the shape of a latch on the other side.";
  ],
  has static concealed openable;
 
@@ -487,7 +493,7 @@ Object altar "altar" Church
  ],
  react_before [;
   Sleep: if (noun == self && self has general) "Nowhere near ideal.";
-  JumpOn: if (noun == self) "The altar is too high to jump onto. Perhaps climbing would be less ambitious.";
+  JumpOn,JumpOver: if (noun == self) "The altar is too high to jump onto. Perhaps climbing would be less ambitious.";
   Pray: if (noun == self or nothing) "Silence - perfect time to sleep!";
  ];
 
@@ -505,6 +511,96 @@ Object altarlegs "altar legs" Church
  before [;
   give self ~concealed;
  ];
+
+Object bins "bins"
+ with name 'bin' 'bins' 'can' 'cans' 'trash-can' 'trash-cans' 'trashcan' 'trashcans' 'dustbin' 'dustbins' 'garbage-cans',
+ description "At the south-east side of the church is a group of bins, some more pungent than others.",
+ found_in Square ChurchYard,
+ before [;
+  give self ~concealed;
+  Receive: <<Drop noun>>;
+  LetGo,Touch,Rub,Enter: "^Are you serious?!";
+  Enter,Climb: "You balk at the idea of falling into the open bins.";
+  Push,Pull: if (FlagOff(1)) "You don't have any reason to shift bins around.";
+  if (se_obj.number == 3) "The bins are already out of the way.";
+  if (se_obj.number == 2) {
+   print "You heave the last bin aside. ";
+   Square.se_to = ChurchYard;
+  }
+  else print "You heave a bin aside. ";
+  se_obj.number++;
+  <<Smell bins>>;
+  Smell: switch (se_obj.number) {
+   0: "The bins smell like composted organic material.";
+   1: "The bins smell more pungent here.";
+   2: "The bins here smell fresh, like vegetable peel.";
+   3: "The bins further from the square seem to have been filled more recently.";
+  }
+  PutOn,Transfer,Insert,Take: "The full bins don't appear to have any further use.";
+  Open: "The bins don't have any lids.";
+  Close: "You don't have any bin lids.";
+ ],
+ react_before [;
+  Sleep: if (noun == self) "^Are you serious?!";
+  JumpOn,JumpOver: if (noun == self) "The bins are too high to jump onto. Perhaps climbing would be less ambitious.";
+  Listen: if (noun == self && Ben hasnt general) {
+   SetFlag(1); "Definitely breathing.";
+  }
+ ],
+ has static concealed enterable container openable open pluralname;
+! cannot be a supporter unless I get a library for supporter-containers.
+
+Object rubbish "rubbish" bins
+ with name 'pungent' 'smelly' 'content' 'contents' 'rotten' 'decomposing' 'rubbish' 'trash',
+ article "the",
+ description "The contents of the bins are still decomposing."
+ has proper;
+
+Outside ChurchYard "Churchyard"
+ with name 'churchyard' 'bare' 'yard' 'tufts' 'weeds',
+ description "The bare yard behind the church is strewn with tufts of weeds.",
+ nw_to Square,
+ n_to GardenGate,
+ w_to "The back door to the church is locked.",
+ s_to "The mound to the south is oddly lush with grass and slightly boggy.";
+
+DirDoor GardenGate "garden gate"
+ with name 'garden' 'gate' 'fence',
+ s_to ChurchYard,
+ n_to thedark,
+ description "The gate leads into a well-kept vegetable garden.",
+ before [;
+  Enter,Climb: "You're too weary from shifting bins to poke around in the garden.";
+  Unlock,Open: "The gate seems to be jammed. There must be a knack to it.";
+ ],
+ react_before [;
+  JumpOn,JumpOver: if (noun == self) "The gate is too high to jump onto. Perhaps climbing would be less ambitious.";
+ ],
+ has openable lockable locked door;
+
+InsideOrOn can "upturned can" ChurchYard
+ with name 'upturned' 'can' 'tin' 'empty' 'wood-stain' 'stain' 'paint' 'makeshift' 'seat',
+ description "The can is upside down, but it looks like a wood stain tin.",
+ !initial "Ben is here, sitting on an upturned paint can.",
+ before [;
+  if (action ~= ##Examine && self == parent(Ben)) "You can't get near while Ben is sitting on it.";
+  Take,Push,Pull,PushDir: "You'd rather not move the can in case Ben wants to sit down again.";
+  Squeeze: if (self == parent(player)) "You're too stiff from the ride."; 
+  Enter: "You decide Ben's makeshift seat is only suitable for someone more sprightly."; 
+  Rub: "The tin is hopelessly stained, and doesn't make a very good seat either.";
+  Smell,Taste:
+    if (self == parent(player)) "You're too stiff from the ride.";
+    "Yuck!";
+ ],
+ react_before [;
+  if(self.InsideOrOn::react_before()~=0) rtrue;
+  Go: if (self == parent(player) && noun == d_obj) <<Exit self>>;
+  Sleep: if (noun == self || (noun == nothing && self == parent(player))) "Nowhere near ideal.";
+ ],
+ limittake false,
+ droponfloor true,
+ includefloor true,
+ has static supporter enterable;
 
 InsideOrOn bike "motorbike" Town
  with name 'motorbike' 'bike' 'electric' 'ride' 'vehicle' 'bicycle' 'motorcycle' 'standard',
@@ -628,7 +724,7 @@ Object buildings "various buildings"
  ];
 
 InsideOrOn road "road"
- with name "main" "road" "track" "tracks" "trail" "dust" "dusty" "path",
+ with name 'main' 'road' 'track' 'tracks' 'trail' 'dust' 'dusty' 'path',
  description "The road is now no more than a dusty trail, though in the bike tracks you can see that the surface was tarred to a good standard when it was built.",
  found_in Town,
  before [;
@@ -691,6 +787,14 @@ Class Man
   Answer: NotTalkSub(); rtrue;
   Order:  NotTalkSub(); rtrue;
  ],
+ react_before [;
+  if (self in ChurchYard or can && action == ##Go or ##Look && noun == w_obj) {
+   ChurchDoors.foundlatch();
+   print "~Lost the key to that door years ago, so we just jimmy the latch now.~ quips Ben. ";
+  }
+  if (self in ChurchYard or can && action == ##Go or ##Look && noun == s_obj)
+  print "~I wouldn't tread there unless you're on important business.~^, Ben says, with a smirk. ";
+ ],
  before [;
   TalkTo: self.select(1); rtrue; ! 1, because Quip #1
  ],                              ! is the main menu.
@@ -712,22 +816,27 @@ Class Man
           "~I'm ", (the) self, ".~"; 
  } rfalse; ];
 
-Man ben "Ben"
- with name 'ben',
- description "It's Ben.",
+Man Ben can
+ has ~proper
+ with name 'old' 'man' 'ben',
+ short_name "old man",
+ description "Ben is a tanned man with grubby clothes and a shock of white hair.",
  before [;
   ! select(1), because Quip #1 is the main menu.
-  TalkTo: self.select(1); SetFlag(1); rtrue;
+  TalkTo: self.select(1); rtrue;
+ ],
+ each_turn [;
+  if (self hasnt general && TestScope(player,Ben)) self.select(1);
  ],
  quip [ a b; switch (a) {
       ! Quip #1: Main menu
       11: ! Main menu: no quip name needed
       12: ! Main menu: normally no reply needed
-          if (FlagOff(1)) { "~You there!?~^
+          if (self hasnt general) { "~You there!?~^
           An old man is here, sitting on an upturned paint tin. From his tan, he looks local, but it's hard to tell how old he is - he could be 500.^
           He doesn't turn to face you as you arrive."; }
       13: qtype = MainMenu;
-          killz = true;
+          killz = self hasnt general;
       14: ! Here's where we define all the options that are
           ! ever available from the main menu. For an 
           ! explanation of this syntax, consult the comments
@@ -741,8 +850,7 @@ Man ben "Ben"
       ! Quip #2 etc.
       21: qseq(1,"~Hi there, who are you?~","~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~");
       22: qcyc(2,"~Ben. Just Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
-      23: killz = true; ! disallow saying nothing
-          qtransfer = 1; ! top-level quip; return to menu by default
+      23: qtransfer = 1; ! top-level quip; return to menu by default
 
       31: random("~Are you the vicar?~","~Are you the vicar, then?~","~You're the vicar, right?~","~Is the church yours?~");
       32: self.qoff(3); "Of sorts.";
@@ -794,6 +902,8 @@ Man ben "Ben"
 
       121: "~What does it look like?~";
       122: self.qoff(12);
+           give self general proper;
+           self.short_name = "Ben";
            qret(self, 10, 1, b);
            "~It's a hand-held walkie-talkie gizmo, a sort of greyish black.~"; 
       124: return qret(self, 10, 1, b);

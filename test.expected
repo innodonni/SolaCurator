@@ -118,6 +118,12 @@ other visitors.
 The wooden doors have withstood the elements and are still solid and impassable.
 Their only feature is a round brass handle on each.
 
+>listen at gap
+You can't see any such thing.
+
+>rub gap
+You achieve nothing by this.
+
 >pull knob
 The brass handles are fixed in place.
 
@@ -128,10 +134,23 @@ The handles won't turn - they seem to be just to grip the door with.
 You feel nothing unexpected.
 
 >touch door
-The door has been looked after, perhaps was even stained this year.
+The door has been looked after, perhaps was even stained this year. The edges of
+the doors between the handles have been worn away.
 
 >push door
 The church doors seem to be locked.
+
+>pick the lock
+You can't see any such thing.
+
+>pick litter
+You need to choose a verb as well as choose the detritus.
+
+>collect waste
+It's all junk - not worth taking.
+
+>pick door
+You don't have a set of lockpicks.
 
 >listen at doors
 Silence - perfect place to sleep!
@@ -143,7 +162,29 @@ shut.
 [The score has just gone up by five points.]
 
 >x latch
-You see nothing special about the latch.
+In the gap between the doors, you can make out the shape of a latch on the other
+side.
+
+>say prayers
+You hear nothing unexpected.
+
+>pray that game ends
+You hear nothing unexpected.
+
+>pray that bed appears
+You hear nothing unexpected.
+
+>pray that doors open
+God knows what you're after. Maybe you're just standing in the wrong place.
+
+>pray to God that door opens
+God knows what you're after. Maybe you're just standing in the wrong place.
+
+>pray to God that doors open
+God knows what you're after. Maybe you're just standing in the wrong place.
+
+>pray to God for doors to open
+God knows what you're after. Maybe you're just standing in the wrong place.
 
 >x clothes
 As good-looking as ever.
@@ -153,6 +194,9 @@ There are pockets in your shirt and trousers.
 
 >x pockets
 Which do you mean, the shirt pocket or the trouser pockets?
+
+>x shirt pocket
+A decorative pocket, sewn shut. Good thing too - you don't trust pockets.
 
 >x trouser pockets
 Deep pockets, ready for adventure! Still, you try not to use them in case
@@ -212,6 +256,10 @@ The door to the church stands ajar.
 
 [The score has just gone up by twenty points.]
 
+>x latch
+The latch mechanism on the doors is a flat black metal bar that slots down into
+a catch.
+
 >x windows
 Tall, arched windows let in sunlight high out of reach.
 
@@ -256,6 +304,9 @@ to.
 >smell bag
 You smell nothing unexpected.
 
+>say prayers
+Silence - perfect time to sleep!
+
 >make bed on floor
 You don't have the tools and materials for that.
 
@@ -273,7 +324,7 @@ Thank you for playing!
 
 
 
-In that game you scored 70 out of a possible 90, in 61 turns.
+In that game you scored 70 out of a possible 90, in 75 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -289,9 +340,7 @@ cross or other religious artefacts seem to have been removed for safekeeping.
 Silence - perfect time to sleep!
 
 >jump over altar
-
-Some mortar dust descends from the ceiling.
-You achieve nothing by this.
+The altar is too high to jump onto. Perhaps climbing would be less ambitious.
 
 >sleep on altar
 As you put your weight on the altar, it wobbles. If the legs aren't all the same
@@ -346,7 +395,8 @@ You feel awkward kissing a surface where many posteriors have been.
 
 >touch door
 (first getting off the pews)
-The door has been looked after, perhaps was even stained this year.
+The door has been looked after, perhaps was even stained this year. The edges of
+the doors between the handles have been worn away.
 
 >look under pews
 Under each pew are small cushions.
@@ -381,7 +431,7 @@ Thank you for playing!
 
 
 
-In that game you scored 80 out of a possible 90, in 83 turns.
+In that game you scored 80 out of a possible 90, in 97 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -470,13 +520,185 @@ Thank you for playing!
 
 
 
-In that game you scored 90 out of a possible 90, in 98 turns.
+In that game you scored 90 out of a possible 90, in 112 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
 >undo
 Church
 [Previous turn undone.]
+
+>exit church building
+I only understood you as far as wanting to exit the church doors.
+
+>leave
+
+Square
+Many travellers have passed through here before you. The square is no more than
+a few dozen paces across surrounded by buildings, but is littered with detritus
+from campers. The street continues north out of town.
+
+The door to the church stands ajar.
+
+>se
+You can go only north, east or in.
+
+>x trash
+The contents of the bins are still decomposing.
+
+>insert card in trashcan
+(first taking the bank card out of the trouser pockets)
+You might want to hold onto that, even though you have no money in the bank at
+the moment.
+You put your bank card away in your pocket until you need to use it.
+
+>put bag in dustbin
+Best keep your valuables with you.
+
+>clear ground
+You're unable to.
+
+>clean waste
+You can't face tidying all of this rubbish.
+
+>transfer waste to trash-can
+The detritus is hardly portable.
+
+>search bin
+In the bins is rubbish.
+
+>pull bin
+You don't have any reason to shift bins around.
+
+>shout
+"Yoohoo!". It sounds like it's coming from behind the church.
+
+>go around church building
+The game does not keep track of your path through the rooms, nor your
+orientation within them.  Instead, you should rely on absolute compass
+directions.  If you wish to visit a new location or return to a previous one,
+you will have to type the directions to take you there -- NORTH, UP, etc.
+
+>se
+You can go only north, east or in.
+
+>smell bins
+The bins smell like composted organic material.
+
+>shift bins
+You heave a bin aside. The bins smell more pungent here.
+
+>again
+You heave a bin aside. The bins here smell fresh, like vegetable peel.
+
+>g
+You heave the last bin aside. The bins further from the square seem to have been
+filled more recently.
+
+>g
+The bins are already out of the way.
+
+>smell bins
+The bins further from the square seem to have been filled more recently.
+
+>se
+
+Churchyard
+The bare yard behind the church is strewn with tufts of weeds.
+
+You can see a garden gate, some bins (in which is rubbish) and an upturned can
+(on which is an old man) here.
+"You there!?"
+An old man is here, sitting on an upturned paint tin. From his tan, he looks
+local, but it's hard to tell how old he is - he could be 500.
+He doesn't turn to face you as you arrive.
+What would you like to say?
+(1) "Hi there, who are you?"
+(2) "Are you blind?"
+(3) "Can I help you?"
+
+Select an option >> 1
+"Ben. Just Ben."
+
+What would you like to say?
+(1) "Sorry, I didn't catch your name..."
+(2) "Are you blind?"
+(3) "Can I help you?"
+
+Select an option or 0 to exit >> 2
+"I prefer the term 'visually less acute'."
+(1) "How visually acute are you, then?"
+(2) "So you can see me then."
+
+Select an option >> 1
+"I get by. I'm not completely blind."
+
+What would you like to say?
+(1) "So you can see me then."
+
+Select an option or 0 to exit >> 1
+"Yes, I know someone's there, but not who."
+
+What would you like to say?
+(1) "What was your name, again?"
+(2) "Can I help you?"
+
+Select an option or 0 to exit >> 1
+"Where there's no government, there's no need for surnames. I just go by Ben."
+
+What would you like to say?
+(1) "I've forgotten your name already."
+(2) "Can I help you?"
+
+Select an option or 0 to exit >> 2
+"Yes you can. I've lost my radio." he says, frankly.
+(1) "That's it?"
+(2) "What does it look like?"
+
+Select an option >> 1
+"No, I suppose not. My son hasn't returned, and the radio is the way I could
+reach him." he laments. "It's him I'm really after."
+
+What would you like to say?
+(1) "What does it look like?"
+
+Select an option or 0 to exit >> 1
+"It's a hand-held walkie-talkie gizmo, a sort of greyish black."
+
+What would you like to say?
+(1) "I've forgotten your name already."
+
+Select an option or 0 to exit >> 1
+"The name's Ben."
+
+What would you like to say?
+(1) "I've forgotten your name already."
+
+Select an option or 0 to exit >> 0
+
+>w
+"Lost the key to that door years ago, so we just jimmy the latch now." quips
+Ben. The back door to the church is locked.
+
+>s
+"I wouldn't tread there unless you're on important business."
+, Ben says, with a smirk. The mound to the south is oddly lush with grass and
+slightly boggy.
+
+>n
+You can't since the garden gate is in the way.
+
+>jump over gate
+The gate is too high to jump onto. Perhaps climbing would be less ambitious.
+
+>climb gate
+You're too weary from shifting bins to poke around in the garden.
+
+>put papers on can
+Which do you mean, the bins or the upturned can?
+
+>visit Ben
+Ben is not something you can enter.
 
 >nonsense
 That's not a verb I recognise.
@@ -531,6 +753,8 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
+You can also see some bins (in which is rubbish) here.
+
 >detritus
 That's not a verb I recognise.
 
@@ -561,6 +785,8 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
+
+You can also see some bins (in which is rubbish) here.
 
 >brass handles
 That's not a verb I recognise.
@@ -664,14 +890,15 @@ directions.  If you wish to visit a new location or return to a previous one,
 you will have to type the directions to take you there -- NORTH, UP, etc.
 
 >visit bike and empty bag on bike
+The game does not keep track of your path through the rooms, nor your
+orientation within them.  Instead, you should rely on absolute compass
+directions.  If you wish to visit a new location or return to a previous one,
+you will have to type the directions to take you there -- NORTH, UP, etc.
+
+>visit bike. get off. move bike to road
 You get onto the motorbike.
 
 On the motorbike you can see a battery and a chain.
-pile of papers: There's no advantage to unpack until you've found a suitable
-shelter.
-
->visit bike. get off. move bike to road
-But you're already on the motorbike.
 You get off the motorbike.
 It's best to keep the bike out of sight for now.
 
@@ -696,31 +923,10 @@ You get off the motorbike.
 You haven't made a bed yet.
 
 >go to church and empty bag onto altar
-(finding the church building in the Square)
-
-Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
-
-The door to the church stands ajar.
-You can't see any such thing.
+That doesn't seem to be anywhere you can get to.
 
 >go to town and empty bag into road
-(visiting the Town)
-
-Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
-
-Your bike stands chained here.
-
-On the motorbike are a battery and a chain.
-pile of papers: There's no advantage to unpack until you've found a suitable
-shelter.
+That doesn't seem to be anywhere you can get to.
 
 >go road and examine building to north
 You get onto the road.
@@ -754,6 +960,8 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
+
+You can also see some bins (in which is rubbish) here.
 You find nothing of interest.
 
 >find bag. check in bag
@@ -801,6 +1009,8 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
+
+You can also see some bins (in which is rubbish) here.
 It's not entirely clear what you intend.
 
 >make camp bed
@@ -843,6 +1053,8 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
+
+You can also see some bins (in which is rubbish) here.
 This isn't an ideal spot to bed down for the night.
 
 >read book about cheese
@@ -1129,6 +1341,8 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
+
+You can also see some bins (in which is rubbish) here.
 You can't see any such thing.
 
 >town. look at building to north-east
@@ -1154,6 +1368,8 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
+
+You can also see some bins (in which is rubbish) here.
 The taller building on the east side appears to be a church. Hopefully the roof
 is intact.
 
@@ -1248,7 +1464,7 @@ That's not a verb I recognise.
 Quite.
 
 >damn game
-Real adventurers do not use such language.
+You don't need to damn anything right now.
 
 >think of my happy place
 I only understood you as far as wanting to think.

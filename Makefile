@@ -5,18 +5,23 @@ run: game.z5
 	$(MAKE) game.z5
 	frotz $<
 
+grun: game.blb
+	rm -f game.blb
+	$(MAKE) game.blb
+	../glulxe/glulxe game.blb
+
 game.z5: *.inf *.h
-	inform '$$MAX_LABELS=$(MAX_LABELS)' -pseDX game.inf game.z5
+	inform '$$MAX_LABELS=$(MAX_LABELS)' -pseD game.inf game.z5
 
-all: clean test run
+all: clean all-tests run
 
-.PHONY: all clean test bless run ci release parchment quixe
+.PHONY: all all-tests clean ztest gtest bless run grun ci release parchment quixe debug
 
 game.blb: *.inf *.h
-	inform '$$MAX_LABELS=$(MAX_LABELS)' -GH +include_path=/usr/share/inform6/library/,./ game.inf game.blb
+	inform '$$MAX_LABELS=$(MAX_LABELS)' -DGH +include_path=/usr/share/inform6/library/,./ game.inf game.blb
 
 clean:
-	$(RM) game.z5 release.inf release.z5 game.blb test.input test.actual web/interpreter/story.zblorb.js
+	$(RM) game.z5 release.inf release.z5 game.blb gameinfo.dbg test.input test.actual test.gactual web/interpreter/story.zblorb.js
 
 test.input: test.script nouns.txt verbs.txt
 	echo "script on" > test.input
@@ -29,16 +34,29 @@ test.input: test.script nouns.txt verbs.txt
 	echo "y" >> test.input
 	echo >> test.input
 
-test: game.z5 test.input test.expected
+test: ztest
+
+all-tests: ztest gtest
+
+ztest: game.z5 test.input test.expected
 	inform '$$MAX_LABELS=$(MAX_LABELS)' game.inf game.z5
 	$(RM) test.actual
 	/usr/local/share/inform7/Interpreters/dumb-frotz game.z5 <test.input
 	$(RM) game.z5
 	{ { { { diff test.actual test.expected 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.actual test.input
 
-bless: test.actual
+gtest: game.blb test.input test.gexpected
+	inform '$$MAX_LABELS=$(MAX_LABELS)' -GH +include_path=/usr/share/inform6/library/,./ game.inf game.blb
+	$(RM) test.gactual
+	sed 's/test.actual/test.gactual/' test.input > test.ginput
+	../glulxe/glulxe game.blb <test.ginput
+	$(RM) test.ginput game.blb
+	{ { { { diff test.gactual test.gexpected 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.gactual test.input
+
+bless: test.actual test.gactual
 	mv test.actual test.expected
-	git add test.expected test.script verbs.txt nouns.txt
+	mv test.gactual test.gexpected
+	git add test.expected test.gexpected test.script verbs.txt nouns.txt
 
 release: parchment
 
@@ -50,7 +68,8 @@ parchment: game.z5 abbrev.inf
 	echo -n "')" >> web/interpreter/story.zblorb.js
 	$(RM) release.inf release.z5
 
-quixe: game.blb
+quixe: *.inf *.h
+	inform '$$MAX_LABELS=$(MAX_LABELS)' -GH +include_path=/usr/share/inform6/library/,./ game.inf game.blb
 	echo -n "\$$(document).ready(function() { GiLoad.load_run(null, '" > quixe/interpreter/story.blorb.js
 	base64 -w0 game.blb >> quixe/interpreter/story.blorb.js
 	echo -n "', 'base64'); });" >> quixe/interpreter/story.blorb.js
@@ -60,3 +79,7 @@ ci: test
 	$(MAKE) clean
 	git add .
 	git commit
+
+debug: *.inf *.h
+	/usr/local/libexec/inform6 -kG +include_path=/usr/share/inform6/library/,./ game.inf game.blb
+	../glulxe/glulxe --crashtrap -D --gameinfo gameinfo.dbg game.blb 

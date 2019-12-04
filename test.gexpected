@@ -1,7 +1,11 @@
 Start of a transcript of
 SOLA CURATOR - A post-apocalyptic adventure, by Adonikam Virgo.
 Release 1 / Serial number 191125 / Inform v6.33 Library v6.12.2 S
-Standard interpreter 1.0 (1F) / Library serial number 180611
+Interpreter version 0.5.4 / VM 3.1.2 / Library serial number 180611
+
+SOLA CURATOR - A post-apocalyptic adventure, by Adonikam Virgo.
+Release 1 / Serial number 191125 / Inform v6.33 Library v6.12.2 S
+Interpreter version 0.5.4 / VM 3.1.2 / Library serial number 180611
 
 What next? (beginners, type help<ENTER>)
 >dirs
@@ -18,20 +22,17 @@ You don't need to do that.
 You juggle the rucksack for a while, but don't achieve much.
 
 >say prayer to motorcycle gods
-You pray fervently for the strength to continue your journey, but the motorbike
-remains unmoved.
+You pray fervently for the strength to continue your journey, but the motorbike remains unmoved.
 
 >read self
 (first removing shirt)
-Across the back of your shirt is emblazoned the phrase "Gamerr". You quickly put
-it back on!
+Across the back of your shirt is emblazoned the phrase "Gamerr". You quickly put it back on!
 
 >visit bike
 You get onto the motorbike.
 
 >x bike
-It's a standard electric motorbike, and your ticket to finding the City of
-Peace.
+It's a standard electric motorbike, and your ticket to finding the City of Peace.
 The motorbike is currently switched off.
 On the motorbike are a battery and a chain.
 
@@ -46,70 +47,52 @@ You find nothing of interest.
 You find nothing of interest.
 
 >ne
-You wearily survey the road you arrived on as it tails into the distance. An old
-billboard stands at the side of the road leading into town.
+You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.
 
 >x board
-Whatever was on the billboard peeled off long ago and it is now host to a
-veritable bulletin board of writing from visitors.
+Whatever was on the billboard peeled off long ago and it is now host to a veritable bulletin board of writing from visitors.
 
 >search board
-You smile wryly; searching in the digital sense wouldn't be possible because the
-Internet is a thing of the past. You don't notice any familiar names without
-reading it in full.
+You smile wryly; searching in the digital sense wouldn't be possible because the Internet is a thing of the past. You don't notice any familiar names without reading it in full.
 
 >read board
-Much of what has been written is in an old language you recognise as English,
-but there is some modern Arabic as well. From what you can read, you aren't the
-first person travelling this route to Jerusalem for answers.
+Much of what has been written is in an old language you recognise as English, but there is some modern Arabic as well. From what you can read, you aren't the first person travelling this route to Jerusalem for answers.
 
 [The score has just gone up by five points.]
 
 >go south
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 >x square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 >x buildings
-The taller building on the east side appears to be a church. Hopefully the roof
-is intact.
+The taller building on the east side appears to be a church. Hopefully the roof is intact.
 
 >search buildings
-The taller building on the east side appears to be a church. Hopefully the roof
-is intact.
+The taller building on the east side appears to be a church. Hopefully the roof is intact.
 
 >search square
-The taller building on the east side appears to be a church. Hopefully the roof
-is intact.
+The taller building on the east side appears to be a church. Hopefully the roof is intact.
 
 >search dwellings
-The taller building on the east side appears to be a church. Hopefully the roof
-is intact.
+The taller building on the east side appears to be a church. Hopefully the roof is intact.
 
 >x church
-The wooden doors have withstood the elements and are still solid and impassable.
-Their only feature is a round brass handle on each.
+The wooden doors have withstood the elements and are still solid and impassable. Their only feature is a round brass handle on each.
 
 >x graffiti
-I suppose you could call it art. Although it has been drawn over several times,
-it looks like both the "Goats" and the "K-Rhyme" gangs have tagged this town.
+I suppose you could call it art. Although it has been drawn over several times, it looks like both the "Goats" and the "K-Rhyme" gangs have tagged this town.
 
 [The score has just gone up by five points.]
 
 >search graffiti
-Some stars of David and Star and Crescents have been drawn in solidarity with
-other visitors.
+Some stars of David and Star and Crescents have been drawn in solidarity with other visitors.
 
 >x doors
-The wooden doors have withstood the elements and are still solid and impassable.
-Their only feature is a round brass handle on each.
+The wooden doors have withstood the elements and are still solid and impassable. Their only feature is a round brass handle on each.
 
 >listen at gap
 You can't see any such thing.
@@ -127,8 +110,7 @@ The handles won't turn - they seem to be just to grip the door with.
 You feel nothing unexpected.
 
 >touch door
-The door has been looked after, perhaps was even stained this year. The edges of
-the doors between the handles have been worn away.
+The door has been looked after, perhaps was even stained this year. The edges of the doors between the handles have been worn away.
 
 >push door
 The church doors seem to be locked.
@@ -149,14 +131,12 @@ You don't have a set of lockpicks.
 Silence - perfect place to sleep!
 
 >look between doors
-There is a gap between the doors. It looks like only a latch keeps the doors
-shut.
+There is a gap between the doors. It looks like only a latch keeps the doors shut.
 
 [The score has just gone up by five points.]
 
 >x latch
-In the gap between the doors, you can make out the shape of a latch on the other
-side.
+In the gap between the doors, you can make out the shape of a latch on the other side.
 
 >say prayers
 You hear nothing unexpected.
@@ -186,19 +166,16 @@ There are pockets in your shirt and trousers.
 You don't need to do that.
 
 >x pockets
-Deep pockets, ready for adventure! Still, you try not to use them in case
-anything falls out.
+Deep pockets, ready for adventure! Still, you try not to use them in case anything falls out.
 
 >x shirt pocket
 A decorative pocket, sewn shut. Good thing too - you don't trust pockets.
 
 >x trouser pockets
-Deep pockets, ready for adventure! Still, you try not to use them in case
-anything falls out.
+Deep pockets, ready for adventure! Still, you try not to use them in case anything falls out.
 
 >search trouser pockets
-To your surprise, you find your bank card in your trouser pockets. Thankfully it
-didn't fall out while you were riding along - it could come in handy.
+To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.
 
 >x card  
 You wonder why you carry this around. Banks are a relic of the past.
@@ -209,13 +186,11 @@ You wonder why you carry this around. Banks are a relic of the past.
 You can't see any such thing.
 
 >drop card
-You might want to hold onto that, even though you have no money in the bank at
-the moment.
+You might want to hold onto that, even though you have no money in the bank at the moment.
 
 >open church door with card
 (first taking the bank card)
-By slotting your bank card between the doors, you manage to lift the latch. You
-unlock the church doors.
+By slotting your bank card between the doors, you manage to lift the latch. You unlock the church doors.
 You put your bank card away in your pocket until you need to use it.
 
 >push door
@@ -242,17 +217,14 @@ You lift the latch and the door opens.
 >enter church
 
 Church
-The church is furnished with altar and pews and is quite a contrast from the
-mess outside. Sunlight streams in through high windows, but the room is
-welcomingly cool.
+The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
 
 The door to the church stands ajar.
 
 [The score has just gone up by twenty points.]
 
 >x latch
-The latch mechanism on the doors is a flat black metal bar that slots down into
-a catch.
+The latch mechanism on the doors is a flat black metal bar that slots down into a catch.
 
 >x windows
 Tall, arched windows let in sunlight high out of reach.
@@ -272,10 +244,7 @@ You lift the latch easily and the door opens.
 Do you intend to exit?
 
 >sit down
-You heave a sigh of relief to have a place to sit at a proper height. Still, you
-decide the pews aren't wide enough to sleep on. As you unconsciously lean
-forward to stretch your back, you notice something underneath. You get onto the
-pews.
+You heave a sigh of relief to have a place to sit at a proper height. Still, you decide the pews aren't wide enough to sleep on. As you unconsciously lean forward to stretch your back, you notice something underneath. You get onto the pews.
 
 [The score has just gone up by five points.]
 
@@ -292,8 +261,7 @@ Ideally you would have somewhere soft to sleep.
 Besides your journal, you have everything you need to set up camp.
 
 >touch bag
-The backpack is a scratchy polyester canvas. They don't make them like they used
-to.
+The backpack is a scratchy polyester canvas. They don't make them like they used to.
 
 >smell bag
 You smell nothing unexpected.
@@ -309,8 +277,7 @@ Ideally you would have somewhere soft to sleep.
 
 >make bed with supplies
 (first opening your rucksack)
-This is the end of the demo. Please form an orderly queue to hand in your
-feedback.
+This is the end of the demo. Please form an orderly queue to hand in your feedback.
 Thank you for playing!
 
 
@@ -320,15 +287,13 @@ Thank you for playing!
 
 In that game you scored 70 out of a possible 90, in 76 turns.
 
-Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
-suggestions for AMUSING things to do or QUIT?
+Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
 Church
 [Previous turn undone.]
 
 >x altar
-What you assume to be the altar is a bare, unembellished stone table. Any cloth,
-cross or other religious artefacts seem to have been removed for safekeeping.
+What you assume to be the altar is a bare, unembellished stone table. Any cloth, cross or other religious artefacts seem to have been removed for safekeeping.
 
 >pray at altar
 Silence - perfect time to sleep!
@@ -337,8 +302,7 @@ Silence - perfect time to sleep!
 The altar is too high to jump onto. Perhaps climbing would be less ambitious.
 
 >sleep on altar
-As you put your weight on the altar, it wobbles. If the legs aren't all the same
-length, you might as well sleep on the floor.
+As you put your weight on the altar, it wobbles. If the legs aren't all the same length, you might as well sleep on the floor.
 
 [The score has just gone up by five points.]
 
@@ -346,22 +310,17 @@ length, you might as well sleep on the floor.
 The altar is too high to jump onto. Perhaps climbing would be less ambitious.
 
 >climb on altar
-As you put your weight on the altar, it wobbles. If the legs aren't all the same
-length, you might as well sleep on the floor.
+As you put your weight on the altar, it wobbles. If the legs aren't all the same length, you might as well sleep on the floor.
 
 >sleep on altar
 Nowhere near ideal.
 
 >look under altar
 (first getting off the pews)
-Stubby stone legs protrude from the bottom of the altar. They are high enough
-off the ground to allow the altar to wobble, but not high enough for anything to
-go underneath.
+Stubby stone legs protrude from the bottom of the altar. They are high enough off the ground to allow the altar to wobble, but not high enough for anything to go underneath.
 
 >x altar legs
-Stubby stone legs protrude from the bottom of the altar. They are high enough
-off the ground to allow the altar to wobble, but not high enough for anything to
-go underneath.
+Stubby stone legs protrude from the bottom of the altar. They are high enough off the ground to allow the altar to wobble, but not high enough for anything to go underneath.
 
 >jump over pews
 
@@ -381,16 +340,14 @@ You hear nothing unexpected.
 The pews are alright to sit on, but not ideal to sleep on.
 
 >sit in pew
- As you unconsciously lean forward to stretch your back, you notice something
-underneath. You get onto the pews.
+ As you unconsciously lean forward to stretch your back, you notice something underneath. You get onto the pews.
 
 >kiss pews
 You feel awkward kissing a surface where many posteriors have been.
 
 >touch door
 (first getting off the pews)
-The door has been looked after, perhaps was even stained this year. The edges of
-the doors between the handles have been worn away.
+The door has been looked after, perhaps was even stained this year. The edges of the doors between the handles have been worn away.
 
 >look under pews
 Under each pew are small cushions.
@@ -416,8 +373,7 @@ There are too many cushions to do that.
 
 >make bed with camping gear
 (first opening your rucksack)
-This is the end of the demo. Please form an orderly queue to hand in your
-feedback.
+This is the end of the demo. Please form an orderly queue to hand in your feedback.
 Thank you for playing!
 
 
@@ -427,8 +383,7 @@ Thank you for playing!
 
 In that game you scored 80 out of a possible 90, in 98 turns.
 
-Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
-suggestions for AMUSING things to do or QUIT?
+Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
 Church
 [Previous turn undone.]
@@ -446,8 +401,7 @@ First priority is to find a place to rest.
 
 >x file
 In addition to your journal is a pile of various notes you have collected.
-They are far too interesting to give a single glance. You resolve to read them
-once you have taken the weight off your legs.
+They are far too interesting to give a single glance. You resolve to read them once you have taken the weight off your legs.
 
 >read file
 First priority is to find a place to rest.
@@ -461,12 +415,10 @@ You put the rucksack on the pews.
 >sit down
 You get onto the pews.
 
-On the pews you can see a rucksack (in which is a pile of papers) and some
-cushions.
+On the pews you can see a rucksack (in which is a pile of papers) and some cushions.
 
 >open file
-You carefully undo the straps that wrap up your notes and bind your journal
-closed.
+You carefully undo the straps that wrap up your notes and bind your journal closed.
 
 [The score has just gone up by five points.]
 
@@ -501,12 +453,10 @@ The pile of papers is already here.
 
 >drop file
 (first taking the pile of papers out of the rucksack)
-You place the papers gently back in your bag. You don't want to lose any pages
-accidentally.
+You place the papers gently back in your bag. You don't want to lose any pages accidentally.
 
 >make bed
-This is the end of the demo. Please form an orderly queue to hand in your
-feedback.
+This is the end of the demo. Please form an orderly queue to hand in your feedback.
 Thank you for playing!
 
 
@@ -516,8 +466,7 @@ Thank you for playing!
 
 In that game you scored 90 out of a possible 90, in 113 turns.
 
-Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
-suggestions for AMUSING things to do or QUIT?
+Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
 Church
 [Previous turn undone.]
@@ -528,9 +477,7 @@ I only understood you as far as wanting to exit the church doors.
 >leave
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
@@ -542,8 +489,7 @@ The contents of the bins are still decomposing.
 
 >insert card in trashcan
 (first taking the bank card out of the trouser pockets)
-You might want to hold onto that, even though you have no money in the bank at
-the moment.
+You might want to hold onto that, even though you have no money in the bank at the moment.
 You put your bank card away in your pocket until you need to use it.
 
 >put bag in dustbin
@@ -568,10 +514,7 @@ You don't have any reason to shift bins around.
 "Yoohoo!". It sounds like it's coming from behind the church.
 
 >go around church building
-The game does not keep track of your path through the rooms, nor your
-orientation within them.  Instead, you should rely on absolute compass
-directions.  If you wish to visit a new location or return to a previous one,
-you will have to type the directions to take you there -- NORTH, UP, etc.
+The game does not keep track of your path through the rooms, nor your orientation within them.  Instead, you should rely on absolute compass directions.  If you wish to visit a new location or return to a previous one, you will have to type the directions to take you there -- NORTH, UP, etc.
 
 >se
 You can go only north, east or in.
@@ -586,8 +529,7 @@ You heave a bin aside. The bins smell more pungent here.
 You heave a bin aside. The bins here smell fresh, like vegetable peel.
 
 >g
-You heave the last bin aside. The bins further from the square seem to have been
-filled more recently.
+You heave the last bin aside. The bins further from the square seem to have been filled more recently.
 
 >g
 The bins are already out of the way.
@@ -600,11 +542,9 @@ The bins further from the square seem to have been filled more recently.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see a garden gate, some bins (in which is rubbish) and an upturned can
-(on which is an old man) here.
+You can see a garden gate, some bins (in which is rubbish) and an upturned can (on which is an old man) here.
 "You there!?"
-An old man is here, sitting on an upturned paint tin. From his tan, he looks
-local, but it's hard to tell how old he is - he could be 500.
+An old man is here, sitting on an upturned paint tin. From his tan, he looks local, but it's hard to tell how old he is - he could be 500.
 He doesn't turn to face you as you arrive.
 What would you like to say?
 (1) "Hi there, who are you?"
@@ -615,7 +555,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Are you the vicar?"
+(1) "You're the vicar, right?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -665,8 +605,7 @@ Select an option or 0 to exit >> 2
 (2) "What does the radio look like?"
 
 Select an option >> 1
-"No, I suppose not. My son hasn't returned, and the radio is the way I could
-reach him." he laments. "It's him I'm really after."
+"No, I suppose not. My son hasn't returned, and the radio is the way I could reach him." he laments. "It's him I'm really after."
 
 What would you like to say?
 (1) "What does the radio look like?"
@@ -687,12 +626,10 @@ What would you like to say?
 Select an option or 0 to exit >> 0
 
 >w
-"Lost the key to that door years ago, so we just jimmy the latch now." quips
-Ben. The back door to the church is locked.
+"Lost the key to that door years ago, so we just jimmy the latch now." quips Ben. The back door to the church is locked.
 
 >s
-"I wouldn't tread there unless you're on important business.", Ben says, with a
-smirk. The mound to the south is oddly lush with grass and slightly boggy.
+"I wouldn't tread there unless you're on important business.", Ben says, with a smirk. The mound to the south is oddly lush with grass and slightly boggy.
 
 >n
 You can't since the garden gate is in the way.
@@ -740,11 +677,7 @@ That's not a verb I recognise.
 (visiting the Town)
 
 Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
 
 Your bike stands chained here.
 
@@ -756,9 +689,7 @@ That's not a verb I recognise.
 >Square
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
@@ -773,9 +704,7 @@ That's not a verb I recognise.
 >church building
 
 Church
-The church is furnished with altar and pews and is quite a contrast from the
-mess outside. Sunlight streams in through high windows, but the room is
-welcomingly cool.
+The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
 
 The door to the church stands ajar.
 
@@ -789,9 +718,7 @@ That's not a verb I recognise.
 >church doors
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
@@ -806,9 +733,7 @@ That's not a verb I recognise.
 >Church
 
 Church
-The church is furnished with altar and pews and is quite a contrast from the
-mess outside. Sunlight streams in through high windows, but the room is
-welcomingly cool.
+The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
 
 The door to the church stands ajar.
 
@@ -870,8 +795,7 @@ That's not a verb I recognise.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see a garden gate, some bins (in which is rubbish) and an upturned can
-(on which is Ben) here.
+You can see a garden gate, some bins (in which is rubbish) and an upturned can (on which is Ben) here.
 
 >gate
 That's not a verb I recognise.
@@ -889,11 +813,7 @@ That's not a verb I recognise.
 You can't see any such thing.
 
 >hop on leg
-Generally speaking, there is no need to refer to your body parts individually in
-interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented,
-for instance; WEAR SHOES is enough.  And unless you get some hint to the
-contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY
-MOUTH.
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
 
 >hop in self
 Jumping in you would achieve nothing here.
@@ -902,11 +822,7 @@ Jumping in you would achieve nothing here.
 (finding the motorbike in the Town)
 
 Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
 
 Your bike stands chained here.
 
@@ -914,22 +830,13 @@ On the motorbike are a battery and a chain.
 You achieve nothing by this.
 
 >visit pew and empty bag on pew
-The game does not keep track of your path through the rooms, nor your
-orientation within them.  Instead, you should rely on absolute compass
-directions.  If you wish to visit a new location or return to a previous one,
-you will have to type the directions to take you there -- NORTH, UP, etc.
+The game does not keep track of your path through the rooms, nor your orientation within them.  Instead, you should rely on absolute compass directions.  If you wish to visit a new location or return to a previous one, you will have to type the directions to take you there -- NORTH, UP, etc.
 
 >visit pew. empty bag on pew
-The game does not keep track of your path through the rooms, nor your
-orientation within them.  Instead, you should rely on absolute compass
-directions.  If you wish to visit a new location or return to a previous one,
-you will have to type the directions to take you there -- NORTH, UP, etc.
+The game does not keep track of your path through the rooms, nor your orientation within them.  Instead, you should rely on absolute compass directions.  If you wish to visit a new location or return to a previous one, you will have to type the directions to take you there -- NORTH, UP, etc.
 
 >visit bike and empty bag on bike
-The game does not keep track of your path through the rooms, nor your
-orientation within them.  Instead, you should rely on absolute compass
-directions.  If you wish to visit a new location or return to a previous one,
-you will have to type the directions to take you there -- NORTH, UP, etc.
+The game does not keep track of your path through the rooms, nor your orientation within them.  Instead, you should rely on absolute compass directions.  If you wish to visit a new location or return to a previous one, you will have to type the directions to take you there -- NORTH, UP, etc.
 
 >visit bike. get off. move bike to road
 You get onto the motorbike.
@@ -991,9 +898,7 @@ In the rucksack is a pile of papers.
 (first getting off the motorbike)
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
@@ -1017,11 +922,7 @@ You can't see any such thing.
 (finding the motorbike in the Town)
 
 Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
 
 Your bike stands chained here.
 
@@ -1040,9 +941,7 @@ You can't see any such thing.
 (visiting the Square)
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
@@ -1056,11 +955,7 @@ This isn't an ideal spot to bed down for the night.
 (finding the motorbike in the Town)
 
 Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
 
 Your bike stands chained here.
 
@@ -1084,9 +979,7 @@ That doesn't seem to be anywhere you can get to.
 (finding the church building in the Square)
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
@@ -1100,11 +993,7 @@ First priority is to find a place to rest.
 (finding the battery in the Town)
 
 Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
 
 Your bike stands chained here.
 
@@ -1215,11 +1104,7 @@ In the rucksack is a pile of papers.
 
 >show self the finger
 (first taking that)
-Generally speaking, there is no need to refer to your body parts individually in
-interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented,
-for instance; WEAR SHOES is enough.  And unless you get some hint to the
-contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY
-MOUTH.
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
 
 >tell self to pull oneself together
 You don't feel immensely encouraged.
@@ -1230,102 +1115,43 @@ You lack the nerve when it comes to the crucial moment.
 >help me find de way
 If you would like a list of verbs you could try, type VERBS.
 
-If the problem is more that you don't know how to get going with the game, type
-INTRO.
+If the problem is more that you don't know how to get going with the game, type INTRO.
 
 If you'd like a sample of a game being played, type DEMO.
 
-Finally, if you know what you want to achieve but can't figure out how to
-achieve it, type HINT. 
+Finally, if you know what you want to achieve but can't figure out how to achieve it, type HINT. 
 
-If you are having further difficulty with IF, try looking at some of the online
-help sites such as http://www.brasslantern.org or http://intfiction.org.
+If you are having further difficulty with IF, try looking at some of the online help sites such as http://www.brasslantern.org or http://intfiction.org.
 
 >give me a hint
-[These suggestions are lengthy, so the game will periodically pause while
-printing them.  To stop the instructions mid-flow, press Q at a pause; to
-continue, press any other key.]
+[These suggestions are lengthy, so the game will periodically pause while printing them.  To stop the instructions mid-flow, press Q at a pause; to continue, press any other key.]
 
-Explore.  Examine every object mentioned in room descriptions, and everything in
-your inventory.  Examine yourself, too. Look inside all closed containers.  Open
-all doors and go through them.  If anything is locked, that's probably a puzzle,
-and you should try to get it unlocked.
+Explore.  Examine every object mentioned in room descriptions, and everything in your inventory.  Examine yourself, too. Look inside all closed containers.  Open all doors and go through them.  If anything is locked, that's probably a puzzle, and you should try to get it unlocked.
 
-Try out all your senses.  If the game mentions an interesting texture, odor, or
-sound, try SMELLing, TOUCHing, LISTENing, etc.
+Try out all your senses.  If the game mentions an interesting texture, odor, or sound, try SMELLing, TOUCHing, LISTENing, etc.
 
-Be thorough.  If you *still* can't figure out what to do, try opening windows,
-looking under beds, etc.  Sometimes objects are well-hidden.
+Be thorough.  If you *still* can't figure out what to do, try opening windows, looking under beds, etc.  Sometimes objects are well-hidden.
 
-Reread.  Look back at things you've already seen; sometimes this will trigger an
-idea you hadn't thought of.
+Reread.  Look back at things you've already seen; sometimes this will trigger an idea you hadn't thought of.
 
-Take hints from the prose of the game.  Things that are described in great
-detail are probably more important than things that are given one-liners. Play
-with those objects.  If a machine is described as having component parts, look
-at the parts, and try manipulating them.   Likewise, notice the verbs that the
-game itself uses.  Try using those yourself.  Games often include special verbs
--- the names of magic spells, or other special commands.  There's no harm in
-attempting something if the game mentions it.
+Take hints from the prose of the game.  Things that are described in great detail are probably more important than things that are given one-liners. Play with those objects.  If a machine is described as having component parts, look at the parts, and try manipulating them.   Likewise, notice the verbs that the game itself uses.  Try using those yourself.  Games often include special verbs -- the names of magic spells, or other special commands.  There's no harm in attempting something if the game mentions it.
 
-Rephrase.  If you have something in mind that you want to do, but can't get the
-game to respond, try alternative wordings.  Often synonyms are provided.  Game
-designers usually try to anticipate all the synonyms you are likely to come up
-with, but they may not have thought of yours.
+Rephrase.  If you have something in mind that you want to do, but can't get the game to respond, try alternative wordings.  Often synonyms are provided.  Game designers usually try to anticipate all the synonyms you are likely to come up with, but they may not have thought of yours.
 
-Try variations.  Sometimes an action doesn't work, but *does* produce some kind
-of unusual result.  These are often indications that you're on the right track,
-even if you haven't figured out quite the right approach yet.  Pressing the red
-button alone may only cause a grinding noise from inside the wall, so perhaps
-pressing the blue and *then* the red will open the secret door.
+Try variations.  Sometimes an action doesn't work, but *does* produce some kind of unusual result.  These are often indications that you're on the right track, even if you haven't figured out quite the right approach yet.  Pressing the red button alone may only cause a grinding noise from inside the wall, so perhaps pressing the blue and *then* the red will open the secret door.
 
-Try to understand the game's internal logic.  Sometimes there is a system in
-play that does not operate in the normal world -- a kind of magic, for instance,
-or technology we don't have on modern-day earth.  If you've been introduced to
-such a system in the game, ask yourself how you might apply it to the situations
-that are still causing you problems.
+Try to understand the game's internal logic.  Sometimes there is a system in play that does not operate in the normal world -- a kind of magic, for instance, or technology we don't have on modern-day earth.  If you've been introduced to such a system in the game, ask yourself how you might apply it to the situations that are still causing you problems.
 
-Check the *whole* screen.  Are there extra windows besides the main window? 
-What's going on in those?  Check out the status bar, if there is one -- it may
-contain the name of the room you're in, your score, the time of day, your
-character's state of health, or some other important information.  If there's
-something up there, it's worth paying attention to that, too.  When and where
-does it change?  Why is it significant?  If the bar is describing your
-character's health, you can bet there is probably a point at which that will be
-important.
+Check the *whole* screen.  Are there extra windows besides the main window?  What's going on in those?  Check out the status bar, if there is one -- it may contain the name of the room you're in, your score, the time of day, your character's state of health, or some other important information.  If there's something up there, it's worth paying attention to that, too.  When and where does it change?  Why is it significant?  If the bar is describing your character's health, you can bet there is probably a point at which that will be important.
 
-Consider the genre of the game.  Mysteries, romances, and thrillers all have
-their own types of action and motivation.  What are you trying to do, and how do
-conventional characters go about doing that?  What's the right sort of behavior
-for a detective/romance heroine/spy?
+Consider the genre of the game.  Mysteries, romances, and thrillers all have their own types of action and motivation.  What are you trying to do, and how do conventional characters go about doing that?  What's the right sort of behavior for a detective/romance heroine/spy?
 
 Play with someone else.  Two heads are usually better than one.
 
-Try typing HINT, HELP, INFO, ABOUT: one or more of these are often implemented
-as a source of suggestions about how to get past difficult spots.  If that
-doesn't work, try emailing the author or (better yet) posting a request for
-hints on the newsgroup rec.games.int-fiction.  For best results, put the name of
-the game you want help with in the subject line; then leave a page or so of
-blank "spoiler space" (so that no one will read about where you got to in the
-game unless they've already played it), and describe your problem as clearly as
-possible.  Someone will probably be able to tell you how to get around it.
+Try typing HINT, HELP, INFO, ABOUT: one or more of these are often implemented as a source of suggestions about how to get past difficult spots.  If that doesn't work, try emailing the author or (better yet) posting a request for hints on the newsgroup rec.games.int-fiction.  For best results, put the name of the game you want help with in the subject line; then leave a page or so of blank "spoiler space" (so that no one will read about where you got to in the game unless they've already played it), and describe your problem as clearly as possible.  Someone will probably be able to tell you how to get around it.
 
-Email the author: If you're stuck somewhere that just makes no sense at all,
-it's possible that you're facing a bug.  If you think you are, you should email
-the author (politely) to report the problem and ask for a way around it.
+Email the author: If you're stuck somewhere that just makes no sense at all, it's possible that you're facing a bug.  If you think you are, you should email the author (politely) to report the problem and ask for a way around it.
 Good luck!
-
->tell me to do something
-You don't feel immensely encouraged.
-
->do a jig
-You attempt to do a jig.
-
->do a jig.
-You attempt to do a jig .
-
->do a jig. do karaoke
-You attempt to do a jig . do karaoke.
 
 >try door
 "Do or do not. There is no try."
@@ -1344,12 +1170,10 @@ You hear nothing unexpected.
 That doesn't seem to be anywhere you can get to.
 
 >say prayer to bike
-You pray fervently for the strength to continue your journey, but the motorbike
-remains unmoved.
+You pray fervently for the strength to continue your journey, but the motorbike remains unmoved.
 
 >say prayer on bike
-You pray fervently for the strength to continue your journey, but the motorbike
-remains unmoved.
+You pray fervently for the strength to continue your journey, but the motorbike remains unmoved.
 
 >say prayer to God
 You hear nothing unexpected.
@@ -1358,11 +1182,7 @@ You hear nothing unexpected.
 (visiting the Town)
 
 Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
 
 Your bike stands chained here.
 
@@ -1372,9 +1192,7 @@ It looks like there are more buildings down in the square.
 >square. look at building to south-east
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
@@ -1384,11 +1202,7 @@ You can't see any such thing.
 >town. look at building to north-east
 
 Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
 
 Your bike stands chained here.
 
@@ -1399,15 +1213,12 @@ You can't see any such thing.
 (visiting the Square)
 
 Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
 You can also see some bins (in which is rubbish) here.
-The taller building on the east side appears to be a church. Hopefully the roof
-is intact.
+The taller building on the east side appears to be a church. Hopefully the roof is intact.
 
 >out. look through sun
 But you aren't in anything at the moment.
@@ -1416,9 +1227,7 @@ You can't reach it.
 >look east
 
 Church
-The church is furnished with altar and pews and is quite a contrast from the
-mess outside. Sunlight streams in through high windows, but the room is
-welcomingly cool.
+The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
 
 The door to the church stands ajar.
 
@@ -1460,11 +1269,7 @@ You can't see any such thing.
 (finding the motorbike in the Town)
 
 Town
-Once a farming settlement, the buildings here are the ruined shells of simple
-dwellings. Most of the roofs caved in centuries ago, but if you can find one
-intact it's still your best bet for staying warm overnight. The street continues
-south towards a square and the main road stretches out of town to the north-
-east.
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
 
 Your bike stands chained here.
 
@@ -1479,8 +1284,7 @@ Best keep your valuables with you.
 
 >set file to rest on road
 There's no advantage to unpack until you've found a suitable shelter.
-You need to be holding the pile of papers before you can put it on top of
-something else.
+You need to be holding the pile of papers before you can put it on top of something else.
 
 >ask self for bag
 To talk to someone, please type TALK TO PERSON.

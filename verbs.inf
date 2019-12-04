@@ -106,9 +106,10 @@ Include "verblib";
       2: objectloop (i ofclass Room) ScanLoc(i);
          objectloop (i has moved) ScanObj(i);
          if (action_to_be == ##Examine or ##Search)
-          return i ofclass Room; ! || parent(noun) == parent(player);
+          return i ofclass Room;
          rtrue;
-      3: "That doesn't seem to be anywhere you can get to.";
+      3: if (Handle_CANTSEE_PE()) rtrue;
+         "That doesn't seem to be anywhere you can get to.";
     }
 ];
 
@@ -143,6 +144,10 @@ Include "verblib";
    !print "Teleporting to examine, but out of scope.^";
 ];
 
+Global ScenicFlag = 4; ! handle "examine room"
+Constant ScenicError "You don't need to do that.";
+Property scenic;
+Include ">scenic.h";
 Include "grammar";
 
 Verb 'change' = 'switch';
@@ -201,8 +206,8 @@ Extend 'go' first
     AfterRoutines();
 ];
 
-Extend 'examine' first
- * scope=TeleportScope -> Examine; !avoid "not something you need to refer to..."
+!Extend 'examine' first
+! * scope=TeleportScope -> Examine; !avoid "not something you need to refer to..."
 Extend 'examine' last
 ! * noun=TeleportScope -> Examine !specifically handle objects unreachable by standard Examine
  * noun 'to' noun=ADirection -> Examine;
@@ -438,8 +443,8 @@ Include ">printslow.h";
   <Look>;
   printslow("^> inventory^");
   <Inv>;
-  printslow("^> examine clothes^");
-  <Examine clothes>;
+  printslow("^> examine self^");
+  <Examine player>;
   printslow("^> drop rucksack^");
   <Drop bag>;
   printslow("^> search papers^");

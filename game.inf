@@ -1,16 +1,7 @@
 ! Copyleft Adonikam Virgo. See LICENCE.md for MIT licence.
 
 Constant Story "SOLA CURATOR";
-Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^
-                  Source available at https://github.com/innodonni/SolaCurator^
-                  Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.
-                  Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
-                  Doors by L. Ross Raszewski and Max Kalus.
-                  OutOfReach by Marnie Parker. Dirs by Gunther Schmidl.
-                  Flags by Adam Cadre and Fredrik Ramsberg.
-                  GoNeighbour by Alan Trewartha. Info by Jesse Burneko.
-                  PrintSlow by D Cornelson (glulx port by Adonikam Virgo).
-                  HelpRoutines, NewbieGrammar and ExpertGrammar by Emily Short.^";
+Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^";
 !Constant DEBUG; ! compile with -D
 Constant DEATH_MENTION_UNDO;
 Constant MANUAL_PRONOUNS;
@@ -27,7 +18,7 @@ Array UUID_ARRAY string "UUID://E2BE7957-5592-4C9D-958A-71FB1EF76928//";
  give bag to self^
  say prayer to motorcycle gods^
  taste cushion^
- read shirt^
+ read self^
  kiss pews^
  examine trouser pockets";
 ];
@@ -81,7 +72,11 @@ Object newplayer "yourself"
  with name 'you',
  description "You consider yourself a ~truther~. There isn't as much money in journalism as there was last century when you started, but the freedom it affords you means more than wealth. It doesn't much matter what you write anyway, in post-truth society.",
  capacity 100,
- add_to_scope body mind limbs clothes camp bed,
+ scenic 'mind' 'thoughts' 'doubt' 'doubts' 0 "You need to focus on finding shelter."
+        'torso' 'body' 'groin' 'privates' 'head' 'hand' 'hands' 0 "From what you can tell, everything is in its place."
+        'shirt' 'top' 'trousers' 'clothing' 'clothes' 'vestments' 'garb' 'pants' 0 "There are pockets in your shirt and trousers."
+        'shirt' 'pocket' 0 "A decorative pocket, sewn shut. Good thing too - you don't trust pockets.",
+ add_to_scope camp bed pockets,
  life [;
   Answer: "You don't hear an echo here.";
  ],
@@ -92,12 +87,17 @@ Object newplayer "yourself"
   Touch: "Still here.";
   Smell,Taste: "Salty. No chance for a wash here, but you had one yesterday.";
   Tell: "You don't feel immensely encouraged.";
+  Read: "(first removing shirt)^Across the back of your shirt is emblazoned the phrase ~Gamerr~. You quickly put it back on!";
  ],
  after [;
   Examine: SetFlag(5);
  ],
+ react_before [;
+  Disrobe: "You're not ready to tuck yourself in yet.";
+ ],
  react_after [;
-  Inv: if (child(pockets)) {
+  Inv: print "  your clothes (being worn)^";
+    if (child(pockets)) {
     print "^In your trouser pockets:^";
     !WriteListFrom(child(pockets), FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT);
     c_style=FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT;
@@ -114,60 +114,7 @@ Object newplayer "yourself"
    print "You put your bank card away in your pocket until you need to use it.^";
   }
  ],
- has concealed animate proper transparent;
-
-Object body "body"
- with name 'torso' 'body' 'groin' 'privates' 'head' 'hand' 'hands',
- article 'your',
- description "From what you can tell, everything is in its place.",
- before [;
-  Attack,Cut,Take,Disrobe,Drop: <<Attack player>>;
-  Rub: <<Rub player>>;
-  Search: <<Inv player>>;
-  Touch: <<Touch player>>;
-  Smell,Taste: <<Smell player>>;
-  Turn: "You're feeling stiff from the journey.";
- ],
- has scenery concealed;
-
-Object mind "mind"
- with name 'mind' 'thoughts' 'doubt' 'doubts',
- article 'your',
- description "You need to focus on finding shelter.",
- before [;
-  Attack,Cut,Take,Disrobe,Drop: <<Attack player>>;
-  Examine: rtrue;
-  Search: "You don't need to think too hard to explore a new town. Type ~hint~ if you're stuck.";
-  default: "You can't put your mind to it.";
- ],
- has scenery concealed;
-
-Object limbs "limbs"
- with name 'leg' 'legs' 'limb' 'limbs' 'arm' 'arms',
- article "your",
- description "As good-looking as ever.",
- before [;
-  Attack,Cut,Take,Disrobe,Drop: "You're rather attached to your limbs actually.";
- ],
- has scenery concealed pluralname;
-
-Object clothes "clothes" newplayer
- with name 'shirt' 'top' 'trousers' 'clothing' 'clothes' 'vestments' 'garb' 'pants',
- article "your",
- description "As good-looking as ever.",
- add_to_scope pocket pockets,
- before [;
-  Search: "There are pockets in your shirt and trousers.";
-  Read: "(first removing shirt)^Across the back of your shirt is emblazoned the phrase ~Gamerr~. You quickly put it back on!";
-  Disrobe,Drop: "You're not ready to tuck yourself in yet.";
- ],
- has clothing worn legible pluralname;
-
-Object pocket "shirt pocket"
- with name 'shirt' 'pocket' 'pockets',
- article "your",
- description "A decorative pocket, sewn shut. Good thing too - you don't trust pockets.",
- has static;
+ has legible concealed animate proper transparent;
 
 Object pockets "trouser pockets"
  with name 'trouser' 'pocket' 'pockets',
@@ -191,6 +138,16 @@ Object pockets "trouser pockets"
 #EndIf;
   !parser_trace = 2;
   Banner(); ! required to distribute commercially without royalty payment
+  print "Source available at https://github.com/innodonni/SolaCurator^
+         Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.
+         Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
+         Doors by L. Ross Raszewski and Max Kalus.
+         OutOfReach by Marnie Parker. Dirs by Gunther Schmidl.
+         Scenic by Richard Barnett, Joe Mason, Roger Firth and Stefano Gaburri.
+         Flags by Adam Cadre and Fredrik Ramsberg.
+         GoNeighbour by Alan Trewartha. Info by Jesse Burneko.
+         PrintSlow by D Cornelson (glulx port by Adonikam Virgo).
+         HelpRoutines, NewbieGrammar and ExpertGrammar by Emily Short.^";
   print "^You've just arrived at Beth'oni a small town in Israel.
    Doubt fills your mind, crippling your thoughts.
    Something is wrong with you, but carrying on won't find it now...
@@ -218,9 +175,6 @@ Class Inside
 Outside Town "Town"
  with name 'street' 'town' 'settlement',
  description "Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.",
- react_before [;
-  !Examine,Search: if (noun == self) { print "(",(the) buildings,")^"; <<Search buildings>>; }
- ],
  ne_to "You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.",
  s_to Square;
 

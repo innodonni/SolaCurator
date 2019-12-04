@@ -189,7 +189,7 @@ Object pockets "trouser pockets"
   random(-1); ! set seed
 #EndIf;
   !parser_trace = 2;
-  Banner();
+  Banner(); ! required to distribute commercially without royalty payment
   print "^You've just arrived at Beth'oni a small town in Israel.
    Doubt fills your mind, crippling your thoughts.
    Something is wrong with you, but carrying on won't find it now...

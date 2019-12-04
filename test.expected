@@ -10,10 +10,10 @@ NewbieGrammar and ExpertGrammar by Emily Short.
 Release 1 / Serial number 191125 / Inform v6.33 Library v6.12.2 S
 Standard interpreter 1.0 (1F) / Library serial number 180611
 
->dirs
+What next? (beginners, type help<ENTER>) >dirs
 You can go south (to the Square) or northeast.
 
->search self
+What next? (beginners, type help<ENTER>) >search self
 Your mind is too clouded for introspection right now.
 
 >change mind

@@ -621,30 +621,45 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Sorry, I didn't catch your name..."
+(1) "You're the vicar, right?"
 (2) "Are you blind?"
+(3) "Sorry, I didn't catch your name..."
+(4) "Can I help you?"
+
+Select an option or 0 to exit >> 1
+Of sorts.
+
+What would you like to say?
+(1) "Are you blind?"
+(2) "What was your name, again?"
 (3) "Can I help you?"
 
-Select an option or 0 to exit >> 2
+Select an option or 0 to exit >> 1
 "I prefer the term 'visually less acute'."
+
+What would you like to say?
 (1) "How visually acute are you, then?"
 (2) "So you can see me then."
+(3) "I've forgotten your name already."
+(4) "Can I help you?"
 
-Select an option >> 1
+Select an option or 0 to exit >> 1
 "I get by. I'm not completely blind."
 
 What would you like to say?
 (1) "So you can see me then."
+(2) "I've forgotten your name already."
+(3) "Can I help you?"
 
 Select an option or 0 to exit >> 1
 "Yes, I know someone's there, but not who."
 
 What would you like to say?
-(1) "What was your name, again?"
+(1) "I've forgotten your name already."
 (2) "Can I help you?"
 
 Select an option or 0 to exit >> 1
-"Where there's no government, there's no need for surnames. I just go by Ben."
+"It's Ben."
 
 What would you like to say?
 (1) "I've forgotten your name already."
@@ -653,23 +668,24 @@ What would you like to say?
 Select an option or 0 to exit >> 2
 "Yes you can. I've lost my radio." he says, frankly.
 (1) "That's it?"
-(2) "What does it look like?"
+(2) "What does the radio look like?"
 
 Select an option >> 1
 "No, I suppose not. My son hasn't returned, and the radio is the way I could
 reach him." he laments. "It's him I'm really after."
 
 What would you like to say?
-(1) "What does it look like?"
+(1) "What does the radio look like?"
 
 Select an option or 0 to exit >> 1
 "It's a hand-held walkie-talkie gizmo, a sort of greyish black."
 
 What would you like to say?
-(1) "I've forgotten your name already."
+(1) "What are you doing here?"
+(2) "I've forgotten your name already."
 
 Select an option or 0 to exit >> 1
-"The name's Ben."
+"My son and I were heading to Jerusalem."
 
 What would you like to say?
 (1) "I've forgotten your name already."
@@ -681,9 +697,8 @@ Select an option or 0 to exit >> 0
 Ben. The back door to the church is locked.
 
 >s
-"I wouldn't tread there unless you're on important business."
-, Ben says, with a smirk. The mound to the south is oddly lush with grass and
-slightly boggy.
+"I wouldn't tread there unless you're on important business.", Ben says, with a
+smirk. The mound to the south is oddly lush with grass and slightly boggy.
 
 >n
 You can't since the garden gate is in the way.

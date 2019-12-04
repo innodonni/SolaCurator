@@ -65,15 +65,16 @@ Constant ShowRooms;
 Include ">dirs_2.h";
 
 ! Flag definitions:
-! 0: Has the player seen the billboard/the word Jerusalem?
-! 1: Has the player shouted in the Square and heard a response?
-! 2: Has the player seen the Church (with no graffiti on it)?
-! 3: Has the player felt the fresh woodstain on the door?
-! 4: Has the player unlocked the Church before?
-! 5: Has the player examined themselves (can answer "what are you after?")?
-! 6: Has Ben told the player about his son?
-! 7: Has the player accepted the terms of use of the church?
-Constant FLAGCOUNT = 8;
+Constant SEENJERU 0; !Has the player seen the billboard/the word Jerusalem?
+Constant SHOUTED 1; !Has the player shouted in the Square and heard a response?
+Constant SEENCHUR 2; !Has the player seen the Church (with no graffiti on it)?
+Constant FELTDOOR 3; !Has the player felt the fresh woodstain on the door?
+Constant UNLOCHUR 4; !Has the player unlocked the Church before?
+Constant SEENSELF 5; !Has the player examined themselves (can answer "what are you after?")?
+Constant HEARDSON 6; !Has Ben told the player about his son?
+Constant ACCEPTED 7; !Has the player accepted the terms of use of the church?
+Constant FOLLOW 8; !Has the player invited Ben to follow them?
+Constant FLAGCOUNT = 16;
 Include ">newflags.h";
 
 Object newplayer "yourself"
@@ -571,10 +572,10 @@ DirDoor GardenGate "garden gate"
  with name 'garden' 'gate' 'fence',
  s_to ChurchYard,
  n_to thedark,
- description "The gate leads into a well-kept vegetable garden.",
+ description "The gate leads into a sizeable vegetable garden.",
  before [;
   Enter,Climb: "You're too weary from shifting bins to poke around in the garden.";
-  Unlock,Open: "The gate seems to be jammed. There must be a knack to it.";
+  Unlock,Open: "The gate is too stiff. Perhaps there is a knack to it.";
  ],
  react_before [;
   JumpOn,JumpOver: if (noun == self) "The gate is too high to jump onto. Perhaps climbing would be less ambitious.";
@@ -796,7 +797,7 @@ Class Man
    print "~Lost the key to that door years ago, so we just jimmy the latch now.~ quips Ben. ";
   }
   if (self in ChurchYard or can && action == ##Go or ##Look && noun == s_obj)
-  print "~I wouldn't tread there unless you're on important business.~^, Ben says, with a smirk. ";
+  print "~I wouldn't tread there unless you're on important business.~, Ben says, with a smirk. ";
  ],
  before [;
   TalkTo: self.select(1); rtrue; ! 1, because Quip #1
@@ -829,7 +830,13 @@ Man Ben can
   TalkTo: self.select(1); rtrue;
  ],
  each_turn [;
-  if (self hasnt general && TestScope(player,Ben)) self.select(1);
+  SetPronoun('him', self);
+  if (self hasnt general) {
+   ! initiate conversation after room description with "old man"
+   self.select(1);
+   give self general proper;
+   self.short_name = "Ben";
+  }
  ],
  quip [ a b; switch (a) {
       ! Quip #1: Main menu
@@ -846,46 +853,47 @@ Man Ben can
           ! at the beginning of Gtalk.h, specifically Step 5.
           ! Note that if the conversation is initiated a second time,
           ! this could be a fresh list
-          return Qlist(b,   3,   ! number of quips in this list
-                            2,   ! Quip #2
-                            5,   ! Quip #5
-                           10);  ! Quip #10
+          return Qlist(b,   9,   ! number of quips in this list
+                            2, 3, 4, 5, 6) |
+                 Qlist(b-6, 7, 9, 10, 23);
       ! Quip #2 etc.
-      21: qseq(1,"~Hi there, who are you?~","~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~");
-      22: qcyc(2,"~Ben. Just Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
+      21: "~Hi there, who are you?~";
+      22: self.qoff(2); self.qon(3, 9);
+          "~Ben. Just Ben.~";
       23: qtransfer = 1; ! top-level quip; return to menu by default
 
-      31: random("~Are you the vicar?~","~Are you the vicar, then?~","~You're the vicar, right?~","~Is the church yours?~");
+      31: print_ret (string) random("~Are you the vicar?~","~Are you the vicar, then?~","~You're the vicar, right?~","~Is the church yours?~");
       32: self.qoff(3); "Of sorts.";
       33: qtransfer = 1; ! top-level quip; return to menu by default
+          qqon = false;
 
       41: qseq(3,"~What are you doing here?~","~What are you doing?~");
       42: self.qoff(4);
-          if (FlagOn(6)) "~My son and I were heading to Jerusalem.~";
+          if (FlagOn(HEARDSON)) "~My son and I were heading to Jerusalem.~";
           else "~Pottering.~";
-      43: killz = true; ! disallow saying nothing
-          qtransfer = 1; ! top-level quip; return to menu by default
+      43: qtransfer = 1; ! top-level quip; return to menu by default
+          qqon = false;
 
       51: "~Are you blind?~";
-      52: "~I prefer the term 'visually less acute'.~"; 
-      53: killz = true; ! disallow saying nothing
-          killq = true; ! never say "What would you like to say?" for SubMenus
-          qtype = SubMenu;
-          qret(self, 5, 1, b); !fallback is 1 (the main menu)
-      54: return Qlist(b,   2,   ! number of quips in this list
-                            6, 7);
+      52: self.qoff(5); self.qon(6, 7); "~I prefer the term 'visually less acute'.~"; 
+      53: qtransfer = 1; ! top-level quip; return to menu by default
 
       61: "~How visually acute are you, then?~";
       62: self.qoff(6);
-          qret(self, 5, 1, b); !fallback is 1 (the main menu)
           "~I get by. I'm not completely blind.~"; 
-      64: return qret(self, 5, 1, b); !fallback is 1 (the main menu)
+      63: qtransfer = 1; ! top-level quip; return to menu by default
+          qqon = false;
 
       71: "~So you can see me then.~";
       72: self.qoff(7);
-          qret(self, 5, 1, b); !fallback is 1 (the main menu)
           "~Yes, I know someone's there, but not who.~"; 
-      74: return qret(self, 5, 1, b); !fallback is 1 (the main menu)
+      73: qtransfer = 1; ! top-level quip; return to menu by default
+          qqon = false;
+
+      91: qseq(1,"~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~");
+      92: qcyc(2,"~It's Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
+      93: qtransfer = 1; ! top-level quip; return to menu by default
+          qqon = false;
 
       101: "~Can I help you?~";
       102: "~Yes you can. I've lost my radio.~ he says, frankly."; 
@@ -896,26 +904,129 @@ Man Ben can
       104: return Qlist(b,   2,   ! number of quips in this list
                             11, 12);
 
+      ! this is a one-time chance, but should be merged into the main menu
       111: "~That's it?~";
       112: self.qoff(11);
            qret(self, 10, 1, b); !fallback is 1 (the main menu)
            if(score < 5 && self.qtest(12)) "~Yes, that's all.~ he says, stiffly. ~Can you help or not?~";
-           else { SetFlag(6); "~No, I suppose not. My son hasn't returned, and the radio is the way I could reach him.~ he laments. ~It's him I'm really after.~"; }
+           else { SetFlag(HEARDSON); self.qon(4); "~No, I suppose not. My son hasn't returned, and the radio is the way I could reach him.~ he laments. ~It's him I'm really after.~"; }
       114: return qret(self, 10, 1, b);
 
-      121: "~What does it look like?~";
+      ! this could easily go in the main menu
+      121: "~What does the radio look like?~";
       122: self.qoff(12);
-           give self general proper;
-           self.short_name = "Ben";
            qret(self, 10, 1, b);
            "~It's a hand-held walkie-talkie gizmo, a sort of greyish black.~"; 
       124: return qret(self, 10, 1, b);
 
-!    *   Do you know a way into the church?
-!    -   - "I might!", he says, brightly. <>
-!          "You want to stay in the church do you? <>
-!          I have rules. No candles or naked flames. No graffiti. No judgement!"
-!    *   * (flag7) [Accept]Sounds alright to me.
-!    *   * (reject) [Reject]Think I'll take my chances.
-!    {reject} (flag7) Alright, I'll follow your rules. Let me in the church!
+      201: "~Do you know a way into the church?~";
+      202: "~I might!~ he says, brightly. ~You want to stay in the church do you? I have rules. No candles or naked flames. No graffiti. No judgement!~"; 
+      203: killz = true; ! disallow saying nothing
+           killq = true; ! never say "What would you like to say?" for SubMenus
+           qtype = SubMenu;
+           qret(self, 20, 1, b);
+      204: return Qlist(b,   2,   ! number of quips in this list
+                            21, 22);
+
+      211: "[Accept]";
+      212: self.qoff(21);
+           self.qon(30);
+           SetFlag(ACCEPTED);
+           StartDaemon(ben);
+           qret(self, 20, 1, b); !fallback is 1 (the main menu)
+           "~Sounds alright to me.~^^~OK, come with me.~";
+      214: return 0; ! no options available, quit conversation
+
+      221: "[Reject]";
+      222: self.qoff(22); self.qon(23);
+           self.qon(30);
+           qret(self, 20, 1, b);
+           "~Think I'll take my chances.~^^~OK, but if you change your mind, I don't want you thinking you can chop up the pews for kindling!~"; 
+      224: return qret(self, 20, 1, b);
+
+      231: "~Alright, I'll follow your rules. Let me in the church!~";
+      232: self.qoff(23);
+           SetFlag(ACCEPTED);
+           StartDaemon(ben);
+           "~OK, come with me.~";
+      233: qqon = false;
+      234: return 0; ! no options available, quit conversation
+
+      301: qcyc(4,"~Why are you still here?~","~Why aren't you in Jerusalem?~");
+      302: self.qoff(30);
+           print "~I don't have any means of transport.~";
+           if (FlagOn(6)) "~My son and I were heading to Jerusalem, but I was too ill to continue the journey. We stopped here, but I never recovered fully. I'm too weak to make the journey on foot, now.~";
+      303: killz = true; ! disallow saying nothing
+           killq = true; ! never say "What would you like to say?" for SubMenus
+           qtype = SubMenu;
+           qqon = FlagOn(0);
+           qret(self, 30, 1, b);
+      304: return Qlist(b,   6,   ! number of quips in this list
+                             31, 32, 33, 34, 35) |
+                  Qlist(b-6, 36);
+
+      311: "[Invite to join you on your journey][-BATT][+FOOD]";
+      312: self.qoff(31, 32); self.qon(33, 34, 35, 37);
+           SetFlag(FOLLOW);
+           StartDaemon(ben);
+           qret(self, 30, 1, b); !fallback is 1 (the main menu)
+           print "~I'm heading there myself, actually. You can come with me in the morning if you like. I have a motorbike.~^^~That would be very much appreciated.~ Ben says, containing his enthusiasm. ";
+           if (FlagOn(ACCEPTED) || FlagOn(UNLOCHUR)) "~I'll see you in the morning, then.~";
+           "~Come with me, you can stay in the church overnight.~";
+      314: return qret(self, 30, 1, b);
+
+      321: "~What a shame.~";
+      322: self.qoff(32); self.qon(33, 34, 35, 37);
+           qret(self, 30, 1, b);
+           "~I hope that's where he is now. It can't have been easy on him staying here.~ he sighs."; 
+      324: return qret(self, 30, 1, b);
+
+      331: "~How long has your son been gone?~";
+      332: self.qoff(33);
+           qret(self, 30, 1, b);
+           "He pauses. ~One season or so.~"; 
+      333: qqon = false;
+      334: return qret(self, 30, 1, b);
+
+      341: "~How long have you been here?~";
+      342: self.qoff(34);
+           qret(self, 30, 1, b);
+           "~Since the seven hundreds. I barely know what year it is any more.~ he mumbles."; 
+      343: qqon = false;
+      344: return qret(self, 30, 1, b);
+
+      351: "~How often do you see visitors?~";
+      352: self.qoff(35); self.qon(36);
+           qret(self, 30, 1, b);
+           "~One to two people swing by, every year.~"; 
+      353: qqon = false;
+      354: return qret(self, 30, 1, b);
+
+      361: "~Is that a lot, do you think?~";
+      362: self.qoff(36);
+           qret(self, 30, 1, b);
+           "~No, no, it's rare people come this way. Something's put the fear of God into them!~ he jokes."; 
+      363: qqon = false;
+      364: return qret(self, 30, 1, b);
+
+      371: "~Do you have batteries?~";
+      372: self.qoff(37); self.qon(38, 39);
+           qret(self, 30, 1, b);
+           "~Yes, I have some inside. About 100 farads.~"; 
+      373: qqon = false;
+      374: return qret(self, 30, 1, b);
+
+      381: "~That's not a lot.~";
+      382: self.qoff(38);
+           qret(self, 30, 1, b);
+           "~It's all I need here. I guess it won't help with your bike much.~ he shrugs."; 
+      383: qqon = false;
+      384: return qret(self, 30, 1, b);
+
+      391: "~How do you charge them?~";
+      392: self.qoff(39);
+           qret(self, 30, 1, b);
+           "~Bio-energy. There's not a lot of other natural resources.~ he remarks."; 
+      393: qqon = false;
+      394: return qret(self, 30, 1, b);
  } rfalse; ];

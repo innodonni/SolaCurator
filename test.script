@@ -62,6 +62,8 @@ lift latch
 raise latch with card
 enter church
 x latch
+search doors
+push latch inwards
 x windows
 get window
 push doors
@@ -160,3 +162,21 @@ jump over gate
 climb gate
 put papers on can
 visit Ben
+talk to person
+2
+2
+4
+4
+4
+4
+4
+3
+2
+2
+follow Ben
+g
+g
+g
+g
+g
+g

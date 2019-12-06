@@ -13,6 +13,35 @@
 ! with exhausted sub-menus too.
 
 ! Knots and stitches are basically SubMenu quips that once exhausted need a way to "Gather".
+#Ifndef qtransfer;
+Global qtransfer;
+
+Object o
+ with qseqstates 0 0,
+ quip [; ],
+ qtest [; ],
+ qoff [; ],
+ test [;
+  qseq(1,"ANSWER1","B");
+ print "^---------------------------------------------------------------^";
+  qseq(2,"ANSWER2","B");
+ print "^---------------------------------------------------------------^";
+  qseq(3,"ANSWER3","B");
+ print "^---------------------------------------------------------------^";
+  qseq(4,"ANSWER4","B");
+ print "^---------------------------------------------------------------^";
+  qseq(5,"ANSWER5","B");
+ print "^---------------------------------------------------------------^";
+  qseq(6,"ANSWER6","B");
+ print "^---------------------------------------------------------------^";
+  qseq(7,"ANSWER7","B");
+ print "^---------------------------------------------------------------^";
+  qseq(8,"ANSWER8","B");
+ ];
+[ Main;
+ o.test();
+];
+#EndIf;
 ! To gather, I need a way to test that the menu is exhausted?
 [ qavail character quipnum numoptions o q avail;
  quipnum = quipnum * 10 + 4;
@@ -71,7 +100,6 @@
  else if (a4 == 0 && qopt(sender,seq) == 4) qsetopt(sender, seq, 1);
  else if (a5 == 0 && qopt(sender,seq) == 5) qsetopt(sender, seq, 1);
  else if (a6 == 0 && qopt(sender,seq) == 6) qsetopt(sender, seq, 1);
-! print "states=",sender.qseqstates;
  seq = qopt(sender, seq) - 1; !store the looked up next option in the param no longer needed
 ! print "opt=",seq;
  switch (seq)
@@ -99,7 +127,7 @@
  else if (a4 == 0 && qopt(sender,seq) == 4) qsetopt(sender, seq, 3);
  else if (a5 == 0 && qopt(sender,seq) == 5) qsetopt(sender, seq, 4);
  seq = qopt(sender, seq) - 1; !store the looked up next option in the param no longer needed
-!   print "opt=",seq;
+!   print "^final opt=",seq;
  switch (seq)
  {
   0: print (string) a1;
@@ -126,16 +154,24 @@ Array Masks
    448  ! the third 3 bits
   3584  ! the fourth 3 bits
  28672; ! the fifth 3 bits
-! These masks can be multiplied by 256 to get the upper masks
+! These masks can be shifted to get the upper masks on Glulx
 [ qopt character seqnum pos mask state tmp; ! seqnum can be 1 to WORDSIZE
  pos = seqnum - 1; ! 0-4 or 0-9
  mask = Masks-->(pos%5);
-! print "qopt states=",character.qseqstates," mask=",mask;
- if (WORDSIZE > 2 && pos > 4) mask = mask * 65536;
+ if (WORDSIZE > 2 && pos%10 > 4) mask = mask * 65536; ! << 16
 ! print "mask adjusted=",mask;
- state = character.qseqstates & mask;
- ! now need to bitshift back to the true value
- if (pos > 4) { ! shift an extra bit due to 16th bit being unused
+
+ tmp = (WORDSIZE/2) * 5; ! 5 or 10
+! print "pos/tmp=",pos/tmp;
+ tmp = character.&qseqstates + (pos/tmp)*WORDSIZE; ! get word address
+ tmp = tmp-->0; ! get word
+! print "wordstate=",tmp;
+
+ state = tmp & mask;
+! print "masked=",tmp;
+ ! now need to bitshift the word back to the true value
+
+ if (pos > 4) { ! shift extra bit due to 16th bit being unused
 #IfDef TARGET_ZCODE;
   @log_shift state (-1) -> tmp;
 #IfNot;
@@ -144,6 +180,9 @@ Array Masks
   state = tmp;
 ! print "shifted 1=",state;
  }
+ tmp = (WORDSIZE/2) * 5; ! 5 or 10
+ pos = pos%tmp;
+! print "seq-1=",seqnum-1,"pos=",pos;
  while (pos > 0) {
 #IfDef TARGET_ZCODE;
   @log_shift state (-3) -> tmp;
@@ -154,7 +193,7 @@ Array Masks
 ! print "shifted 3=",state;
   pos--;
  }
-! print "qopt seq=",seqnum," state=",state;
+! print "qopt returning ",state;
  return state;
 ];
 ! And a way to set the property
@@ -162,10 +201,12 @@ Array Masks
 ! print "qsetopt seq ",seqnum," to ",opt;
  pos = seqnum - 1; ! 0-4 or 0-9
  mask = Masks-->(pos%5);
- if (WORDSIZE > 2 && pos > 4) mask = mask * 65536;
+ if (WORDSIZE > 2 && pos%10 > 4) mask = mask * 65536;
+! print "mask adjusted=",mask;
+ 
  state = opt;
 ! print "state=",state;
- if (pos > 4) { ! shift an extra bit due to 16th bit being unused
+ if (pos > 4) { ! shift past unused 16th bit on Z-Machine
 #IfDef TARGET_ZCODE;
   @log_shift state 1 -> tmp;
 #IfNot;
@@ -174,6 +215,8 @@ Array Masks
   state = tmp;
 ! print "shifted 1=",state;
  }
+ tmp = (WORDSIZE/2) * 5; ! 5 or 10
+ pos = pos%tmp;
  while (pos > 0) { ! need to shift
 #IfDef TARGET_ZCODE;
   @log_shift state 3 -> tmp;
@@ -181,17 +224,23 @@ Array Masks
   @shiftl state 3 tmp;
 #EndIf;
   state = tmp;
-!  print "state=",state;
+!  print "shifted 3=",state;
   pos--;
  }
  ! first need to clear all bits
 ! print "state=",state;
 ! print "mask=",mask;
-! print "before=",character.qseqstates;
- character.qseqstates = character.qseqstates & ~mask;
-! print "masked=",character.qseqstates;
- character.qseqstates = character.qseqstates | state;
-! print "after=",character.qseqstates;
+ pos = seqnum - 1;
+ tmp = (WORDSIZE/2) * 5; ! 5 or 10
+! print "pos/tmp=",pos/tmp;
+ tmp = character.&qseqstates + (pos/tmp)*WORDSIZE; ! get word address
+! print "addr=",character.&qseqstates;
+! print "addr+off=",tmp;
+! print "before=",tmp-->0;
+ tmp-->0 = tmp-->0 & ~mask;
+! print "masked=",tmp-->0;
+ tmp-->0 = tmp-->0 | state;
+! print "after=",tmp-->0;
 ];
 
 

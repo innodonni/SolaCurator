@@ -21,6 +21,10 @@ GoNeighbour by Alan Trewartha.
 
 Info by Jesse Burneko.
 
+Follower by Gareth Rees, Andrew Clover and Neil Brown.
+
+Moveclass by Neil Brown, Alan Trewartha and Matthew T Russotto.
+
 PrintSlow by D Cornelson (glulx port by Adonikam Virgo).
 
 HelpRoutines, NewbieGrammar and ExpertGrammar by Emily Short.

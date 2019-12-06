@@ -254,6 +254,13 @@ The door to the church stands ajar.
 The latch mechanism on the doors is a flat black metal bar that slots down into
 a catch.
 
+>search doors
+The latch mechanism on the doors is a flat black metal bar that slots down into
+a catch.
+
+>push latch inwards
+You can't see any such thing.
+
 >x windows
 Tall, arched windows let in sunlight high out of reach.
 
@@ -318,7 +325,7 @@ Thank you for playing!
 
 
 
-In that game you scored 70 out of a possible 90, in 76 turns.
+In that game you scored 70 out of a possible 90, in 77 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -425,7 +432,7 @@ Thank you for playing!
 
 
 
-In that game you scored 80 out of a possible 90, in 98 turns.
+In that game you scored 80 out of a possible 90, in 99 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -514,7 +521,7 @@ Thank you for playing!
 
 
 
-In that game you scored 90 out of a possible 90, in 113 turns.
+In that game you scored 90 out of a possible 90, in 114 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -615,7 +622,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Are you the vicar?"
+(1) "Is the church yours?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -642,21 +649,21 @@ Select an option or 0 to exit >> 1
 
 What would you like to say?
 (1) "So you can see me then."
-(2) "I've forgotten your name already."
+(2) "Remind me of your name again."
 (3) "Can I help you?"
 
 Select an option or 0 to exit >> 1
 "Yes, I know someone's there, but not who."
 
 What would you like to say?
-(1) "I've forgotten your name already."
+(1) "Remind me of your name again."
 (2) "Can I help you?"
 
 Select an option or 0 to exit >> 1
 "It's Ben."
 
 What would you like to say?
-(1) "I've forgotten your name already."
+(1) "Remind me of your name again."
 (2) "Can I help you?"
 
 Select an option or 0 to exit >> 2
@@ -676,13 +683,15 @@ Select an option or 0 to exit >> 1
 
 What would you like to say?
 (1) "What are you doing here?"
-(2) "I've forgotten your name already."
+(2) "Remind me of your name again."
+(3) "Do you know a way into the church?"
 
 Select an option or 0 to exit >> 1
 "My son and I were heading to Jerusalem."
 
 What would you like to say?
-(1) "I've forgotten your name already."
+(1) "Remind me of your name again."
+(2) "Do you know a way into the church?"
 
 Select an option or 0 to exit >> 0
 
@@ -708,6 +717,170 @@ Which do you mean, the bins or the upturned can?
 
 >visit Ben
 Ben is not something you can enter.
+
+>talk to person
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Do you know a way into the church?"
+(3) "How long has your son been gone?"
+(4) "How long have you been here?"
+(5) "How often do you see visitors?"
+(6) "Do you have batteries?"
+
+Select an option or 0 to exit >> 2
+"I might!" he says, brightly. "You want to stay in the church do you? I have
+rules. No candles or naked flames. No graffiti. No judgement!"
+(1) [Accept]
+(2) [Reject]
+
+Select an option >> 2
+"Think I'll take my chances."
+
+"OK, but if you change your mind, I don't want you thinking you can chop up the
+pews for kindling!"
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Why are you still here?"
+(4) "How long has your son been gone?"
+(5) "How long have you been here?"
+(6) "How often do you see visitors?"
+(7) "Do you have batteries?"
+
+Select an option or 0 to exit >> 4
+He pauses. "One season or so."
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Why aren't you in Jerusalem?"
+(4) "How long have you been here?"
+(5) "Do you have batteries?"
+
+Select an option or 0 to exit >> 4
+"Since the seven hundreds. I barely know what year it is any more." he mumbles.
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Why are you still here?"
+(4) "Do you have batteries?"
+
+Select an option or 0 to exit >> 4
+"Yes, I have some inside. About 100 farads."
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Why aren't you in Jerusalem?"
+(4) "That's...not a lot."
+(5) "How do you charge them?"
+
+Select an option or 0 to exit >> 4
+"It's all I need here. I guess it won't help with fuel much, will it?" he
+suggests.
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Why are you still here?"
+(4) "How do your charge your batteries?"
+
+Select an option or 0 to exit >> 4
+"Bio-energy. There's not a lot of other natural resources." he remarks.
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Why aren't you in Jerusalem?"
+
+Select an option or 0 to exit >> 3
+"I don't have any means of transport." he says, plainly. "My son and I were
+heading to Jerusalem, but I was too ill to continue the journey. We stopped
+here, but I never recovered fully. I'm too weak to make the journey on foot,
+now."
+(1) [Invite to join you on your journey][-BATT][+FOOD]
+(2) [Hold off until you trust him] "What a shame."
+
+Select an option >> 2
+"I hope that's where he is now. It can't have been easy on him staying here." he
+sighs.
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+
+Select an option or 0 to exit >> 2
+"OK, come with me."
+
+Ben rises to his feet and ambles towards the bins.
+
+>follow Ben
+You are already with Ben.
+
+Ben starts heading around the side and gestures to come with him.
+
+>g
+
+Square
+Many travellers have passed through here before you. The square is no more than
+a few dozen paces across surrounded by buildings, but is littered with detritus
+from campers. The street continues north out of town.
+
+The door to the church stands ajar.
+
+You can also see some bins (in which is rubbish) and Ben here.
+
+Ben gropes along around the corner of the church.
+
+>g
+You are already with Ben.
+
+Ben feels the open door and winks slyly. "It's not secure, but there's not many
+that come at once. You'll be warm in here." He bids you enter.
+>g
+
+Church
+The church is furnished with altar and pews and is quite a contrast from the
+mess outside. Sunlight streams in through high windows, but the room is
+welcomingly cool.
+
+The door to the church stands ajar.
+
+On the pews are some cushions.
+
+You can also see Ben and an altar here.
+
+Ben follows you a little into the church.
+"I won't regale you with my past, you look tired. Sleep well!", and with that
+Ben disappears out of the church doors.
+
+>g
+
+Square
+Many travellers have passed through here before you. The square is no more than
+a few dozen paces across surrounded by buildings, but is littered with detritus
+from campers. The street continues north out of town.
+
+The door to the church stands ajar.
+
+You can also see some bins (in which is rubbish) and Ben here.
+
+>g
+You are already with Ben.
+
+You see Ben carefully shuffling back around to the churchyard.
+
+>g
+
+Churchyard
+The bare yard behind the church is strewn with tufts of weeds.
+
+You can see a garden gate, some bins (in which is rubbish), Ben and an upturned
+can here.
+
+Ben slams the gate on his garden and disappears into the dense vegetation.
 
 >nonsense
 That's not a verb I recognise.
@@ -871,7 +1044,7 @@ Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
 You can see a garden gate, some bins (in which is rubbish) and an upturned can
-(on which is Ben) here.
+here.
 
 >gate
 That's not a verb I recognise.

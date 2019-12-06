@@ -23,6 +23,9 @@ Replace JumpInSub;
 Replace JumpOnSub;
 Replace ExamineSub;
 Include "verblib";
+Include ">follower.h";
+Constant NO_ROOM;
+Include ">moveclass.h";
 
 [ GamePreRoutine;
 #Ifdef DEBUG;

@@ -141,14 +141,17 @@ The taller building on the east side appears to be a church. Hopefully the roof
 is intact.
 
 >x church roof
-The church roof is intact, and sports a small bell tower on the Square end.
+The church roof is intact, and sports a small bell in the tower on the Square
+end.
 
 >x church spire
-The church roof is intact, and sports a small bell tower on the Square end.
+The church roof is intact, and sports a small bell in the tower on the Square
+end.
 
 >x church bell
 (the belltower)
-The church roof is intact, and sports a small bell tower on the Square end.
+The church roof is intact, and sports a small bell in the tower on the Square
+end.
 
 >search dwellings
 The taller building on the east side appears to be a church. Hopefully the roof
@@ -169,6 +172,11 @@ it looks like both the "Goats" and the "K-Rhyme" gangs have tagged this town.
 >search graffiti
 Some stars of David and Star and Crescents have been drawn in solidarity with
 other visitors.
+
+>search church
+(the church building)
+To the south-east of the church building is a narrow passage blocked by
+dustbins.
 
 >x doors
 The wooden doors have withstood the elements and are still solid and impassable.
@@ -338,8 +346,18 @@ a catch.
 >push latch inwards
 You can't see any such thing.
 
+>explore church
+(the belltower)
+You can't reach the roof.
+
+>search shadows
+You don't need to do that.
+
+>x shadow
+Of greater interest are the objects casting the shadows.
+
 >get window
-You can't reach the windows.
+The church windows are all too high up.
 
 >x windows
 Tall, arched clerestory windows let sunlight into the church, high out of reach.
@@ -392,7 +410,8 @@ You're too stiff from the ride.
 You're too stiff from the ride.
 
 >x bell tower
-The church roof is intact, and sports a small bell tower on the Square end.
+The church roof is intact, and sports a small bell in the tower on the Square
+end.
 
 >x church bell
 (the bellcord)
@@ -416,6 +435,9 @@ You put your bank card away in your pocket until you need to use it.
 The doors latch shut, locking intruders out.
 
 [The score has just gone up by five points.]
+
+>open doors
+You open the church doors.
 
 >lift latch
 You lift the latch easily and the door opens.
@@ -452,7 +474,7 @@ You don't need to do that.
 
 >search sanctuary
 (first getting off the pews)
-You find nothing of interest.
+There is precious little to see - just the yawning shadows under the pews.
 
 >climb up
 You're too stiff from the ride.
@@ -515,7 +537,7 @@ Thank you for playing!
 
 
 
-In that game you scored 75 out of a possible 100, in 127 turns.
+In that game you scored 75 out of a possible 100, in 132 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -623,7 +645,7 @@ Thank you for playing!
 
 
 
-In that game you scored 85 out of a possible 100, in 149 turns.
+In that game you scored 85 out of a possible 100, in 154 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -660,7 +682,7 @@ You put the rucksack on the pews.
 (on the pews)
 You get onto the pews.
 
-On the pews you can see a rucksack (in which is a pile of papers) and some
+On the pews you can see your rucksack (in which is a pile of papers) and some
 cushions.
 
 >open file
@@ -713,7 +735,7 @@ Thank you for playing!
 
 
 
-In that game you scored 95 out of a possible 100, in 164 turns.
+In that game you scored 95 out of a possible 100, in 169 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -778,6 +800,12 @@ you will have to type the directions to take you there -- NORTH, UP, etc.
 >se
 The passage beside the church is blocked by big yellow dustbins.
 
+>search passage
+In the bins is rubbish.
+
+>climb over bins
+You balk at the idea of falling into the open bins.
+
 >smell bins
 The bins smell more pungent here.
 
@@ -802,8 +830,9 @@ The bins further from the square seem to have been filled more recently.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see a garden gate, some bins (in which is rubbish) and an upturned can
-(on which is an old man) here.
+You can see a garden gate, a passage full of bins (in which is rubbish) and an
+upturned can (on which is an old man) here.
+
 "You there!?"
 An old man is here, sitting on an upturned paint tin. From his tan, he looks
 local, but it's hard to tell how old he is - he could be 500.
@@ -1030,7 +1059,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) and Ben here.
+You can also see a passage full of bins (in which is rubbish) and Ben here.
 
 Ben gropes along around the corner of the church.
 
@@ -1065,7 +1094,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) and Ben here.
+You can also see a passage full of bins (in which is rubbish) and Ben here.
 
 >g
 You are already with Ben.
@@ -1077,8 +1106,8 @@ You see Ben carefully shuffling back around to the churchyard.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see a garden gate, some bins (in which is rubbish), Ben and an upturned
-can here.
+You can see a garden gate, a passage full of bins (in which is rubbish), Ben and
+an upturned can here.
 
 Ben slams the gate on his garden and disappears into the dense vegetation.
 
@@ -1135,7 +1164,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) here.
+You can also see a passage full of bins (in which is rubbish) here.
 
 >detritus
 That's not a verb I recognise.
@@ -1179,7 +1208,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) here.
+You can also see a passage full of bins (in which is rubbish) here.
 
 >windows
 That's not a verb I recognise.
@@ -1234,8 +1263,8 @@ That's not a verb I recognise.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see a garden gate, some bins (in which is rubbish) and an upturned can
-here.
+You can see a garden gate, a passage full of bins (in which is rubbish) and an
+upturned can here.
 
 >gate
 That's not a verb I recognise.
@@ -1386,7 +1415,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) here.
+You can also see a passage full of bins (in which is rubbish) here.
 You find nothing of interest.
 
 >find bag. check in bag
@@ -1435,7 +1464,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) here.
+You can also see a passage full of bins (in which is rubbish) here.
 It's not entirely clear what you intend.
 
 >make camp bed
@@ -1497,7 +1526,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) here.
+You can also see a passage full of bins (in which is rubbish) here.
 This isn't an ideal spot to bed down for the night.
 
 >read book about cheese
@@ -1555,7 +1584,7 @@ You see nothing unexpected in that direction.
 
 >i
 You're carrying:
-  a rucksack (which is open)
+  your rucksack (which is open)
     a pile of papers
   your clothes (being worn)
 
@@ -1796,7 +1825,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) here.
+You can also see a passage full of bins (in which is rubbish) here.
 You can't see any such thing.
 
 >town. look at building to north-east
@@ -1823,7 +1852,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see some bins (in which is rubbish) here.
+You can also see a passage full of bins (in which is rubbish) here.
 (the various buildings to east)
 The taller building on the east side appears to be a church. Hopefully the roof
 is intact.

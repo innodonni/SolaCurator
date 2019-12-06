@@ -40,6 +40,7 @@ search dwellings
 x church
 x graffiti
 search graffiti
+search church
 x doors
 listen at gap
 rub gap
@@ -86,6 +87,9 @@ enter church
 x latch
 search doors
 push latch inwards
+explore church
+search shadows
+x shadow
 get window
 x windows
 undo knot
@@ -107,6 +111,7 @@ take bell
 cut rope
 cut rope with card
 push doors
+open doors
 lift latch
 pull knob
 sit down
@@ -192,6 +197,8 @@ shout
 go behind church
 go around church building
 se
+search passage
+climb over bins
 smell bins
 shift bins
 again

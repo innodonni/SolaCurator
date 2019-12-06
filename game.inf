@@ -30,7 +30,7 @@ Include "parser";
 
 Object bag "rucksack"
  with name 'bag' 'rucksack' 'backpack' 'pack' 'sack' 'gear' 'belongings' 'camping' 'kit' 'stock' 'supplies' 'material',
- !article 'your', ! crashes Z-Machine!
+ article "your", ! using single-quote crashes Z-Machine!
  description "Your rucksack contains all of your worldly belongings (mostly camping gear).",
  before [;
   Search: if (location == Church or pews or aisle) "Besides your journal, you have everything you need to set up camp.";
@@ -244,6 +244,7 @@ Object ChurchBuilding "church building" Square
   give self ~concealed;
   Examine: SetFlag(SEENCHUR); give ChurchDoors ~concealed;
   Enter,Go: <<Enter ChurchDoors>>;
+  Search: "To the south-east of the church building is a narrow passage blocked by dustbins.";
  ],
  after [;
   Examine: ChurchDoors.describe();
@@ -292,7 +293,8 @@ DirDoor ChurchDoors "church doors"
   Push: if (self in Church && self hasnt open) "The doors don't seem to open outwards.";
   if (self in Church && self has open) <<Close self>>;
   <<Open self>>;
-  Open: if (self hasnt open) rfalse; ! continue
+  Open: if (self has locked && self in Church) give self ~locked;
+  if (self hasnt open) rfalse; ! continue
   if (self in Church) "Do you intend to exit the church?";
   "Do you intend to enter the church?";
   Search: self.foundlatch();
@@ -385,6 +387,7 @@ Inside Church "Church"
  e_to "The door east from the northern semi-transept is locked.",
  before [;
   if (self hasnt general) score = score + 15; give self general;
+  Search: if (noun == self) "There is precious little to see - just the yawning shadows under the pews.";
  ],
  react_before [;
   Wait: "You begin to feel even more drowsy.";
@@ -425,13 +428,13 @@ Object windows "windows"
  before [;
   give self ~concealed;
   Examine,ThrownAt: ;
-  default: "You can't reach the windows.";
+  default: "The church windows are all too high up.";
  ],
  has scenery concealed pluralname;
 
 Object ChurchRoof "belltower"
  with name 'church' 'intact' 'roof' 'bell' 'bell-tower' 'belltower' 'tower' 'steeple' 'spire' 'vault' 'clerestory',
- description "The church roof is intact, and sports a small bell tower on the Square end.",
+ description "The church roof is intact, and sports a small bell in the tower on the Square end.",
  scenic 'dome' 0 "The roof has no dome.",
  found_in Square ChurchYard Church,
  before [;
@@ -477,6 +480,7 @@ Object bell
 InsideOrOn pews "pews" Church
  with name 'plain' 'wooden' 'narrow' 'pew' 'pews' 'seat' 'seats',
  description "Plain wooden benches welded to the ground - too narrow to sleep on.",
+ scenic 'shadow' 'shadows' 0 "Of greater interest are the objects casting the shadows.",
  before [;
   Kiss: "You feel awkward kissing a surface where many posteriors have been.";
   Touch,Rub: "The surface is smooth and inviting. You aren't worried about getting splinters.";
@@ -565,8 +569,9 @@ Object altarlegs "altar legs" Church
  ];
 
 Object bins "bins"
- with name 'big' 'yellow' 'bin' 'bins' 'can' 'cans' 'trash-can' 'trash-cans' 'trashcan' 'trashcans' 'dustbin' 'dustbins' 'garbage-cans',
+ with name 'big' 'yellow' 'bin' 'bins' 'can' 'cans' 'trash-can' 'trash-cans' 'trashcan' 'trashcans' 'dustbin' 'dustbins' 'garbage-cans' 'narrow' 'passage' 'alley' 'alleyway',
  description "At the south-east side of the church is a group of bins, some more pungent than others.",
+ article "a passage full of",
  found_in Square ChurchYard,
  before [;
   give self ~concealed;
@@ -717,7 +722,7 @@ Object chain "chain" bike
 
 Book papers "pile of papers" bag
  has legible openable
- with name 'pile' 'papers' 'notes' 'journal' 'file' 'pages' 'straps',
+ with name 'pile' 'paper' 'papers' 'notes' 'journal' 'file' 'pages' 'straps',
  parse_name [ w n;
   w = NextWord();
   while (WordInProperty(w,self,name)) { n++; w = NextWord(); }
@@ -802,7 +807,7 @@ InsideOrOn road "road"
 Object sun "sun"
  has scenery
  with name 'sun' 'evening' 'sunset' 'sun-set' 'setting',
- article 'the',
+ article "the",
  found_in [; return (location ofclass Outside); ],
  description "There is still enough daylight to find a more suitable spot to settle.",
  before [;
@@ -969,7 +974,7 @@ Man Ben can
       ! Quip #1: Main menu
       11: ! Main menu: no quip name needed
       12: ! Main menu: normally no reply needed
-          if (self hasnt general) { "~You there!?~^
+          if (self hasnt general) { "^~You there!?~^
           An old man is here, sitting on an upturned paint tin. From his tan, he looks local, but it's hard to tell how old he is - he could be 500.^
           He doesn't turn to face you as you arrive."; }
       13: qtype = MainMenu;

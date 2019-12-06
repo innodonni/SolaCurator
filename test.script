@@ -9,15 +9,33 @@ x bike
 x buildings
 search street
 search buildings
+move rubble
+search rubble
+take stones
+pray on roof
+pray to god on roofs
 ne
+pray to advertisement
 x board
 search board
 read board
+look under board
+x drifts
+dig drifts
+x markers
+take markers
+look under road
+dig road
+x tar
+take the path to the south
 go south
 x square
 x buildings
 search buildings
 search square
+x church roof
+x church spire
+x church bell
 search dwellings
 x church
 x graffiti
@@ -44,6 +62,10 @@ pray that doors open
 pray to God that door opens
 pray to God that doors open
 pray to God for doors to open
+x back doors
+x tympanum
+x archway
+x stained glass
 x clothes
 search clothes
 x pockets
@@ -64,13 +86,45 @@ enter church
 x latch
 search doors
 push latch inwards
-x windows
 get window
+x windows
+undo knot
+push knot
+push knot up
+push knot out
+push knot outwards
+push knot to west
+push knot west
+twist cord
+pull knot
+x cord
+search dangling bellcord
+swing on rope
+climb rope
+x bell tower
+x church bell
+take bell
+cut rope
+cut rope with card
 push doors
 lift latch
 pull knob
 sit down
+x architecture
+x pipe organ
+x rood screen
+go into crypt
+x baptismal font
+search apse
+search sanctuary
+climb up
+search presbytery
+say confession
+confess sins
+talk to priest
 sleep
+sleep in porch
+sleep in ambulatory
 make fire
 make bed
 search bag
@@ -135,6 +189,7 @@ transfer waste to trash-can
 search bin
 pull bin
 shout
+go behind church
 go around church building
 se
 smell bins
@@ -156,6 +211,7 @@ se
 1
 0
 w
+x side door
 s
 n
 jump over gate

@@ -297,6 +297,7 @@ Global  ScenicWord;
         ! Standard entry point, called by library routines after parse error.
         switch (eType) {
             CANTSEE_PE: return Handle_CANTSEE_PE();
+            STUCK_PE,UPTO_PE: return Handle_CANTSEE_PE(); ! added
             SCENERY_PE: return Handle_SCENERY_PE();
             default:    rfalse;     ! Error was NOT handled by this routine.
             }

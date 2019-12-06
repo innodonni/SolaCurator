@@ -257,8 +257,10 @@ Class InsideOrOn
  droponfloor true,   ! (t/f) drop objects from this supporter to the floor
  react_before
  [; if (player notin self) rfalse;
+    ! Eat is implicit Take
     Take, Remove, Search, Attack, Open, Close, Lock, Unlock, Push, Pull, Turn,
-    SwitchOn, SwitchOff, Touch, Taste, Smell, Squeeze, LookUnder, Empty
+    SwitchOn, SwitchOff, Touch, Taste, Smell, Squeeze, LookUnder, Empty,
+    Jump, JumpOn, JumpIn, JumpOver, Pray, Make, Sleep, Swing, Listen, Climb
          : if (self.outofreach(noun) && ~~(self.autoleave()))
               "You can't reach ", (the) noun, " from where you are.";
            rfalse;

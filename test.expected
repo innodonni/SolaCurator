@@ -12,7 +12,7 @@ What next? (beginners, type help<ENTER>)
 Your mind is too clouded for introspection right now.
 
 >change mind
-You don't need to do that.
+You don't need to interact with that stuff.
 
 >give bag to self
 You juggle the rucksack for a while, but don't achieve much.
@@ -34,6 +34,24 @@ It's a standard electric motorbike, and your ticket to finding the City of
 Peace.
 The motorbike is currently switched off.
 On the motorbike are a battery and a chain.
+
+>x battery
+There should be enough charge to finish your journey tomorrow, unless you change
+your mind before then.
+
+>x chain
+The chain is not the most sturdy brand, and the bike is not even chained up to
+anything. Thankfully there's no-one about.
+
+>untie chain
+You don't have the energy or inclination to carry on your journey without a good
+night's sleep.
+
+>wake up
+You're already awake.
+
+>wake bike up
+You can only do that to something animate.
 
 >x buildings
 None of the dwellings here appear to be inhabitable.
@@ -93,13 +111,13 @@ Just drifts of dust from the road and discarded dried up marker pens.
 Uninteresting dust, not even deep enough to dig.
 
 >dig drifts
-You don't need to do that.
+You don't need to interact with that stuff.
 
 >x markers
 The pens are all dried up and impossible to write with.
 
 >take markers
-You don't need to do that.
+You don't need to interact with that stuff.
 
 >look under road
 You'd have to dig a hole first.
@@ -186,7 +204,7 @@ Their only feature is a round brass handle on each.
 You can't see any such thing.
 
 >rub gap
-You achieve nothing by this.
+That would achieve nothing here.
 
 >pull knob
 The brass handles are fixed in place.
@@ -267,7 +285,7 @@ You can't tell what the windows are made of from here, but they aren't coloured.
 There are pockets in your shirt and trousers.
 
 >search clothes
-You don't need to do that.
+You don't need to interact with that stuff.
 
 >x pockets
 Deep pockets, ready for adventure! Still, you try not to use them in case
@@ -284,10 +302,19 @@ anything falls out.
 To your surprise, you find your bank card in your trouser pockets. Thankfully it
 didn't fall out while you were riding along - it could come in handy.
 
+>search pockets
+In your trouser pockets is your bank card. You'll put it away in your rucksack
+later - it could come in handy.
+
 >x card  
 You wonder why you carry this around. Banks are a relic of the past.
 
 [The score has just gone up by five points.]
+
+>blow card
+(first taking the bank card)
+You blow that to no effect.
+You put your bank card away in your pocket until you need to use it.
 
 >remove card from bag
 You can't see any such thing.
@@ -351,7 +378,7 @@ You can't see any such thing.
 You can't reach the roof.
 
 >search shadows
-You don't need to do that.
+You don't need to interact with that stuff.
 
 >x shadow
 Of greater interest are the objects casting the shadows.
@@ -390,6 +417,9 @@ The rope isn't long enough.
 >twist cord
 Ding!
 "Yoohoo!". It sounds like it's coming from behind the church.
+
+>untie cord
+It's not entirely clear what you intend.
 
 >pull knot
 Ding!
@@ -464,13 +494,13 @@ There doesn't seem to be any other rooms past curtains or partitions in this
 church.
 
 >go into crypt
-You don't need to do that.
+You don't need to interact with that stuff.
 
 >x baptismal font
 There is no water, holy or otherwise, to be found.
 
 >search apse
-You don't need to do that.
+You don't need to interact with that stuff.
 
 >search sanctuary
 (first getting off the pews)
@@ -537,7 +567,7 @@ Thank you for playing!
 
 
 
-In that game you scored 75 out of a possible 100, in 132 turns.
+In that game you scored 75 out of a possible 100, in 139 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -587,7 +617,7 @@ go underneath.
 
 >jump over pews
 Some mortar dust descends from the ceiling.
-You achieve nothing by this.
+Jumping over the pews would achieve nothing here.
 
 >jump
 Some mortar dust descends from the ceiling.
@@ -645,7 +675,7 @@ Thank you for playing!
 
 
 
-In that game you scored 85 out of a possible 100, in 154 turns.
+In that game you scored 85 out of a possible 100, in 161 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -735,7 +765,7 @@ Thank you for playing!
 
 
 
-In that game you scored 95 out of a possible 100, in 169 turns.
+In that game you scored 95 out of a possible 100, in 176 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -830,8 +860,7 @@ The bins further from the square seem to have been filled more recently.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see a garden gate, a passage full of bins (in which is rubbish) and an
-upturned can (on which is an old man) here.
+You can see an upturned can (on which is an old man) here.
 
 "You there!?"
 An old man is here, sitting on an upturned paint tin. From his tan, he looks
@@ -846,7 +875,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Is the church yours?"
+(1) "Are you the vicar?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -933,7 +962,13 @@ The door looks formidably thick and built to last.
 smirk. The mound to the south is oddly lush with grass and slightly boggy.
 
 >n
-You can't since the garden gate is in the way.
+You can't since the gate is in the way.
+
+>x garden gate
+A gate in the fence to the north leads into a sizeable vegetable garden.
+
+>x garden
+A gate in the fence to the north leads into a sizeable vegetable garden.
 
 >jump over gate
 The gate is too high to jump onto. Perhaps climbing would be less ambitious.
@@ -942,10 +977,64 @@ The gate is too high to jump onto. Perhaps climbing would be less ambitious.
 You're too weary from shifting bins to poke around in the garden.
 
 >put papers on can
-Which do you mean, the bins or the upturned can?
+There's no advantage to unpack until you've found a suitable shelter.
+There's no advantage to unpack until you've found a suitable shelter.
+You aren't holding that!
 
 >visit Ben
 Ben is not something you can enter.
+
+>wake Ben up
+Ben is already awake.
+
+>buy food from Ben
+You can't see any such thing.
+
+>taste Ben
+You decide that's not such a good idea.
+
+>x Ben's vegetables
+The fruit near the fence doesn't look ripe.
+
+>take veg
+You don't need to interact with that stuff.
+
+>steal Ben's veggies
+You don't need to interact with that stuff.
+
+>take Ben
+I don't suppose Ben would care for that.
+
+>twist Ben
+That would be less than courteous.
+
+>jump over Ben
+Jumping over Ben would achieve nothing here.
+
+>wave card at Ben
+(first taking the bank card out of the trouser pockets)
+Waving the bank card at Ben would achieve nothing here.
+You put your bank card away in your pocket until you need to use it.
+
+>show card to Ben
+(first taking the bank card)
+Ben is unimpressed.
+You put your bank card away in your pocket until you need to use it.
+
+>give bag to Ben
+Ben doesn't seem interested.
+
+>Ben, taste the upturned can
+To talk to someone, please type TALK TO PERSON.
+
+>listen to Ben
+You hear nothing unexpected.
+
+>squeeze Ben
+You decide that's not such a good idea.
+
+>hug Ben
+That's sweet, but uncalled for.
 
 >talk to person
 What would you like to say?
@@ -1059,7 +1148,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see a passage full of bins (in which is rubbish) and Ben here.
+You can also see Ben here.
 
 Ben gropes along around the corner of the church.
 
@@ -1094,7 +1183,7 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see a passage full of bins (in which is rubbish) and Ben here.
+You can also see Ben here.
 
 >g
 You are already with Ben.
@@ -1106,8 +1195,7 @@ You see Ben carefully shuffling back around to the churchyard.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see a garden gate, a passage full of bins (in which is rubbish), Ben and
-an upturned can here.
+You can see Ben and an upturned can here.
 
 Ben slams the gate on his garden and disappears into the dense vegetation.
 
@@ -1164,8 +1252,6 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
-You can also see a passage full of bins (in which is rubbish) here.
-
 >detritus
 That's not a verb I recognise.
 
@@ -1207,8 +1293,6 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
-
-You can also see a passage full of bins (in which is rubbish) here.
 
 >windows
 That's not a verb I recognise.
@@ -1263,8 +1347,7 @@ That's not a verb I recognise.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see a garden gate, a passage full of bins (in which is rubbish) and an
-upturned can here.
+You can see an upturned can here.
 
 >gate
 That's not a verb I recognise.
@@ -1310,7 +1393,7 @@ east.
 Your bike stands chained here.
 
 On the motorbike are a battery and a chain.
-You achieve nothing by this.
+Jumping over the motorbike would achieve nothing here.
 
 >visit pew and empty bag on pew
 The game does not keep track of your path through the rooms, nor your
@@ -1414,8 +1497,6 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
-
-You can also see a passage full of bins (in which is rubbish) here.
 You find nothing of interest.
 
 >find bag. check in bag
@@ -1463,8 +1544,6 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
-
-You can also see a passage full of bins (in which is rubbish) here.
 It's not entirely clear what you intend.
 
 >make camp bed
@@ -1525,8 +1604,6 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
-
-You can also see a passage full of bins (in which is rubbish) here.
 This isn't an ideal spot to bed down for the night.
 
 >read book about cheese
@@ -1604,7 +1681,7 @@ There's no advantage to unpack until you've found a suitable shelter.
 You aren't holding that!
 
 >put body in bag
-You don't need to do that.
+You don't need to interact with that stuff.
 
 >put on accent
 You can't see any such thing.
@@ -1627,6 +1704,7 @@ Best keep your valuables with you.
 >visit bike. put bag on bike
 But you're already on the motorbike.
 Dropped.
+You shoulder your bag again.
 
 >look up foo in file
 First priority is to find a place to rest.
@@ -1641,8 +1719,6 @@ First priority is to find a place to rest.
 To talk to someone, please type TALK TO PERSON.
 
 >give bag to self
-(first taking the rucksack)
-(first getting off the motorbike)
 You juggle the rucksack for a while, but don't achieve much.
 
 >show bag to self
@@ -1774,6 +1850,7 @@ Sorry, I can't understand infinitive verbs.
 Sorry, I can't understand infinitive verbs.
 
 >pray to God I can find the door
+(first getting off the motorbike)
 You hear nothing unexpected.
 
 >visit pew. listen at door
@@ -1824,8 +1901,6 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
-
-You can also see a passage full of bins (in which is rubbish) here.
 You can't see any such thing.
 
 >town. look at building to north-east
@@ -1851,8 +1926,6 @@ a few dozen paces across surrounded by buildings, but is littered with detritus
 from campers. The street continues north out of town.
 
 The door to the church stands ajar.
-
-You can also see a passage full of bins (in which is rubbish) here.
 (the various buildings to east)
 The taller building on the east side appears to be a church. Hopefully the roof
 is intact.
@@ -1926,7 +1999,6 @@ You can't reach it.
 Best keep your valuables with you.
 
 >set file to rest on road
-There's no advantage to unpack until you've found a suitable shelter.
 You need to be holding the pile of papers before you can put it on top of
 something else.
 

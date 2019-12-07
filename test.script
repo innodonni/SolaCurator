@@ -6,6 +6,11 @@ say prayer to motorcycle gods
 read self
 visit bike
 x bike
+x battery
+x chain
+untie chain
+wake up
+wake bike up
 x buildings
 search street
 search buildings
@@ -73,7 +78,9 @@ x pockets
 x shirt pocket
 x trouser pockets
 search trouser pockets
+search pockets
 x card  
+blow card
 remove card from bag
 drop card
 open church door with card
@@ -100,6 +107,7 @@ push knot outwards
 push knot to west
 push knot west
 twist cord
+untie cord
 pull knot
 x cord
 search dangling bellcord
@@ -221,10 +229,28 @@ w
 x side door
 s
 n
+x garden gate
+x garden
 jump over gate
 climb gate
 put papers on can
 visit Ben
+wake Ben up
+buy food from Ben
+taste Ben
+x Ben's vegetables
+take veg
+steal Ben's veggies
+take Ben
+twist Ben
+jump over Ben
+wave card at Ben
+show card to Ben
+give bag to Ben
+Ben, taste the upturned can
+listen to Ben
+squeeze Ben
+hug Ben
 talk to person
 2
 2

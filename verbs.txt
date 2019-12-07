@@ -29,6 +29,7 @@ empty
 *go to church and empty bag onto altar
 *go to town and empty bag into road
 grip
+squeeze
 visit
 travel
 raise

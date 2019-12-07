@@ -108,9 +108,13 @@ Object newplayer "yourself"
    }
  ],
  each_turn [;
-  if (parent(player) ~= pews && parent(papers) ~= bag) {
-   give papers ~open; move papers to bag; move bag to player;
-   print "You place the papers gently back in your bag. You don't want to lose any pages accidentally.^";
+  if (location ~= pews && parent(papers) ~= bag) {
+   give papers ~open; move papers to bag; give bag ~open; move bag to player;
+   print "You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.^";
+  }
+  else if (location ~= Church or pews or aisle && parent(bag) ~= player) {
+   give bag ~open; move bag to player;
+   print "You shoulder your bag again.^";
   }
   if (parent(card) ~= pockets or nothing) {
    move card to pockets;
@@ -126,6 +130,8 @@ Object pockets "trouser pockets"
  capacity 1,
  before [;
   Search: move card to pockets;
+  if (self has general) "In your trouser pockets is your bank card. You'll put it away in your rucksack later - it could come in handy.";
+  give self general;
   "To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.";
   Receive: "You can't fit anything more in your pockets.";
  ],
@@ -574,7 +580,6 @@ Object bins "bins"
  article "a passage full of",
  found_in Square ChurchYard,
  before [;
-  give self ~concealed;
   Receive: <<Drop noun>>;
   LetGo,Touch,Rub,Enter: "^Are you serious?!";
   Enter,Climb: "You balk at the idea of falling into the open bins.";
@@ -615,20 +620,39 @@ Object rubbish "rubbish" bins
  has proper;
 
 Outside ChurchYard "Churchyard"
- with name 'churchyard' 'bare' 'yard' 'tufts' 'weeds',
+ with name 'churchyard' 'bare' 'yard',
  description "The bare yard behind the church is strewn with tufts of weeds.",
- scenic 'side' 'back' 'door' 0 "The door looks formidably thick and built to last.",
+ scenic 'door' 'side' 'back' 'northern' 'transept' 'semi-transept' 0 "The door looks formidably thick and built to last."
+        'grass' 'lush' 'weed' 'weeds' 'tuft' 'tufts' 0 "You don't feel green-fingered right now."
+        'mound' 'boggy' 'lush' 'bog' 'marshy' 'marsh' 'marshland' 'swamp' 'swampy' 'edge' 0 "It's only boggy near the yard's edge, where Ben probably throws out waste water."
+ ,
  sw_to Square,
  n_to GardenGate,
+ nw_to "The side door to the church is locked.",
  w_to "The side door to the church is locked.",
  s_to "The mound to the south is oddly lush with grass and slightly boggy.",
  has concealed ~transparent;
 
-DirDoor GardenGate "garden gate"
+DirDoor GardenGate "gate"
  with name 'garden' 'gate' 'fence',
+! parse_name [ i word; ! disambiguate 'garden'
+!  if (parser_action == ##TheSame) return -2;
+!  word = NextWord();
+!  if (word == 'garden') {
+!    word = NextWord(); i++;
+!    if (~~word) return action_to_be ~= ##Examine;
+!  }
+!  for (::i++) {
+!   if (~~WordInProperty(word,self,name)) return i;
+!   word = NextWord();
+!  }
+! ],
+ description "A gate in the fence to the north leads into a sizeable vegetable garden.",
+ scenic 'food' 'Ben^s' 'vegetable' 'vegetables' 'fruit' 'veg' 'veggies' 'crop' 'crops' 'healthy' 0 "The fruit near the fence doesn't look ripe."
+        'garden' 'allotment' 'vegetable' 'gated' 'veg' 'veggie' 'orchard' 'bed' 'beds' 'fertile' 'plant' 'plants' 'healthy' 0 "The garden is unusually fertile and brimming with healthy crops."
+ ,
  s_to ChurchYard,
  n_to thedark,
- description "The gate leads into a sizeable vegetable garden.",
  before [;
   Enter,Climb: "You're too weary from shifting bins to poke around in the garden.";
   Unlock,Open: "The gate is too stiff. Perhaps there is a knack to it.";
@@ -636,7 +660,7 @@ DirDoor GardenGate "garden gate"
  react_before [;
   JumpOn,JumpOver: if (noun == self) "The gate is too high to jump onto. Perhaps climbing would be less ambitious.";
  ],
- has openable lockable locked door;
+ has scenery openable lockable locked door;
 
 InsideOrOn can "upturned can" ChurchYard
  with name 'upturned' 'can' 'tin' 'empty' 'wood-stain' 'stain' 'paint' 'makeshift' 'seat',
@@ -666,12 +690,15 @@ InsideOrOn bike "motorbike" Town
  with name 'motorbike' 'bike' 'electric' 'ride' 'vehicle' 'bicycle' 'motorcycle' 'standard',
  description "It's a standard electric motorbike, and your ticket to finding the City of Peace.",
  initial "Your bike stands chained here.",
+ scenic 'wheel' 'wheels' 'alloy' 'chassis' 'throttle' 'pedal' 'pedals' 'handles' 'handlebars' 0 "The bike is made of some new-fangled alloy you don't fully understand."
+        'tyre' 'tyres' 0 "The tyres are made of a highly viscous synthetic polymer."
+ ,
  before [;
   Take: "The bike is much too large and heavy for you to carry, and there's no need to wheel it along anywhere right now.";
   Push,Pull,PushDir: "You decide to leave the bike here until you've found a place to stay the night.";
   Squeeze,LookUnder: if (self == parent(player)) "You're too stiff from the ride."; 
   Lock: "The bike is already chained up.";
-  Unlock,SwitchOn: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
+  Unlock,Untie,SwitchOn: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
   Taste:
     if (self == parent(player)) "You're too stiff from the ride.";
     "Yuck!";
@@ -699,6 +726,7 @@ Object battery "battery" bike
  has concealed
  with name 'battery',
  description "There should be enough charge to finish your journey tomorrow, unless you change your mind before then.",
+ scenic 'contacts' 'terminals' 'electricity' 'wire' 'wires' 'component' 'components' 'engine' 'motor' 0 "The battery terminals and other components aren't exposed.",
  before [;
   Take: "The sealed battery unit is clipped securely into the bike, and is wedged in too tightly to remove. You've learned to camp without the need for that much juice anyway.";
   Search,Open,Touch,Taste: "Lucky the contacts aren't exposed!";
@@ -713,7 +741,7 @@ Object chain "chain" bike
  with name 'chain' 'lock' 'security' 'wheel',
  description "The chain is not the most sturdy brand, and the bike is not even chained up to anything. Thankfully there's no-one about.",
  before [;
-  Open,Take,Unlock: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
+  Open,Take,Unlock,Untie: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
   Pull: "The security lock clanks coldly against the wheel.";
  ],
  after [;

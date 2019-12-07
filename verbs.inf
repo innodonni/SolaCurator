@@ -1,18 +1,68 @@
 ! Copyleft Adonikam Virgo. See LICENCE.md for MIT licence.
+[ PossessiveNeuter obj caps;
+    if (obj ~= player && (obj has neuter || obj hasnt male or female)) {
+     if (obj has pluralname) {
+     if (caps) print "T"; else print "t";
+     print "heir"; return;
+     }
+     if (caps) print "I"; else { print "i"; print "ts"; return; }
+    }
+    return Possessive(obj, caps);
+];
 Object LibraryMessages
  with before [ previous_parent;
   ! lm_n is the variation number, lm_o may be the noun involved
-  Go: if (lm_n == 1 && lm_o has supporter) {
+  ! lm_s may be the indirect object, subject or dictionary word e.g. 'sit'
+  Go: if (lm_n == 1 && lm_o has supporter) { !this may be superceded by InsideOrOn?
           print "(first getting off ", (the) lm_o, ")^";
           previous_parent = parent(player);
           keep_silent = true; <Exit>; keep_silent = false;
           if (player in parent(previous_parent)) <<Go noun>>;
           rtrue;
       }
-  Strong: print "You don't need to ";
-          print (address) verb_word;
-          print_ret " anything right now.";
+  Strong: CSubjectDont(actor);
+          print_ret " need to ", (address) verb_word, " anything right now.";
   Prompt: if (turns == 0) print "^What next? (beginners, type help<ENTER>)^>"; else print "^>"; rtrue;
+  ! Avoid implications that potentially impossible actions are undertaken by saying "achieves nothing"
+  Tie: if (lm_n ~= 1) rfalse;
+        print "Tying ", (the) lm_o, " ";
+        Tense("would achieve", "would have achieved");
+        " nothing here.";
+  !Untie is stubbed by ExpertGrammar.h
+  Wake: print_ret (nop) CSubjectIs(actor), " already awake.";
+  WakeOther: print_ret (nop) CSubjectIs(lm_o), " already awake.";
+  Wave: if (lm_n ~= 2) rfalse;
+        print "Waving ", (the) lm_o, " at ", (the) lm_s, " ";
+        Tense("would achieve", "would have achieved");
+        " nothing here.";
+  Rub: if (lm_n ~= 1) rfalse;
+        print "That ";
+        Tense("would achieve", "would have achieved");
+        " nothing here.";
+  Squeeze: if (lm_n ~= 2) rfalse;
+        if (lm_n has animate) "Do you intend to embrace ", (the) lm_n, "?";
+        else print "Squeezing";
+        print " ", (the) lm_o, " ";
+        Tense("would achieve", "would have achieved");
+        " nothing here.";
+  JumpOver: if (lm_n ~= 1) rfalse;
+        if (lm_o has door) {
+         CSubjectVerb(actor,false,false,"couldn't",0,"couldn't","couldn't have");
+         print " ";
+         Tense("jump over","jumped over");
+         print " ", (the) lm_o, ", even if ";
+         !PossessiveNeuter(actor,false);
+         !" legs were long enough.";
+         print_ret (theActor) actor, " needed to.";
+        }
+        print "Jumping over ", (the) lm_o, " ";
+        Tense("would achieve", "would have achieved");
+        " nothing here.";
+  !Give: 
+  Kiss: "That's sweet, but uncalled for.";
+  Blow: if (lm_o == nothing) rfalse;
+        CSubjectVerb(actor,false,false,"blow",0,"blows","blew");
+        " ", (ThatOrThose) lm_o, " to no effect.";
  ];
 
 Replace PraySub;
@@ -156,7 +206,7 @@ if (parser_trace>1)
 ];
 
 Global ScenicFlag = 4; ! handle "examine room"
-Constant ScenicError "You don't need to do that.";
+Constant ScenicError "You don't need to interact with that stuff.";
 Property scenic;
 Include ">scenic.h";
 Include "grammar";

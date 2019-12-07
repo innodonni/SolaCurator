@@ -328,7 +328,7 @@ Class InsideOrOn
 
  topholder
  [ o1 o2;
-
+  if (o1 == nothing) return nothing;
   if (o1 in compass) return o1;
   while (o1 ~= location)
   {  o2 = ObjectScopedBySomething(o1);
@@ -360,7 +360,7 @@ Class InsideOrOn
 
  outofreach
  [ o c p i j;
-
+   if (o == nothing) rtrue;
 ! Is the object not in the location or is it in a closed container?
 
    if (ObjectIsUntouchable(o, 1)) rfalse;

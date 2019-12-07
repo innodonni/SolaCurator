@@ -82,7 +82,12 @@ system_file;
 !--------------------------------------------------------------------------- 
 
 #ifdef TARGET_GLULX;
+[ isQuixe ret;
+  @gestalt 1 0 ret;
+  return ret == $20106; ! v2.1.6
+];
 [ ES_Pause i; 
+  if (isQuixe()) rfalse; ! allow user to scroll themselves
 	i = KeyCharPrimitive();  
 	if (i=='q') rtrue;
 	rfalse; 

@@ -1,4 +1,5 @@
 dirs
+leave town
 search self
 change mind
 give bag to self
@@ -45,6 +46,7 @@ search dwellings
 x church
 x graffiti
 search graffiti
+e
 search church
 x doors
 listen at gap
@@ -88,12 +90,20 @@ push door
 close church door
 lift latch with card
 pull church door
+close latch
 lift latch
+use latch
+use card
+use card on latch
+lock latch
 raise latch with card
+e
 enter church
 x latch
 search doors
 push latch inwards
+close latch
+lock latch
 explore church
 search shadows
 x shadow

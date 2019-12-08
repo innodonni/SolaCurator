@@ -61,7 +61,10 @@ Verb 	'whistle' 'hum'		= 'sing';
 Verb 	'injure'			= 'attack';
 Verb 	'wander'			= 'walk';
 							
-							
+! Added to assist Adjudicate that would otherwise unlock doors with SACK_OBJECT!
+[ Keyish n;
+  return n hasnt container or scenery or static;
+];
 
 Verb 'use' 'utilise' 'utilize' 'employ' 'try'
 				* clothing 						 -> Wear 
@@ -71,7 +74,7 @@ Verb 'use' 'utilise' 'utilize' 'employ' 'try'
 				* switchable					 -> SwitchOn
 				* openable						 -> Open
 				* noun 							 -> Use
-				* noun 'on'/'in'/'with' lockable		 -> TryKey
+				* noun=Keyish 'on'/'in'/'with' lockable		 -> TryKey
 				* noun 'to'/'for' topic			 -> RephraseUse;  
 
 Verb 	'bite'		* edible				-> Eat

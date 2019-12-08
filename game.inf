@@ -73,12 +73,12 @@ Include ">newflags.h";
 
 Object newplayer "yourself"
  with name 'you',
- description "You consider yourself a ~truther~. There isn't as much money in journalism as there was last century when you started, but the freedom it affords you means more than wealth. It doesn't much matter what you write anyway, in post-truth society.",
+ description "You consider yourself a ~truther~. There isn't as much money in journalism as there was last century when you started, but the freedom it affords you means more than wealth. It doesn't much matter what you write anyway, in post-truth society.^^You are wearing a shirt and trousers.",
  capacity 100,
  scenic 'mind' 'thoughts' 'doubt' 'doubts' 0 "You need to focus on finding shelter."
         'torso' 'body' 'groin' 'privates' 'head' 'hand' 'hands' 0 "From what you can tell, everything is in its place."
         'shirt' 'top' 'trousers' 'clothing' 'clothes' 'vestments' 'garb' 'pants' 0 "There are pockets in your shirt and trousers."
-        'shirt' 'pocket' 0 "A decorative pocket, sewn shut. Good thing too - you don't trust pockets.",
+        'shirt' 'pocket' 'top' 'decorative' 0 "A decorative pocket, sewn shut. Good thing too - you don't trust pockets.",
  add_to_scope camp bed pockets,
  life [;
   Answer: "You don't hear an echo here.";
@@ -97,10 +97,24 @@ Object newplayer "yourself"
  ],
  react_before [;
   Disrobe: "You're not ready to tuck yourself in yet.";
+  Inv:
+   print "You're carrying:^";
+   print "  your clothes (being worn)^";
+   if (bag in self) {
+    print "  ", (Indefart) bag;
+    c_style=FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT;
+    wlf_indent=1; WriteAfterEntry(bag);
+   }
+   if (card in self) {
+    print "^In your trouser pockets:^";
+    print "  ", (Indefart) card;
+    new_line;
+   }
+   rtrue;
  ],
  react_after [;
   Inv: print "  your clothes (being worn)^";
-    if (child(pockets)) {
+    if (false){!(child(pockets)) {
     print "^In your trouser pockets:^";
     !WriteListFrom(child(pockets), FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT);
     c_style=FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT;
@@ -116,8 +130,8 @@ Object newplayer "yourself"
    give bag ~open; move bag to player;
    print "You shoulder your bag again.^";
   }
-  if (parent(card) ~= pockets or nothing) {
-   move card to pockets;
+  if (parent(card) ~= player or nothing) {
+   move card to player;
    print "You put your bank card away in your pocket until you need to use it.^";
   }
  ],
@@ -129,7 +143,7 @@ Object pockets "trouser pockets"
  description "Deep pockets, ready for adventure! Still, you try not to use them in case anything falls out.",
  capacity 1,
  before [;
-  Search: move card to pockets;
+  Search: move card to player;
   if (self has general) "In your trouser pockets is your bank card. You'll put it away in your rucksack later - it could come in handy.";
   give self general;
   "To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.";
@@ -190,7 +204,9 @@ Outside Town "Town"
  with name 'street' 'town' 'settlement',
  description "Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.",
  ne_to "You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.",
- s_to Square;
+ out_to "You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.",
+ s_to Square,
+ has enterable;
 
 Object board "billboard" Town
  with name 'old' 'bulletin' 'billboard' 'board' 'writing' 'hoarding' 'advertisement',
@@ -211,7 +227,10 @@ Outside Square "Square"
  external_name 'square',
  description "Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.",
  before [;
-  Examine,Search: if (noun == self) "The taller building on the east side appears to be a church. Hopefully the roof is intact.";
+  Examine,Search: if (noun == self) {
+   give Church ~concealed; !give ChurchDoors ~concealed;
+   "The taller building on the east side appears to be a church. Hopefully the roof is intact.";
+  }
  ],
  n_to Town,
  e_to ChurchDoors,
@@ -319,13 +338,13 @@ DirDoor ChurchDoors "church doors"
     self.unlocked();
  ],
  unlocked [;
-    give latch ~concealed;
+    give latch ~concealed ~locked open;
     give self ~concealed ~locked open;
     give Church transparent ~concealed; !teleportable only while open
  ],
  after [;
   Unlock: self.unlock(); print "By slotting your bank card between the doors, you manage to lift the latch. ";
-  Close: give self locked; give Church ~transparent; !teleportable only while open
+  Close: give self locked; give latch ~open locked; give Church ~transparent; !teleportable only while open
   if (self in Church && self hasnt general) { score = score + 5; give self general; }
   "The doors latch shut, locking intruders out.";
  ],
@@ -360,25 +379,30 @@ Object handles "brass handles"
 Object latch "latch"
  with name 'latch' 'gap' 'edge' 'edges' 'between' 'black' 'metal' 'hole' 'holes' 'bar' 'catch' 'strike' 'Norfolk' 'Suffolk',
  description "The latch mechanism on the doors is a flat black metal bar that slots down into a catch.",
+ with_key card,
  before [;
-   if ((action ~= ##Open or ##Turn || second ~= card) && TestScope(Square,player) && ChurchDoors has locked) "You can't open the latch that way.";
+   !if ((action ~= ##Open or ##Turn or ##Unlock || (action ~= ##Lock && second ~= card)) && TestScope(Square,player) && ChurchDoors has locked) "You can't open the latch that way.";
    if (action == ##Push or ##Pull && TestScope(Church,player) && ChurchDoors hasnt open) "You can't open the latch that way.";
-   Open,Turn: if ((TestScope(Church,player) || second == card) && ChurchDoors hasnt open) {
+   Lock: if (TestScope(Church,player) && self has locked) "The latch cannot be fixed into an open position.";
+   <<Close ChurchDoors>>;
+   Open,Turn,Unlock: if ((TestScope(Church,player) || second == card) && ChurchDoors hasnt open) {
     !if (pews == parent(player)) "You can't reach the doors from the pew.";
     ChurchDoors.unlock();
     move card to pockets;
     "You lift the latch and the door opens.";
    }
-   if (player in Square) "You cannot fit your hand between the doors.";
+   if (ChurchDoors has open) "The latch is already open.";
+   if (player in Square && second ~= card) "You cannot fit your hand between the doors.";
    ChurchDoors.unlock();
    "You lift the latch easily and the door opens.";
    Pull: if (TestScope(Church,player) && ChurchDoors has open) "Do you intend to exit?";
    Push: if (TestScope(Church,player)) <<Close ChurchDoors>>;
+   Close: <<Close ChurchDoors>>;
    PushDir: if (second == u_obj && TestScope(Church,player)) <<Open ChurchDoors>>;
    "You can't open the latch that way.";
    Examine: if (player in Square) "In the gap between the doors, you can make out the shape of a latch on the other side.";
  ],
- has static concealed openable;
+ has static concealed openable lockable locked;
 
 Inside Church "Church"
  with name 'church' 'building' 'nave' 'sanctuary',
@@ -806,7 +830,7 @@ Object buildings "various buildings"
  description "None of the dwellings here appear to be inhabitable.",
  found_in Town Square,
  before [;
-  Climb,Enter: <<Examine roofs>>;
+  Climb,JumpIn,JumpOn,Enter: <<Examine roofs>>;
   Examine,Search: if (location == Square) <<Search Square>>;
  ],
  has scenery pluralname enterable;

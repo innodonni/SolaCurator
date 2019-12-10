@@ -2,8 +2,13 @@
 #Include ">Info.h";
 
 Object Topics;
-Topic -> foo with name 'match' 'terms';
-Topic -> bar with name 'foo' 'bar';
+Topic -> CalendarDates with name 'calendar' 'dates' 'does' 'history' 'matter' 'any' 'more' 'more?' '863';
+Topic -> Inking with name 'inking' 'ancient' 'printing' 'revised' 'for' 'modern' 'era' '868';
+Topic -> GoatPsy with name 'goat' 'goats' 'psychology' 'eye' 'witness' 'witnessess' 'eyewitnesses' 'left' 'behind' 'left-behind' 'syndrome' '877';
+Topic -> SolaScriptura with name 'sola' 'scriptura' 'what' 'Bible' 'might' 'have' 'said' '952';
+Topic -> FinalSol with name 'final' 'solution' 'solutions' 'flooding' 'world' 'clean' 'water' '986';
+Topic -> Abysmal with name 'abysmal' 'release' 'devil' 'devillish' 'designs' 'for' 'humanity' '993';
+Topic -> GodIncarnate with name 'god' 'incarnate' 'what' 'is' 'love' 'love?';
 
 Class Book
  with name 'reference' 'book' 'manual',
@@ -11,7 +16,51 @@ Class Book
   Consult:
    switch(second)
    {
-    foo: "Blah";
-    bar: "Blab";
+    CalendarDates: "~Calendar dates~ was your first article published in volume. You still keep a copy with you:^^
+        Calendar dates - does history matter any more? (863)^^
+        We know very little about what happened in the first centuries after Armaggedon. Life was unbearable
+        enough without looking to record events for future readers, and the people still clinging on had no
+        reason to spend the precious fuel and light they had to find writing or printing materials.^
+        Books still survive from the era before, but those who can still read English are diminishing rapidly.
+        Can we learn anything from those who lived before, in the bygone technologically advanced times?
+        There are still technologies that could benefit us in the present, technologies lying dormant due to
+        power failure or abandonment. You may not have time to salvage equipment from nearby towns, but I
+        urge you to assist anyone who aims to restore facilities that can benefit us all. If anyone reading this
+        can read English or has access to a translation or general purpose computer, please get in touch.
+    ";
+    Inking: "~Inking~ was the revolutionary printing technique you devised to help distribute your articles:^^
+        Inking - ancient printing revised for the modern era (868)^^
+        ...
+    ";
+    GoatPsy: "~Goat psychology~ was your first serious research piece with interviews. It was very popular:^^
+        Goat psychology - eyewitnesses and ~left behind~ syndrome (877)^^
+        ...
+    ";
+    SolaScriptura: "^Sola Scriptura - what the Bible might have said (published 05/06/952)^^
+    I've been looking for many years for a Bible. The old regime destroyed almost all known copies during
+    the religion purge instituted by the world leader...^
+    ";
+    FinalSol: "~Final solutions~ wasn't very well received. You keep an excerpt folded in your journal:^^
+        The blood-red oceans of the world were not always that way. The bitterness of potable water is
+        an issue which affects us all. We may not be able to reintroduce life to the seas, but something
+        must be done on a large scale if the water table is to be rejuvenated and made drinkable again
+        without prior filtration.^
+        Flooding the world with clean water would take collaboration, but I believe it is possible.
+        It is rumoured that Jerusalem is fed by spring water, and there is an abundance of subterranean
+        water in all the currently inhabited areas of the world. If electricity reserves were directed to
+        boring in areas with rich geothermal energy resources, the energy released would allow us to
+        build turbines and continue to power hole bores further afield.
+    ";
+    Abysmal: "^Abysmal release - devillish designs for humanity (published 11/07/993)^^
+        ...
+    ";
+    GodIncarnate: "You look up your notes for the upcoming article you have planned to write:^
+        God incarnate - what is love?^
+        * What happens to those who go to Jerusalem?^
+        * What are the Lord's plans for the rest of the earth?^
+        * Is the Lord of Jerusalem a divine being?^
+        * Is it a loving being - and what does that mean?^
+        * What is the secret of Jerusalem's water supply?
+    ";
    }
  ];

@@ -41,3 +41,6 @@ rubbish
 upturned can
 church roof
 bell
+left hand
+right hand
+hands

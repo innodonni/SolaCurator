@@ -62,8 +62,16 @@ Verb 	'injure'			= 'attack';
 Verb 	'wander'			= 'walk';
 							
 ! Added to assist Adjudicate that would otherwise unlock doors with SACK_OBJECT!
-[ Keyish n;
-  return n hasnt container or scenery or static;
+[ Keyish;
+  if (action_to_be == ##Unlock or ##TryKey) {
+   if (FlagOff(UNLOCHUR)) return noun == righthand or lefthand or card;
+   else if (ChurchDoors has open || TestScope(player, Church)) return noun == righthand;
+  }
+  else if (action_to_be == ##Lock or ##TryKey) {
+   if (FlagOff(UNLOCHUR) || ChurchDoors has open || TestScope(player, Church)) return noun == righthand;
+   else return noun == card;
+  }
+  return noun hasnt container or scenery or static;
 ];
 
 Verb 'use' 'utilise' 'utilize' 'employ' 'try'
@@ -74,7 +82,7 @@ Verb 'use' 'utilise' 'utilize' 'employ' 'try'
 				* switchable					 -> SwitchOn
 				* openable						 -> Open
 				* noun 							 -> Use
-				* noun=Keyish 'on'/'in'/'with' lockable		 -> TryKey
+				* noun=Keyish 'on'/'in'/'with' lockable		 -> TryKey reverse
 				* noun 'to'/'for' topic			 -> RephraseUse;  
 
 Verb 	'bite'		* edible				-> Eat
@@ -183,8 +191,8 @@ Extend 'set'		* multiheld 'down'			-> Drop
 ];
 
 [ TryKeySub;
-	if (second has locked) <<Unlock second noun>>;
-	<<Lock second noun>>;
+	if (noun has locked) <<Unlock noun second>>;
+	<<Lock noun second>>;
 ];
 
 [ LookDirSub;

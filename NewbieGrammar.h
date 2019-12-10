@@ -140,8 +140,8 @@ Object allbodyparts,
 		{	
 			j = 0; w = NextWord();
 			if ((self.number == 0 or 1) && 
-				((w == 'my' or 'head' or 'hands' or 'hand' or 'ear' or 'ears') ||
-				 (w == 'fist' or 'fists' or 'finger' or 'fingers' or 'thumb' or 'thumbs') ||
+				((w == 'my' or 'head' or 'ear' or 'ears') || !or 'hands' or 'hand') ||
+				 (w == 'fist' or 'fists') || !or 'finger' or 'fingers' or 'thumb' or 'thumbs') ||
 				 (w == 'arm' or 'arms' or 'leg' or 'legs' or 'foot' or 'feet') ||
 				 (w == 'eye' or 'eyes' or 'face' or 'nose' or 'mouth' or 'teeth') ||
 				 (w == 'tooth' or 'tongue' or 'lips' or 'lip')))
@@ -165,11 +165,13 @@ Object allbodyparts,
 		if ((noun && noun == self) || (second && second == self))
 		{	
 			self.message(self.number);
-			self.number = 0;
 			rtrue;
 		}
 		rfalse;
 	],
+        react_after [;
+		self.number = 0;
+        ],
 	message [ x;
 		switch(x)
 		{

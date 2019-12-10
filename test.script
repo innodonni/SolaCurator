@@ -1,5 +1,27 @@
 dirs
 leave town
+put hands in pockets
+remove hands from pockets
+put both hands in pockets
+get hands from pockets
+put all in pockets
+take hands out of pockets
+take hands from pockets
+take all from pockets
+rub left hand on right hand
+clean left hand with right hand
+rub left hand on left hand
+put right hand on right hand
+put left hand in right hand
+put left hand in left hand
+lift left hand with right hand
+lift left hand with left hand
+unlock right hand with right hand
+unlock right hand with left hand
+unlock left hand with right hand
+unlock left hand with left hand
+unlock buildings with left hand
+unlock buildings with right hand
 search self
 change mind
 give bag to self
@@ -17,7 +39,7 @@ search street
 search buildings
 move rubble
 search rubble
-take stones
+take some stones
 pray on roof
 pray to god on roofs
 ne
@@ -43,6 +65,7 @@ x church roof
 x church spire
 x church bell
 search dwellings
+e
 x church
 x graffiti
 search graffiti
@@ -55,6 +78,9 @@ pull knob
 twist knob
 touch knob
 touch door
+unlock door
+unlock church building with left hand
+unlock church building with right hand
 push door
 pick the lock
 pick litter
@@ -85,7 +111,12 @@ x card
 blow card
 remove card from bag
 drop card
+unlock church door
+unlock latch
 open church door with card
+unlock church door
+unlock latch with card
+use card on latch
 push door
 close church door
 lift latch with card
@@ -178,7 +209,7 @@ look under pews
 take cushion
 taste cushion
 make bed from cushions
-put cushion on pew
+put cushion in aisle
 throw cushion at windows
 make bed with camping gear
 undo

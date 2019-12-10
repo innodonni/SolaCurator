@@ -247,7 +247,7 @@ Global  ScenicWord;
         do ScenicWord = NextWordStopped(); until (ScenicWord == -1);
         wn = wn - 2; ScenicWord = NextWord();
         if (ScenicWord) {
-            if (action_to_be == ##Examine or ##Search or ##Consult) {
+            if (action_to_be == ##Examine or ##Search or ##Consult or ##ExamineHeld) {
                 CheckScenicExamine(location);
                 if (ScenicWord) LoopOverScope(CheckScenicExamine);
                 }

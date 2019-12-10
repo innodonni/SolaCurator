@@ -288,9 +288,10 @@ Class InsideOrOn
            rtrue;
     Drop : if ((self has container) || (~~(self.droponfloor))) rfalse;
            if ((noun == player) || (noun notin player)) rfalse;
+           if (RunRoutines(noun,before)~=0) rtrue; ! added
            move noun to location;
            if (keep_silent == 0)
-              print "Dropped.^";
+              print L__M(##Drop, 4, noun); ! use library message
            rtrue;
  ],
 
@@ -328,7 +329,7 @@ Class InsideOrOn
 
  topholder
  [ o1 o2;
-  if (o1 == nothing) return nothing;
+  if (o1 == nothing) return nothing; ! added
   if (o1 in compass) return o1;
   while (o1 ~= location)
   {  o2 = ObjectScopedBySomething(o1);

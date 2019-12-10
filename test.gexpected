@@ -9,9 +9,82 @@ Interpreter version 0.5.4 / VM 3.1.2 / Library serial number 180611
 
 What next? (beginners, type help<ENTER>)
 >dirs
-You can go south (to the Square) or northeast.
+You can go south (to the Square), northeast or out.
 
 What next? (beginners, type help<ENTER>)
+>leave town
+You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.
+
+>put hands in pockets
+left hand: Done.
+right hand: Done.
+To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.
+
+>remove hands from pockets
+right hand: Removed.
+left hand: Removed.
+
+>put both hands in pockets
+left hand: Done.
+right hand: Done.
+
+>get hands from pockets
+Removed.
+
+>put all in pockets
+There is nothing to put.
+
+>take hands out of pockets
+You can't see any such thing.
+
+>take hands from pockets
+You can't see any such thing.
+
+>take all from pockets
+In your trouser pockets is your bank card. You'll put it away in your rucksack later - it could come in handy.
+
+>rub left hand on right hand
+You wring your hands for a while.
+
+>clean left hand with right hand
+You wring your hands for a while.
+
+>rub left hand on left hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>put right hand on right hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>put left hand in right hand
+You wring your hands for a while.
+
+>put left hand in left hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>lift left hand with right hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>lift left hand with left hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>unlock right hand with right hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>unlock right hand with left hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>unlock left hand with right hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>unlock left hand with left hand
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+
+>unlock buildings with left hand
+The various buildings don't seem to be something you can unlock.
+
+>unlock buildings with right hand
+The various buildings don't seem to be something you can unlock.
+
 >search self
 Your mind is too clouded for introspection right now.
 
@@ -29,7 +102,6 @@ You pray fervently for the strength to continue your journey, but the motorbike 
 Across the back of your shirt is emblazoned the phrase "Gamerr". You quickly put it back on!
 
 >visit bike
-You get onto the motorbike.
 
 >x bike
 It's a standard electric motorbike, and your ticket to finding the City of Peace.
@@ -55,11 +127,10 @@ You can only do that to something animate.
 None of the dwellings here appear to be inhabitable.
 
 >search street
-(first getting off the motorbike)
 You find nothing of interest.
 
 >search buildings
-You find nothing of interest.
+The various buildings are empty.
 
 >move rubble
 There's no use. You'd rather sleep in the open than shift rubble about, so you press on, hoping for a clean space to camp.
@@ -67,11 +138,11 @@ There's no use. You'd rather sleep in the open than shift rubble about, so you p
 >search rubble
 The hopes of scavenging anything are slim, and the allure can wait until morning when you're more fresh.
 
->take stones
+>take some stones
 The shifted rubble sends up a plume of dust and you toss it back, eyes watering. It wouldn't make for very good bedding material.
 
 >pray on roof
-The roofs have insufficient authority to grant your request.
+The rubble has insufficient authority to grant your request.
 
 >pray to god on roofs
 You hear nothing unexpected.
@@ -128,12 +199,16 @@ Many travellers have passed through here before you. The square is no more than 
 [The score has just gone up by five points.]
 
 >x square
+(visiting the Square)
+
+Square
 Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
 
 >x buildings
 The taller building on the east side appears to be a church. Hopefully the roof is intact.
 
 >search buildings
+(the various buildings)
 The taller building on the east side appears to be a church. Hopefully the roof is intact.
 
 >search square
@@ -152,6 +227,9 @@ The church roof is intact, and sports a small bell in the tower on the Square en
 >search dwellings
 The taller building on the east side appears to be a church. Hopefully the roof is intact.
 
+>e
+You can't since the church doors are in the way.
+
 >x church
 (the church building)
 The church building seems to be the only one not covered in graffiti.
@@ -166,12 +244,15 @@ I suppose you could call it art. Although it has been drawn over several times, 
 >search graffiti
 Some stars of David and Star and Crescents have been drawn in solidarity with other visitors.
 
+>e
+You can't since the church doors are in the way.
+
 >search church
 (the church building)
-To the south-east of the church building is a narrow passage blocked by dustbins.
+The east face of the church has a set of double doors. To the south-east of the church building is a narrow passage blocked by dustbins.
 
 >x doors
-The wooden doors have withstood the elements and are still solid and impassable. Their only feature is a round brass handle on each.
+The wooden doors have worn edges but have withstood the elements and are still solid and impassable. Their only feature is a round brass handle on each.
 
 >listen at gap
 You can't see any such thing.
@@ -190,6 +271,16 @@ You feel nothing unexpected.
 
 >touch door
 The door has been looked after, perhaps was even stained this year. The edges of the doors between the handles have been worn away.
+
+>unlock door
+(with the right hand)
+The right hand doesn't seem to fit.
+
+>unlock church building with left hand
+The left hand doesn't seem to fit.
+
+>unlock church building with right hand
+The right hand doesn't seem to fit.
 
 >push door
 The church doors seem to be locked.
@@ -239,7 +330,7 @@ God knows what you're after. Maybe you're just standing in the wrong place.
 God knows what you're after. Maybe you're just standing in the wrong place.
 
 >x back doors
-The bell tower makes this end of the church look like the front, which would make the back of the church down the passage to the south-east.
+You aren't holding that!
 
 >x tympanum
 This church's plain architecture has nothing of that sort.
@@ -266,7 +357,7 @@ A decorative pocket, sewn shut. Good thing too - you don't trust pockets.
 Deep pockets, ready for adventure! Still, you try not to use them in case anything falls out.
 
 >search trouser pockets
-To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.
+In your trouser pockets is your bank card. You'll put it away in your rucksack later - it could come in handy.
 
 >search pockets
 In your trouser pockets is your bank card. You'll put it away in your rucksack later - it could come in handy.
@@ -277,9 +368,7 @@ You wonder why you carry this around. Banks are a relic of the past.
 [The score has just gone up by five points.]
 
 >blow card
-(first taking the bank card)
 You blow that to no effect.
-You put your bank card away in your pocket until you need to use it.
 
 >remove card from bag
 You can't see any such thing.
@@ -287,10 +376,26 @@ You can't see any such thing.
 >drop card
 You might want to hold onto that, even though you have no money in the bank at the moment.
 
+>unlock church door
+(with the right hand)
+The right hand doesn't seem to fit.
+
+>unlock latch
+(with the right hand)
+You cannot fit your hand between the doors.
+
 >open church door with card
-(first taking the bank card)
-By slotting your bank card between the doors, you manage to lift the latch. You unlock the church doors.
-You put your bank card away in your pocket until you need to use it.
+By slotting your bank card between the doors, you manage to lift the latch. You open the church doors.
+
+>unlock church door
+(with the right hand)
+The church doors are open at the moment.
+
+>unlock latch with card
+It's unnecessary to use the bank card on the latch at the moment.
+
+>use card on latch
+It's unnecessary to use the bank card on the latch at the moment.
 
 >push door
 Do you intend to enter the church?
@@ -299,22 +404,38 @@ Do you intend to enter the church?
 The doors latch shut, locking intruders out.
 
 >lift latch with card
-(first taking the bank card)
 You lift the latch and the door opens.
+You put your bank card away in your pocket until you need to use it.
 
 >pull church door
 (first taking the handle)
 The doors latch shut, locking intruders out.
 
+>close latch
+The church doors are already closed.
+
 >lift latch
 You cannot fit your hand between the doors.
 
->raise latch with card
-(first taking the bank card)
-You lift the latch and the door opens.
+>use latch
+You cannot fit your hand between the doors.
 
->enter church
-(the church building)
+>use card
+It's not entirely clear what you intend.
+
+>use card on latch
+You lift the latch and the door opens.
+You put your bank card away in your pocket until you need to use it.
+
+>lock latch
+(with the right hand)
+The doors latch shut, locking intruders out.
+
+>raise latch with card
+You lift the latch and the door opens.
+You put your bank card away in your pocket until you need to use it.
+
+>e
 
 Church
 The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
@@ -323,6 +444,10 @@ The door to the church stands ajar.
 
 [The score has just gone up by twenty points.]
 
+>enter church
+(the belltower)
+You can't reach the roof.
+
 >x latch
 The latch mechanism on the doors is a flat black metal bar that slots down into a catch.
 
@@ -330,7 +455,16 @@ The latch mechanism on the doors is a flat black metal bar that slots down into 
 The latch mechanism on the doors is a flat black metal bar that slots down into a catch.
 
 >push latch inwards
-You can't see any such thing.
+You can't open the latch that way.
+
+>close latch
+The doors latch shut, locking intruders out.
+
+[The score has just gone up by five points.]
+
+>lock latch
+(with the right hand)
+The latch cannot be fixed into an open position.
 
 >explore church
 (the belltower)
@@ -360,10 +494,10 @@ The rope sways.
 That really wouldn't serve any purpose.
 
 >push knot out
-You can't see any such thing.
+The rope isn't long enough.
 
 >push knot outwards
-You can't see any such thing.
+The rope isn't long enough.
 
 >push knot to west
 (the bellcord to the church doors)
@@ -415,20 +549,16 @@ Ding!
 What do you want to cut the rope with?
 
 >cut rope with card
-(first taking the bank card)
 You try in vain to saw the rope with the bank card.
-You put your bank card away in your pocket until you need to use it.
 
 >push doors
-The doors latch shut, locking intruders out.
-
-[The score has just gone up by five points.]
+The doors don't seem to open outwards.
 
 >open doors
 You open the church doors.
 
 >lift latch
-You lift the latch easily and the door opens.
+The latch is already open.
 
 >pull knob
 Do you intend to exit?
@@ -519,7 +649,7 @@ Thank you for playing!
 
 
 
-In that game you scored 75 out of a possible 100, in 139 turns.
+In that game you scored 75 out of a possible 100, in 179 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -571,11 +701,10 @@ You jump on the spot, fruitlessly.
 You hear nothing unexpected.
 
 >sleep on pew
-
-The pews are alright to sit on, but not ideal to sleep on.
+The pews are alright to sit on, but not really wide enough to sleep on.
 
 >sit in pew
- As you unconsciously lean forward to stretch your back, you notice something underneath. You get onto the pews.
+As you unconsciously lean forward to stretch your back, you notice something underneath. You get onto the pews.
 
 >kiss pews
 You feel awkward kissing a surface where many posteriors have been.
@@ -598,9 +727,9 @@ The wool against your teeth makes you shiver unpleasantly.
 >make bed from cushions
 You don't have the tools and materials for that.
 
->put cushion on pew
+>put cushion in aisle
 (first taking the cushions)
-You put the cushions on the pews.
+You put the cushions into the aisle.
 
 >throw cushion at windows
 (first taking the cushions)
@@ -616,7 +745,7 @@ Thank you for playing!
 
 
 
-In that game you scored 85 out of a possible 100, in 161 turns.
+In that game you scored 85 out of a possible 100, in 201 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -639,19 +768,19 @@ In addition to your journal is a pile of various notes you have collected.
 They are far too interesting to give a single glance. You resolve to read them once you have taken the weight off your legs.
 
 >read file
-First priority is to find a place to rest.
+(first taking the pile of papers out of the rucksack)
+You get onto the pews.
+The journal is bound shut with bulging elastic straps.
 
 >unstrap file
 That's not a verb I recognise.
 
 >transfer bag to pew
-You put the rucksack on the pews.
+Time to make up your bed!
 
 >sit down
 (on the pews)
-You get onto the pews.
-
-On the pews you can see your rucksack (in which is a pile of papers) and some cushions.
+But you're already on the pews.
 
 >open file
 You carefully undo the straps that wrap up your notes and bind your journal closed.
@@ -679,17 +808,16 @@ Blab
 
 >get up
 You get off the pews.
+You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.
 
 >take bag
-Taken.
+You already have that.
 
 >put file away
-(in the rucksack)
-The pile of papers is already here.
+What do you want to put the pile of papers away in?
 
 >drop file
-(first taking the pile of papers out of the rucksack)
-You place the papers gently back in your bag. You don't want to lose any pages accidentally.
+You aren't holding that!
 
 >make bed
 This is the end of the demo. Please form an orderly queue to hand in your feedback.
@@ -700,7 +828,7 @@ Thank you for playing!
 
 
 
-In that game you scored 95 out of a possible 100, in 176 turns.
+In that game you scored 95 out of a possible 100, in 214 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -724,9 +852,7 @@ The passage beside the church is blocked by big yellow dustbins.
 The contents of the bins are still decomposing.
 
 >insert card in trashcan
-(first taking the bank card out of the trouser pockets)
 You might want to hold onto that, even though you have no money in the bank at the moment.
-You put your bank card away in your pocket until you need to use it.
 
 >put bag in dustbin
 Best keep your valuables with you.
@@ -750,7 +876,7 @@ You heave a bin aside. The bins smell more pungent here.
 "Yoohoo!". It sounds like it's coming from behind the church.
 
 >go behind church
-That doesn't seem to be anywhere you can get to.
+You can't see any such thing.
 
 >go around church building
 The game does not keep track of your path through the rooms, nor your orientation within them.  Instead, you should rely on absolute compass directions.  If you wish to visit a new location or return to a previous one, you will have to type the directions to take you there -- NORTH, UP, etc.
@@ -801,7 +927,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Are you the vicar, then?"
+(1) "You're the vicar, right?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -900,12 +1026,9 @@ The gate is too high to jump onto. Perhaps climbing would be less ambitious.
 You're too weary from shifting bins to poke around in the garden.
 
 >put papers on can
-There's no advantage to unpack until you've found a suitable shelter.
-There's no advantage to unpack until you've found a suitable shelter.
 You aren't holding that!
 
 >visit Ben
-Ben is not something you can enter.
 
 >wake Ben up
 Ben is already awake.
@@ -935,14 +1058,10 @@ That would be less than courteous.
 Jumping over Ben would achieve nothing here.
 
 >wave card at Ben
-(first taking the bank card out of the trouser pockets)
 Waving the bank card at Ben would achieve nothing here.
-You put your bank card away in your pocket until you need to use it.
 
 >show card to Ben
-(first taking the bank card)
 Ben is unimpressed.
-You put your bank card away in your pocket until you need to use it.
 
 >give bag to Ben
 Ben doesn't seem interested.
@@ -1077,7 +1196,7 @@ The church is furnished with altar and pews and is quite a contrast from the mes
 
 The door to the church stands ajar.
 
-On the pews are some cushions.
+On the aisle are some cushions.
 
 You can also see Ben and an altar here.
 
@@ -1161,21 +1280,20 @@ That's not a verb I recognise.
 That's not a verb I recognise.
 
 >church building
-Which do you mean, the east or the inside?
-
->bank card
-That's not a verb I recognise.
-
->church doors
 
 Church
 The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
 
 The door to the church stands ajar.
 
-On the pews are some cushions.
+On the aisle are some cushions.
 
 You can also see an altar here.
+
+>bank card
+That's not a verb I recognise.
+
+>church doors
 
 >brass handles
 That's not a verb I recognise.
@@ -1184,13 +1302,17 @@ That's not a verb I recognise.
 That's not a verb I recognise.
 
 >Church
-(the church building)
-(finding the church building in the Square)
+(the Church)
+(visiting the Church)
 
-Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Church
+The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
 
 The door to the church stands ajar.
+
+On the aisle are some cushions.
+
+You can also see an altar here.
 
 >windows
 That's not a verb I recognise.
@@ -1241,6 +1363,7 @@ That's not a verb I recognise.
 That's not a verb I recognise.
 
 >yard
+(visiting the Churchyard)
 
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
@@ -1263,6 +1386,15 @@ That's not a verb I recognise.
 You can't reach the roof.
 
 >bell
+That's not a verb I recognise.
+
+>left hand
+That's not a verb I recognise.
+
+>right hand
+That's not a verb I recognise.
+
+>hands
 That's not a verb I recognise.
 
 >hop on one leg
@@ -1296,10 +1428,11 @@ The church is furnished with altar and pews and is quite a contrast from the mes
 
 The door to the church stands ajar.
 
-On the pews are some cushions.
+On the aisle are some cushions.
 
 You can also see an altar here.
-pile of papers: You place the papers gently back in your bag. You don't want to lose any pages accidentally.
+(first opening the rucksack)
+pile of papers: You sit down and gently take the papers out of your bag.
 
 >visit bike and empty bag on bike
 The game does not keep track of your path through the rooms, nor your orientation within them.  Instead, you should rely on absolute compass directions.  If you wish to visit a new location or return to a previous one, you will have to type the directions to take you there -- NORTH, UP, etc.
@@ -1313,21 +1446,16 @@ Once a farming settlement, the buildings here are the ruined shells of simple dw
 Your bike stands chained here.
 
 On the motorbike are a battery and a chain.
-But you aren't in anything at the moment.
-It's best to keep the bike out of sight for now.
+You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.
+You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.
+The bike is out of sight for now, no need to move it.
 
 >visit bike. down. transfer bike to road
-You get onto the motorbike.
-
-On the motorbike you can see a battery and a chain.
-You get off the motorbike.
-It's best to keep the bike out of sight for now.
+You can go only south.
+The bike is out of sight for now, no need to move it.
 
 >visit bike. get down. get on to bike. get up
-You get onto the motorbike.
-
-On the motorbike you can see a battery and a chain.
-You get off the motorbike.
+You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.
 You get onto the motorbike.
 
 On the motorbike you can see a battery and a chain.
@@ -1336,22 +1464,39 @@ You get off the motorbike.
 >empty bag on bed
 You haven't made a bed yet.
 
->go to church and empty bag onto altar
-That doesn't seem to be anywhere you can get to.
+>go to church. empty bag onto altar
+(the Church)
+(visiting the Church)
+
+Church
+The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
+
+The door to the church stands ajar.
+
+On the aisle are some cushions.
+
+You can also see an altar here.
+(the altar)
+(first opening the rucksack)
+pile of papers: You sit down and gently take the papers out of your bag.
 
 >go to town and empty bag into road
 That doesn't seem to be anywhere you can get to.
 
 >go road and examine building to north
-You get onto the road.
-None of the dwellings here appear to be inhabitable.
+That doesn't seem to be anywhere you can get to.
 
 >visit bike and examine building to north-east
-(getting off the road)
-You get onto the motorbike.
+(finding the motorbike in the Town)
 
-On the motorbike you can see a battery and a chain.
-You can't see any such thing.
+Town
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
+
+Your bike stands chained here.
+
+On the motorbike are a battery and a chain.
+You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.
+That doesn't seem to be anywhere you can get to.
 
 >find road. examine building to south
 The road is in plain sight!
@@ -1366,7 +1511,6 @@ The rucksack is already in your possession!
 In the rucksack is a pile of papers.
 
 >square. search through waste
-(first getting off the motorbike)
 
 Square
 Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
@@ -1407,6 +1551,7 @@ You'll have to say which compass direction to go in.
 That doesn't seem to be anywhere you can get to.
 
 >visit square. use waste
+(the Square)
 (visiting the Square)
 
 Square
@@ -1430,17 +1575,9 @@ On the motorbike are a battery and a chain.
 You don't have the tools and materials for that.
 
 >visit bike. make sun in bike
-You get onto the motorbike.
-
-On the motorbike you can see a battery and a chain.
-(first getting off the motorbike)
 You don't have the tools and materials for that.
 
 >visit bike. make bike up
-You get onto the motorbike.
-
-On the motorbike you can see a battery and a chain.
-(first getting off the motorbike)
 You don't have the tools and materials for that.
 
 >visit altar. make up story
@@ -1452,13 +1589,12 @@ The church is furnished with altar and pews and is quite a contrast from the mes
 
 The door to the church stands ajar.
 
-On the pews are some cushions.
+On the aisle are some cushions.
 
 You can also see an altar here.
 You can't see any such thing.
 
->visit church. put up tent
-(the church building)
+>visit tall building. put up tent
 (finding the church building in the Square)
 
 Square
@@ -1468,7 +1604,7 @@ The door to the church stands ajar.
 This isn't an ideal spot to bed down for the night.
 
 >read book about cheese
-First priority is to find a place to rest.
+There's no advantage to unpack until you've found a suitable shelter.
 
 >visit battery. lift bike up
 (finding the battery in the Town)
@@ -1482,18 +1618,13 @@ On the motorbike are a battery and a chain.
 You decide to leave the bike here until you've found a place to stay the night.
 
 >visit chain. lift bike
-The chain is not something you can enter.
 The motorbike is fixed in place.
 
 >visit bike. lift bike with bag
-You get onto the motorbike.
-
-On the motorbike you can see a battery and a chain.
 The motorbike is not something you can open.
 
 >visit sun. jump up to sun
 You can't reach it.
-(first getting off the motorbike)
 You can't reach it.
 
 >visit camp. jump inside tent
@@ -1518,21 +1649,21 @@ You see nothing unexpected in that direction.
 
 >i
 You're carrying:
-  your rucksack (which is open)
-    a pile of papers
   your clothes (being worn)
+  your rucksack (which is closed)
+    a pile of papers
 
 In your trouser pockets:
   your bank card
 
 >visit bike and get off bike
-That doesn't seem to be anywhere you can get to.
+You can't use multiple objects with that verb.
 
 >take file from bag
-There's no advantage to unpack until you've found a suitable shelter.
+First priority is to find a place to rest.
 
 >remove file from bag
-There's no advantage to unpack until you've found a suitable shelter.
+First priority is to find a place to rest.
 
 >insert arm in bag
 You aren't holding that!
@@ -1547,30 +1678,25 @@ You can't see any such thing.
 You can't see any such thing.
 
 >visit bike. move bag to bike
-You get onto the motorbike.
-
-On the motorbike you can see a battery and a chain.
 Best keep your valuables with you.
 
 >transfer file to bag
-There's no advantage to unpack until you've found a suitable shelter.
+First priority is to find a place to rest.
 
 >put bag in bag
 Best keep your valuables with you.
 
 >visit bike. put bag on bike
-But you're already on the motorbike.
-Dropped.
-You shoulder your bag again.
+Best keep your valuables with you.
 
 >look up foo in file
-First priority is to find a place to rest.
+There's no advantage to unpack until you've found a suitable shelter.
 
 >read about bar in file
-First priority is to find a place to rest.
+There's no advantage to unpack until you've found a suitable shelter.
 
 >consult file about bar
-First priority is to find a place to rest.
+There's no advantage to unpack until you've found a suitable shelter.
 
 >ask self about purpose
 To talk to someone, please type TALK TO PERSON.
@@ -1583,8 +1709,11 @@ Your rucksack contains all of your worldly belongings (mostly camping gear).
 In the rucksack is a pile of papers.
 
 >show self the finger
-(first taking that)
-Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+Which do you mean, the right hand or the left hand?
+
+>show hands to self
+right hand: Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
+left hand: Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
 
 >tell self to pull oneself together
 You don't feel immensely encouraged.
@@ -1644,7 +1773,6 @@ Sorry, I can't understand infinitive verbs.
 Sorry, I can't understand infinitive verbs.
 
 >pray to God I can find the door
-(first getting off the motorbike)
 You hear nothing unexpected.
 
 >visit pew. listen at door
@@ -1655,7 +1783,7 @@ The church is furnished with altar and pews and is quite a contrast from the mes
 
 The door to the church stands ajar.
 
-On the pews are some cushions.
+On the aisle are some cushions.
 
 You can also see an altar here.
 Silence - perfect place to sleep!
@@ -1700,6 +1828,7 @@ On the motorbike are a battery and a chain.
 You can't see any such thing.
 
 >go to square. look at building to east
+(the Square)
 (visiting the Square)
 
 Square
@@ -1720,7 +1849,7 @@ The church is furnished with altar and pews and is quite a contrast from the mes
 
 The door to the church stands ajar.
 
-On the pews are some cushions.
+On the aisle are some cushions.
 
 You can also see an altar here.
 You see nothing unexpected in that direction.
@@ -1772,7 +1901,7 @@ You can't reach it.
 Best keep your valuables with you.
 
 >set file to rest on road
-You need to be holding the pile of papers before you can put it on top of something else.
+First priority is to find a place to rest.
 
 >ask self for bag
 To talk to someone, please type TALK TO PERSON.

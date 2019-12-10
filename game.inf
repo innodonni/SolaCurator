@@ -33,10 +33,14 @@ Object bag "rucksack"
  article "your", ! using single-quote crashes Z-Machine!
  description "Your rucksack contains all of your worldly belongings (mostly camping gear).",
  before [;
-  Search: if (location == Church or pews or aisle) "Besides your journal, you have everything you need to set up camp.";
-  Open,LetGo: if (location ~= Church or pews or aisle) "There's no advantage to unpack until you've found a suitable shelter.";
-  Drop: if (location ~= Church or pews or aisle) "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
-  PutOn,Transfer,Insert: if (second ~= pews or aisle) "Best keep your valuables with you.";
+  Search: if (TestScope(player,Church)) "Besides your journal, you have everything you need to set up camp.";
+  Open: if (~~TestScope(player,Church))
+  "There's no advantage to unpack until you've found a suitable shelter.";
+  LetGo: if (~~TestScope(player,Church)) rtrue;
+  Drop: if (~~TestScope(player,Church)) "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
+  Disrobe: if (~~TestScope(player,Church)) "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
+  <<Drop self>>;
+  Transfer,Insert,PutOn: if (second ~= pews or aisle) "Best keep your valuables with you.";
   Touch: "The backpack is a scratchy polyester canvas. They don't make them like they used to.";
   Rub: "The material is clean enough for your standards.";
  ],
@@ -76,7 +80,7 @@ Object newplayer "yourself"
  description "You consider yourself a ~truther~. There isn't as much money in journalism as there was last century when you started, but the freedom it affords you means more than wealth. It doesn't much matter what you write anyway, in post-truth society.^^You are wearing a shirt and trousers.",
  capacity 100,
  scenic 'mind' 'thoughts' 'doubt' 'doubts' 0 "You need to focus on finding shelter."
-        'torso' 'body' 'groin' 'privates' 'head' 'hand' 'hands' 0 "From what you can tell, everything is in its place."
+        'torso' 'body' 'groin' 'privates' 'head' 0 "From what you can tell, everything is in its place."
         'shirt' 'top' 'trousers' 'clothing' 'clothes' 'vestments' 'garb' 'pants' 0 "There are pockets in your shirt and trousers."
         'shirt' 'pocket' 'top' 'decorative' 0 "A decorative pocket, sewn shut. Good thing too - you don't trust pockets.",
  add_to_scope camp bed pockets,
@@ -91,19 +95,31 @@ Object newplayer "yourself"
   Smell,Taste: "Salty. No chance for a wash here, but you had one yesterday.";
   Tell: "You don't feel immensely encouraged.";
   Read: "(first removing shirt)^Across the back of your shirt is emblazoned the phrase ~Gamerr~. You quickly put it back on!";
+  LetGo: if (second ~= pews or aisle) "Best keep your valuables with you."; !don't think this works
  ],
  after [;
   Examine: SetFlag(SEENSELF);
  ],
  react_before [;
-  Disrobe: "You're not ready to tuck yourself in yet.";
+  if (lefthand in pockets || righthand in pockets && parent(card) == player && (action ~= ##Remove || second ~= pockets)) {
+   move lefthand to player;
+   move righthand to player;
+  }
+  Disrobe: if (noun ~= bag) "You're not ready to tuck yourself in yet.";
   Inv:
+   ! omit hands and assume card is in pocket
    print "You're carrying:^";
    print "  your clothes (being worn)^";
    if (bag in self) {
     print "  ", (Indefart) bag;
     c_style=FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT;
     wlf_indent=1; WriteAfterEntry(bag);
+   }
+   if (papers in self) {
+    print "  ", (Indefart) papers;
+    if (papers hasnt open) print " (bound)";
+    else print " (unbound)";
+    new_line;
    }
    if (card in self) {
     print "^In your trouser pockets:^";
@@ -112,23 +128,17 @@ Object newplayer "yourself"
    }
    rtrue;
  ],
- react_after [;
-  Inv: print "  your clothes (being worn)^";
-    if (false){!(child(pockets)) {
-    print "^In your trouser pockets:^";
-    !WriteListFrom(child(pockets), FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT);
-    c_style=FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT;
-    wlf_indent=1; WriteListR(child(pockets));
-   }
- ],
  each_turn [;
-  if (location ~= pews && parent(papers) ~= bag) {
+  if (parent(player) ~= pews or aisle && parent(papers) ~= bag) {
    give papers ~open; move papers to bag; give bag ~open; move bag to player;
    print "You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.^";
   }
-  else if (location ~= Church or pews or aisle && parent(bag) ~= player) {
+  else if ((~~TestScope(player,Church)) && (bag has open || parent(bag) ~= player)) {
    give bag ~open; move bag to player;
    print "You shoulder your bag again.^";
+  }
+  if (lefthand in pockets || righthand in pockets && parent(card) == nothing) {
+   <Search pockets>;
   }
   if (parent(card) ~= player or nothing) {
    move card to player;
@@ -137,21 +147,60 @@ Object newplayer "yourself"
  ],
  has legible concealed animate proper transparent;
 
+Class hand
+ with name 'hand' 'finger' 'thumb' 'hands//p' 'fingers//p' 'thumbs//p' 'battered' 'appendage' 'appendages//p',
+ description "Your hand is a bit battered from adventure, but clean enough.",
+ article "your",
+ before [;
+  if ((noun && noun ofclass hand) || (second && second ofclass hand))
+   if (noun == second) { allbodyparts.message(1); rtrue; }
+  RubOn: if (noun ofclass hand && second ofclass hand) "You wring your hands for a while.";
+  else if (noun ofclass hand) <<Touch second>>;
+  else if (second ofclass hand) { allbodyparts.message(1); rtrue; }; !RubOn when water added?
+  Squeeze,Turn,Touch,Take,Rub: "You wring your hands for a while.";
+  Insert,Transfer: if (second ofclass hand) "You wring your hands for a while.";
+  if (second ~= pockets) "You're rather attached to your appendages.";
+  PutOn: <<Touch second>>;
+  Drop: "You're rather attached to your appendages.";
+  Remove: rfalse;
+  Examine: rfalse;
+  ExamineHeld: <<Examine self>>;
+  default: ! Receive, Close etc.
+  allbodyparts.message(1);
+  rtrue;
+ ],
+ has supporter container openable open;
+Object lefthand "left hand" newplayer
+ with name 'left', ! name, before and after properties are additive
+ class hand;
+Object righthand "right hand" newplayer
+ with name 'right',
+ class hand;
+
 Object pockets "trouser pockets"
  with name 'trouser' 'pocket' 'pockets',
  article "your",
  description "Deep pockets, ready for adventure! Still, you try not to use them in case anything falls out.",
- capacity 1,
+ capacity 2,
  before [;
   Search: move card to player;
   if (self has general) "In your trouser pockets is your bank card. You'll put it away in your rucksack later - it could come in handy.";
   give self general;
   "To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.";
-  Receive: "You can't fit anything more in your pockets.";
+  Receive: if (~~(noun ofclass hand)) "You can't fit anything more in your pockets.";
  ],
  has static pluralname container open transparent;
 
+[ in_obj_parse_name;
+ return NextWord() == 'inside' or 'in' or 'inwards' or 'inward';
+];
+[ out_obj_parse_name;
+ return NextWord() == 'outside' or 'out' or 'outwards' or 'outward';
+];
+
 [ Initialise;
+  in_obj.parse_name = in_obj_parse_name;
+  out_obj.parse_name = out_obj_parse_name;
   player = newplayer;
   give Town ~scored;
   location = Town;
@@ -228,7 +277,7 @@ Outside Square "Square"
  description "Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.",
  before [;
   Examine,Search: if (noun == self) {
-   give Church ~concealed; !give ChurchDoors ~concealed;
+   give Church ~concealed; give ChurchDoors ~concealed;
    "The taller building on the east side appears to be a church. Hopefully the roof is intact.";
   }
  ],
@@ -269,12 +318,16 @@ Object ChurchBuilding "church building" Square
   give self ~concealed;
   Examine: SetFlag(SEENCHUR); give ChurchDoors ~concealed;
   Enter,Go: <<Enter ChurchDoors>>;
-  Search: "To the south-east of the church building is a narrow passage blocked by dustbins.";
+  Search: "The east face of the church has a set of double doors. To the south-east of the church building is a narrow passage blocked by dustbins.";
+  Open: <<Open ChurchDoors second>>;
+  Close: <<Close ChurchDoors>>;
+  Lock: <<Lock ChurchDoors second>>;
+  Unlock: <<Unlock ChurchDoors second>>;
  ],
  after [;
   Examine: ChurchDoors.describe();
  ],
- has scenery concealed enterable;
+ has scenery concealed openable lockable enterable locked;
 
 Object card "bank card"
  with name 'bank' 'debit' 'credit' 'card',
@@ -294,7 +347,7 @@ DirDoor ChurchDoors "church doors"
  ],
  scenic 'archivolt' 'arch' 'archway' 'tympanum' 0 "This church's plain architecture has nothing of that sort.",
  add_to_scope handles latch,
- description "The wooden doors have withstood the elements and are still solid and impassable. Their only feature is a round brass handle on each.",
+ description "The wooden doors have worn edges but have withstood the elements and are still solid and impassable. Their only feature is a round brass handle on each.",
  when_closed "The church doors seem to be latched shut.",
  when_open "The door to the church stands ajar.",
  e_to Church,
@@ -311,6 +364,15 @@ DirDoor ChurchDoors "church doors"
   give self ~concealed;
   if (Ben in Church) "Ben is standing against the door. ~The least you could do is appear grateful!~ he enjoins.";
   if (action == ##Pull) print "(first taking the handle)^";
+  PushDir: if (second == in_obj) {
+   if (self in Square) <<Push self>>;
+   else <<Pull self>>;
+  }
+  if (second == out_obj) {
+   if (self in Square) <<Pull self>>;
+   else <<Push self>>;
+  }
+  "The doors won't open that way.";
   Pull: if (self in Square && self hasnt open) "The doors don't seem to open outwards after all. Silly handles!";
   if (self in Square && self has open) <<Close self>>;
   if (self in Church && self hasnt open) "You'll have to lift the latch first.";
@@ -338,13 +400,27 @@ DirDoor ChurchDoors "church doors"
     self.unlocked();
  ],
  unlocked [;
+    self.with_key = righthand;
+    latch.with_key = righthand;
     give latch ~concealed ~locked open;
+    give ChurchBuilding ~concealed ~locked open;
     give self ~concealed ~locked open;
     give Church transparent ~concealed; !teleportable only while open
  ],
  after [;
   Unlock: self.unlock(); print "By slotting your bank card between the doors, you manage to lift the latch. ";
-  Close: give self locked; give latch ~open locked; give Church ~transparent; !teleportable only while open
+  Close: give self locked;
+         give latch ~open locked;
+         give ChurchBuilding ~open locked;
+         give Church ~transparent; !teleportable only while open
+         if (self in Church) {
+          self.with_key = righthand;
+          latch.with_key = righthand;
+         }
+         else {
+          self.with_key = card;
+          latch.with_key = card;
+         }
   if (self in Church && self hasnt general) { score = score + 5; give self general; }
   "The doors latch shut, locking intruders out.";
  ],
@@ -366,7 +442,7 @@ Object handles "brass handles"
    give self ~concealed;
    if (action == ##Push or ##Pull && ChurchDoors hasnt open) rfalse;
    Turn: "The handles won't turn - they seem to be just to grip the door with.";
-   PushDir: if (second == in_obj) <<Push ChurchDoors>>;
+   PushDir: if (second == in_obj or out_obj) <<PushDir ChurchDoors second>>;
    if (ChurchDoors hasnt open) "Despite your efforts, the doors remain shut.";
    Pull: if (player in Church) "Do you intend to exit?";
    <<Open ChurchDoors>>;
@@ -377,15 +453,15 @@ Object handles "brass handles"
  has static concealed pluralname;
 
 Object latch "latch"
- with name 'latch' 'gap' 'edge' 'edges' 'between' 'black' 'metal' 'hole' 'holes' 'bar' 'catch' 'strike' 'Norfolk' 'Suffolk',
+ with name 'latch' 'gap' 'edge' 'edges' 'between' 'black' 'metal' 'hole' 'holes' 'bar' 'catch' 'strike' 'Norfolk' 'Suffolk' 'shape',
  description "The latch mechanism on the doors is a flat black metal bar that slots down into a catch.",
  with_key card,
  before [;
-   !if ((action ~= ##Open or ##Turn or ##Unlock || (action ~= ##Lock && second ~= card)) && TestScope(Square,player) && ChurchDoors has locked) "You can't open the latch that way.";
-   if (action == ##Push or ##Pull && TestScope(Church,player) && ChurchDoors hasnt open) "You can't open the latch that way.";
-   Lock: if (TestScope(Church,player) && self has locked) "The latch cannot be fixed into an open position.";
+   !if ((action ~= ##Open or ##Turn or ##Unlock || (action ~= ##Lock && second ~= card)) && TestScope(player,Square) && ChurchDoors has locked) "You can't open the latch that way.";
+   if (action == ##Push or ##Pull && TestScope(player,Church) && ChurchDoors hasnt open) "You can't open the latch that way.";
+   Lock: if (TestScope(player,Church) && self has locked) "The latch cannot be fixed into an open position.";
    <<Close ChurchDoors>>;
-   Open,Turn,Unlock: if ((TestScope(Church,player) || second == card) && ChurchDoors hasnt open) {
+   Open,Turn,Unlock: if ((TestScope(player,Church) || second == card) && ChurchDoors hasnt open) {
     !if (pews == parent(player)) "You can't reach the doors from the pew.";
     ChurchDoors.unlock();
     move card to pockets;
@@ -395,10 +471,10 @@ Object latch "latch"
    if (player in Square && second ~= card) "You cannot fit your hand between the doors.";
    ChurchDoors.unlock();
    "You lift the latch easily and the door opens.";
-   Pull: if (TestScope(Church,player) && ChurchDoors has open) "Do you intend to exit?";
-   Push: if (TestScope(Church,player)) <<Close ChurchDoors>>;
+   Pull: if (TestScope(player,Church) && ChurchDoors has open) "Do you intend to exit?";
+   Push: if (TestScope(player,Church)) <<Close ChurchDoors>>;
    Close: <<Close ChurchDoors>>;
-   PushDir: if (second == u_obj && TestScope(Church,player)) <<Open ChurchDoors>>;
+   PushDir: if (second == u_obj && TestScope(player,Church)) <<Open ChurchDoors>>;
    "You can't open the latch that way.";
    Examine: if (player in Square) "In the gap between the doors, you can make out the shape of a latch on the other side.";
  ],
@@ -440,6 +516,7 @@ InsideOrOn aisle "aisle" Church
  before [;
   Touch,Rub: "The floor is clean but stone cold.";
   LookUnder: "There's no carpet to look under."; Dig: "You can't get your fingers between the stones.";
+  Open,Close: "That doesn't make sense.";
  ],
  react_before [;
   Sleep: if (noun == self) <<Sleep d_obj>>;
@@ -447,7 +524,7 @@ InsideOrOn aisle "aisle" Church
  reach_zones altar ChurchDoors,
  droponfloor true,
  includefloor true,
- has scenery transparent supporter enterable;
+ has scenery transparent supporter container open enterable;
 
 Object windows "windows"
  with name 'church' 'hole' 'holes' 'frame' 'frames' 'tall' 'arched' 'clerestory' 'high' 'windows' 'window' 'sunlight',
@@ -508,29 +585,33 @@ Object bell
  has scenery concealed openable;
 
 InsideOrOn pews "pews" Church
- with name 'plain' 'wooden' 'narrow' 'pew' 'pews' 'seat' 'seats',
- description "Plain wooden benches welded to the ground - too narrow to sleep on.",
- scenic 'shadow' 'shadows' 0 "Of greater interest are the objects casting the shadows.",
+ with name 'plain' 'wooden' 'narrow' 'pew' 'pews' 'seat' 'seats' 'welded',
+ description "Plain wooden benches are welded to the ground either side of the aisle. They look too narrow to sleep on.",
+ scenic 'shadow' 'shadows' 0 "Of greater interest are the objects casting the shadows."
+        'surface' 'weld' 'welding' 'smooth' 'inviting' 0 NULL,
  before [;
   Kiss: "You feel awkward kissing a surface where many posteriors have been.";
   Touch,Rub: "The surface is smooth and inviting. You aren't worried about getting splinters.";
   LookUnder: if (cushions has general) rfalse;
   if (cushions has concealed) score = score + 5;
   give cushions ~concealed; "Under each pew are small cushions.";
+  Sleep: "The pews are alright to sit on, but not really wide enough to sleep on.";
  ],
  react_after [;
-  Enter:
+  Enter: if (noun ~= self) rfalse;
    if (self hasnt general) print "You heave a sigh of relief to have a place to sit at a proper height. Still, you decide the pews aren't wide enough to sleep on.";
    if (self hasnt general) score = score + 5;
+   if (cushions has concealed) {
+    if (self hasnt general) print " ";
+    print "As you unconsciously lean forward to stretch your back, you notice something underneath. ";
+   }
    give self general;
-   if (cushions has concealed) print " As you unconsciously lean forward to stretch your back, you notice something underneath. ";
-   !rtrue;
  ],
  react_before [;
   if(self.InsideOrOn::react_before()~=0) rtrue;
-  JumpOn,JumpIn: if (noun == self) print "Glancing around first, you summon the energy to jump onto a pew. Miraculously, it holds your weight. ";
-  Sleep: if (noun == self) "^The pews are alright to sit on, but not ideal to sleep on.";
-  Listen: if (noun == self && self == parent(player)) "The pew creaks.";
+  JumpOn,JumpIn: if (noun == self) "Glancing around first, you summon the energy to jump onto a pew. Miraculously, it holds your weight.";
+  !Sleep: if (noun == self) "^The pews are alright to sit on, but not ideal to sleep on.";
+  Listen: if (noun == self && self == parent(player)) "^The pew creaks.";
  ],
  limittake true,
  droponfloor false,
@@ -541,6 +622,7 @@ Object cushions "cushions" Church
  has concealed supporter enterable pluralname
  with name 'small' 'wool' 'woolen' 'woollen' 'embroidered' 'designs' 'prayer' 'kneeling' 'cushion' 'cushions' 'church^s', ! Genitive (of ) not supported
  description "The kneeling cushions for prayer have simple designs embroidered in wool on the surface, none with discernable text.",
+ initial "Under the pews are some cushions.",
  before [;
   PushDir,Take: "There are too many cushions to do that.";
   Pull,Push: give self general ~concealed;
@@ -735,7 +817,7 @@ InsideOrOn bike "motorbike" Town
  ],
  react_before [;
   if(self.InsideOrOn::react_before()~=0) rtrue;
-  PutOn,Transfer,Insert: if (noun == self) "It's best to keep the bike out of sight for now.";
+  PutOn,Transfer,Insert: if (noun == self) "The bike is out of sight for now, no need to move it.";
   Go: if (self == parent(player) && noun == d_obj) <<Exit self>>;
   Sleep: if (noun == self || (noun == nothing && self == parent(player))) "Nowhere near ideal.";
   Pray: if (noun == self) "You pray fervently for the strength to continue your journey, but the motorbike remains unmoved.";
@@ -774,7 +856,7 @@ Object chain "chain" bike
 
 Book papers "pile of papers" bag
  has legible openable
- with name 'pile' 'paper' 'papers' 'notes' 'journal' 'file' 'pages' 'straps',
+ with name 'pile' 'paper' 'papers' 'notes' 'journal' 'file' 'pages' 'straps' 'wad',
  parse_name [ w n;
   w = NextWord();
   while (WordInProperty(w,self,name)) { n++; w = NextWord(); }
@@ -785,8 +867,18 @@ Book papers "pile of papers" bag
  !invent [; if (inventory_stage == 1) rtrue; rfalse; ], ! hiding crashes Z-Machine
  description "In addition to your journal is a pile of various notes you have collected.",
  before [;
-  if (action == ##Read or ##Consult or ##Search && parent(player) ~= pews) "First priority is to find a place to rest.";
+  if (action == ##Push or ##Pull or ##Open or ##Read or ##Consult or ##Search && parent(player) ~= pews) {
+   if (pews hasnt general) "First priority is to find a place to rest.";
+   !if (ImplicitDisrobe(bag)) rtrue;
+   if (ImplicitOpen(bag)) rtrue;
+   if (ImplicitTake(self)) rtrue;
+   <Enter pews>;
+  }
   if (action == ##Read or ##Consult or ##Search && self hasnt open) "The journal is bound shut with bulging elastic straps.";
+  if (action == ##Take or ##Push or ##Pull or ##Open or ##Read or ##Consult or ##Search && parent(self) ~= player) {
+    if (ImplicitOpen(bag)) rtrue;
+    if (action ~= ##Take && ImplicitTake(self)) rtrue;
+  }
   Take: if (parent(player) ~= pews) "First priority is to find a place to rest.";
   Read: "The first page of your journal begins:^Research topics / article ideas (year):^
         Calendar dates - does history matter any more? (863)^
@@ -797,13 +889,20 @@ Book papers "pile of papers" bag
         Abysmal release - devillish designs for humanity (993)^
         God incarnate - what is love?^
         ^No number has been written for the last entry.";
-  Search: "There's too many pages to rifle through, but you could look something up.";
+  Search: if (parent(self) ~= player && ImplicitTake()) rtrue;
+   "There's too many pages to rifle through, but you could look something up.";
   Open,Push,Pull: if (parent(player) ~= pews) "Not standing here. You don't want to have to chase any pages that might fall out.";
   if (self hasnt general) score = score + 5; give self general;
   if (self has open) rtrue; ! default Push/Pull if open??
   give self open;
   "You carefully undo the straps that wrap up your notes and bind your journal closed.";
-  Transfer,Insert,PutOn,Drop: if (parent(self) ~= bag) { give self ~open; move self to bag;
+  Remove,Transfer,Insert,PutOn: if (~~TestScope(player,Church)) "First priority is to find a place to rest.";
+  if (parent(self) ~= bag) { give self ~open; move self to bag;
+   "You place the papers gently back in your bag. You don't want to lose any pages accidentally.";
+  }
+  if(parent(player) ~= pews) keep_silent = 1; <Enter pews>; keep_silent = 0; move self to player;
+  "You sit down and gently take the papers out of your bag.";
+  Drop: if (parent(self) ~= bag) { give self ~open; move self to bag;
    "You place the papers gently back in your bag. You don't want to lose any pages accidentally.";
   }
   LookUnder: "The back of your journal is stuffed full of loose pages that you plan to read later. The reverse of the back page is blank, besides a few smudges from your inky fingers due to being the lowest in the pile.";
@@ -812,28 +911,34 @@ Book papers "pile of papers" bag
   Examine: if (parent(player) ~= pews) print "They are far too interesting to give a single glance. You resolve to read them once you have taken the weight off your legs.^";
  ];
 
-Object roofs "roofs"
+Object buildings "various buildings"
+ with name 'ruins' 'ruined' 'building' 'buildings' 'wall' 'walls' 'shells' 'simple' 'dwellings' 'rooms' 'abandoned' 'roofed' 'structure' 'structures' 'doorways' 'various' 'houses' 'indoors',
+ description "None of the dwellings here appear to be inhabitable.",
+ found_in Town Square,
+ before [;
+  Climb,JumpIn,JumpOn,Enter: <<Examine roofs>>;
+  Examine,Search: if (location == Square) <<Search Square>>;
+  LetGo: rtrue;
+ ],
+ react_before [;
+  Transfer,Insert,PutOn: if (second == self) "You don't want to toss anything into the buildings that you won't be able to retrieve from the rubble.";
+ ],
+ has scenery pluralname container enterable open transparent;
+
+Object roofs "rubble" buildings
  with name 'roof' 'roofs' 'rooves' 'collapsed' 'caved' 'rubble' 'stone' 'stones' 'thatch',
+ article "some",
  description "The rubble is impassable and would make a terrible place to sleep.",
  found_in Town Square,
  before [;
   Take: "The shifted rubble sends up a plume of dust and you toss it back, eyes watering. It wouldn't make for very good bedding material.";
   Open,Push,Pull: "There's no use. You'd rather sleep in the open than shift rubble about, so you press on, hoping for a clean space to camp.";
   Search,LookUnder:
-    if (bike == parent(player)) "You can't reach the roofs from the bike."; !outofrch.h
+    !if (bike == parent(player)) "You can't reach the roofs from the bike."; !outofrch.h
     "The hopes of scavenging anything are slim, and the allure can wait until morning when you're more fresh.";
+  Transfer,Insert,PutOn: "You don't want to toss anything on the collapsed roofs that you couldn't retrieve from the rubble.";
  ],
- has scenery pluralname;
-
-Object buildings "various buildings"
- with name 'ruins' 'ruined' 'building' 'buildings' 'wall' 'walls' 'shells' 'simple' 'dwellings' 'rooms' 'abandoned' 'roofed' 'structure' 'structures' 'doorways' 'various' 'houses',
- description "None of the dwellings here appear to be inhabitable.",
- found_in Town Square,
- before [;
-  Climb,JumpIn,JumpOn,Enter: <<Examine roofs>>;
-  Examine,Search: if (location == Square) <<Search Square>>;
- ],
- has scenery pluralname enterable;
+ has scenery supporter;
 
 InsideOrOn road "road"
  with name 'main' 'road' 'track' 'tracks' 'trail' 'dust' 'dusty' 'path' 'tar' 'tarmac',

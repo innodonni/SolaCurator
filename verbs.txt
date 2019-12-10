@@ -26,7 +26,7 @@ empty
 *visit bike. down. transfer bike to road
 *visit bike. get down. get on to bike. get up
 *empty bag on bed
-*go to church and empty bag onto altar
+*go to church. empty bag onto altar
 *go to town and empty bag into road
 grip
 squeeze
@@ -60,7 +60,7 @@ search
 *visit bike. make sun in bike
 *visit bike. make bike up
 *visit altar. make up story
-*visit church. put up tent
+*visit tall building. put up tent
 read
 *read book about cheese
 *visit battery. lift bike up
@@ -138,6 +138,7 @@ kick
 *give bag to self
 *show bag to self
 *show self the finger
+*show hands to self
 *tell self to pull oneself together
 *throw bag at self
 wait

@@ -11,7 +11,7 @@
 ];
 Object LibraryMessages
  with before [ previous_parent;
-  ! lm_n is the variation number, lm_o may be the noun involved
+  ! lm_n is the variation number, lm_o may be the noun or second noun involved
   ! lm_s may be the indirect object, subject or dictionary word e.g. 'sit'
   Go: if (lm_n == 1 && lm_o has supporter) { !this may be superceded by InsideOrOn?
           print "(first getting off ", (the) lm_o, ")^";
@@ -23,6 +23,19 @@ Object LibraryMessages
   Strong: CSubjectDont(actor);
           print_ret " need to ", (address) verb_word, " anything right now.";
   Prompt: if (turns == 0) print "^What next? (beginners, type help<ENTER>)^>"; else print "^>"; rtrue;
+  Lock: if (lm_n ~= 4 && lm_o == nothing) rfalse;
+  switch(lm_n) {
+        2:  CSubjectIs  (lm_o,true); " shut at the moment.";
+        3:  CSubjectWill(actor,true); " first have to close ", (the) lm_o, ".";
+        4:  if (lm_o == nothing) print "That doesn't"; else CSubjectDont(lm_o,true); " seem to fit.";
+        5:  if (lm_o == ChurchDoors or latch) { CSubjectVerb(actor,false,false,"shut",0,"shuts","shut"); " ", (the) lm_o, "."; }
+  }
+  Unlock: if (lm_n ~= 3 && lm_o == nothing) rfalse;
+  switch(lm_n) {
+        2:  if (lm_o == ChurchDoors or latch) { CSubjectIs  (lm_o,true); " open at the moment."; }
+        3:  if (lm_o == nothing) print "That doesn't"; else CSubjectDont(lm_o,true); " seem to fit.";
+        4:  if (lm_o == ChurchDoors or latch) { CSubjectVerb(actor,false,false,"open",0,"opens","opened"); " ", (the) lm_o, "."; }
+  }
   ! Avoid implications that potentially impossible actions are undertaken by saying "achieves nothing"
   Tie: if (lm_n ~= 1) rfalse;
         print "Tying ", (the) lm_o, " ";
@@ -82,6 +95,8 @@ Include ">moveclass.h";
 if (parser_trace>1)
  print "[GamePreRoutine: action = ", action, "]^";
 #Endif;
+ if (action == ##Remove && noun == card && second == pockets)
+  move card to pockets; ! don't break assumption
  if (action == ##Examine or ##Search && s_obj == noun or second && location == Town) "It looks like there are more buildings down in the square.";
  if (action == ##Examine or ##Search && noun in compass && ZRegion(location.(noun.door_dir))==2 or 3) return PrintOrRun(location,noun.door_dir);
  if (action == ##Jump or ##JumpOn or ##JumpIn or ##JumpOver && RunRoutines(location, react_before)~=0) rtrue; ! include location in reactions
@@ -107,13 +122,14 @@ if (parser_trace>1)
 
   ! otherwise score preferences from 1-9
   if (action_to_be == ##Eat && obj has edible) return 3;
+  if (action_to_be == ##Lock or ##Unlock && FlagOff(UNLOCHUR) && obj == righthand) return 3;
   !strategy depends on concealed and location - don't omit infer message unless absolutely necessary
   if (obj == pews or bike) return 9;
   if (obj == altar) { if (altarlegs has concealed) no_infer_message = true; return 8; }
   if (obj == altarlegs) return 7;
   if (obj == buildings) { if (ChurchDoors has concealed) no_infer_message = true; return 6; }
-  if (obj == ChurchBuilding) { return 5; }
-  if (obj == Church) { return 4; }
+  if (obj == ChurchBuilding) { if (action_to_be == ##Teleport) return 6; return 5; }
+  if (obj == Church) { if (action_to_be == ##Teleport) return 6; return 4; }
   if (obj == ChurchRoof) { if (ChurchRoof hasnt concealed) return 4; }
   if (obj == ChurchDoors) { if (ChurchDoors hasnt concealed) return 3; }
   if (obj == bell) { if (bell hasnt concealed && TestScope(player,Church)) return 5; }
@@ -143,7 +159,7 @@ if (parser_trace>1)
  {
   if (action_to_be == ##Teleport or ##Examine or ##Search && i has visited)
    PlaceInScope(i);
-  if (i has visited && i ~= ScopeCeiling(player)) ! 2nd check prevents recursion
+  if (i has visited)
    ScopeWithin(i);
  }
 ];
@@ -170,7 +186,8 @@ if (parser_trace>1)
       ! Note that noun is not set at this stage!!!
       2: objectloop (i ofclass Room) ScanLoc(i);
          objectloop (i has moved) ScanObj(i);
-         PlaceInScope(location);
+         PlaceInScope(location); ! location may not be ofclass Room
+         ScopeWithin(location);
          rtrue;
       3: if (Handle_CANTSEE_PE()) rtrue;
          "That doesn't seem to be anywhere you can get to.";
@@ -227,11 +244,31 @@ Verb 'pour' = 'empty';
 Verb 'grip' = 'touch';
 Verb 'visit' 'travel' = 'go';
 
+[ SearchOrTakeSub i;
+ if (ObjectIsUntouchable(noun)) return;
+ if (noun == pockets) <<Search pockets>>; ! let before rule handle it
+ <<EmptyT noun player>>;
+ if (noun hasnt container or supporter || (noun has supporter && noun has openable && noun hasnt open) || ~~child(noun)) "There's nothing there.";
+ if (noun has openable && noun hasnt open && ImplicitOpen()) rtrue;
+ objectloop(i in noun)
+  <Transfer i player, actor>;
+  <Remove i noun>;
+];
+Extend 'take'
+ * multiinside 'out' 'from'/'of' noun -> Remove
+! empty object will fail multiinside, but Search works for empty pockets
+ * 'all' 'from' noun -> SearchOrTake
+ * 'contents' 'from'/'of' noun -> SearchOrTake
+ * 'all' 'out' 'from'/'of' noun -> SearchOrTake;
+
+Extend 'show'
+ * multiheld 'to' creature -> Show;
+
 Extend 'sit'
  * 'down' 'on'/'in' supporter -> Enter
  * noun=ADirection -> Look;
 
-Extend 'get' first
+Extend 'get' first ! try other rules after these
  * 'up' -> Exit;
 Extend 'get'
  * 'on' 'to' noun -> Enter
@@ -267,11 +304,18 @@ Extend 'go' first
     AfterRoutines();
 ];
 
+[ ExamineHeldSub;
+ !action_to_be = ##Examine; readonly
+ Handle_CANTSEE_PE();
+];
 !Extend 'examine' first
 ! * scope=TeleportScope -> Examine; !avoid "not something you need to refer to..."
 Extend 'examine' last
 ! * noun=TeleportScope -> Examine !specifically handle objects unreachable by standard Examine
  * noun 'to' noun=ADirection -> Examine;
+Extend 'examine' last
+ * scope=TeleportScope -> Teleport
+ * multiheld -> ExamineHeld;
 
 Extend 'search'
  * 'through' noun -> Search
@@ -319,7 +363,7 @@ Verb 'make'
  * 'up' noun -> Make
  * noun 'up' -> Make;
 
-Extend 'set' first
+Extend 'set' first ! try other rules after these
  * 'up' noun=Makeable -> Make
  * 'up' noun noun=Makeable -> Make reverse
  * 'up' noun=Makeable 'in'/'with'/'on'/'from' noun -> Make
@@ -329,7 +373,7 @@ Extend 'set'
  * noun 'to' 'rest' 'on' supporter -> PutOn
  * noun 'down' 'on'/'onto' supporter -> PutOn;
 
-Extend 'put' first
+Extend 'put' first ! try other rules after these
  * noun 'away' 'in' container -> Insert
  * 'up' noun=Makeable -> Make
  * 'up' noun noun=Makeable -> Make reverse
@@ -343,7 +387,7 @@ Attribute legible;
   <<Examine noun>>; 
 ];
 
-Extend 'read' first
+Extend 'read' first ! try other rules after these
  * legible -> Read
  * legible 'about' topic -> Consult;
 
@@ -394,7 +438,7 @@ Verb "info"
  * -> Info
  * topic -> Info;
 
-Extend "tell" first
+Extend 'tell' first ! try other rules after these
  * animate 'to' topic -> Tell;
 
 [ DoSub w i;
@@ -458,7 +502,7 @@ Extend 'sleep' replace
  <<Listen noun>>;
 ];
 
-Extend "pray" first
+Extend 'pray' first ! try other rules after these
  * 'in'/'on'/'at' noun -> Pray
  * 'to' 'Jesus'/'god'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
  * 'to' 'the' 'gods' -> Pray
@@ -476,7 +520,7 @@ Extend "pray" first
 Extend 'listen'
  * 'at' door -> Listen;
 
-Extend only 'say' first
+Extend only 'say' first ! try other rules after these
  * 'prayers' -> Pray
  * 'prayer' -> Pray
  * 'prayer' 'to' noun -> Pray
@@ -487,23 +531,19 @@ Extend only 'say' first
  * 'prayer' 'to' noun 'gods' -> Pray;
 
 Extend 'look' replace
-    *                                           -> Look
-    * 'around'                                  -> Search
-    !* 'around' door                             -> Search
-    * 'at' noun                                 -> Examine
-    * 'at' noun 'to'/'towards'/'in' noun=ADirection  -> Examine
-    * 'inside'/'in'/'into'/'through'/'on' noun  -> Search
-    * 'under' noun                              -> LookUnder
-    * noun=ADirection                           -> Examine
-    * 'up' topic 'in' noun                      -> Consult reverse
-    * noun -> Examine
-    * 'between' door -> Search
-    * 'for' noun -> Examine
-    * 'to' noun=ADirection                      -> Examine;
-
-Extend "lock" first ! try other rules after these
-    * "up" noun -> Lock
-    * noun "up" -> Lock;
+ *                                           -> Look
+ * 'around'                                  -> Search
+ !* 'around' door                             -> Search
+ * 'at' noun                                 -> Examine
+ * 'at' noun 'to'/'towards'/'in' noun=ADirection  -> Examine
+ * 'inside'/'in'/'into'/'through'/'on' noun  -> Search
+ * 'under' noun                              -> LookUnder
+ * noun=ADirection                           -> Examine
+ * 'up' topic 'in' noun                      -> Consult reverse
+ * noun -> Examine
+ * 'between' door -> Search
+ * 'for' noun -> Examine
+ * 'to' noun=ADirection                      -> Examine;
 
 Include ">printslow.h";
 [ CheeseSample;
@@ -525,7 +565,7 @@ Include ">HelpRoutines.h";
 Constant NO_HELP_GRAMMAR;
 Include ">NewbieGrammar.h";
 
-Extend "give" first
+Extend 'give' first ! try other rules after these
  * animate 'a' 'hint' -> HintHelp
  * 'up' -> HintHelp;
 
@@ -535,14 +575,43 @@ Extend 'what'
 
 Include ">ExpertGrammar.h";
 
+Extend 'rub'
+ * noun 'with' noun -> RubOn;
+
+[ UnnecSub;
+ "It's unnecessary to use ", (the) second, " on ", (the) noun, " at the moment.";
+];
+Extend 'lock' replace
+ * noun 'with' noun=Keyish -> Lock
+ * noun 'with' noun=Keyish -> Lock
+ * 'up' noun 'with' noun=Keyish -> Lock
+ * noun 'up' 'with' noun=Keyish -> Lock
+ * 'up' noun=Keyish -> Lock
+ * noun=Keyish 'up' -> Lock
+ * noun 'with' noun -> Unnec
+ * noun 'with' noun -> Unnec
+ * 'up' noun 'with' noun -> Unnec
+ * noun 'up' 'with' noun -> Unnec
+ * 'up' noun -> Lock
+ * noun 'up' -> Unnec;
+
+Extend 'unlock' replace
+ * noun 'with' noun=Keyish -> Unlock
+ * noun 'with' noun -> Unnec;
+
+Extend 'use'
+ * noun 'on'/'with' noun -> Unnec reverse;
+
 Extend only 'leave' replace
  * -> Exit
+ * scope=TeleportScope -> Exit
  * noun=ADirection -> Go
  * noun -> Enter
  * 'through' noun -> Enter;
 
 Extend only 'depart' replace
  * -> Exit
+ * scope=TeleportScope -> Exit
  * noun=ADirection -> Go
  * noun -> Enter
  * 'through' noun -> Enter;
@@ -587,20 +656,20 @@ Include ">dialogue.inf";
 ];
 
 Extend only 'speak' replace
-  * creature        -> TalkTo
-  * 'to' creature   -> TalkTo
-  * 'with' creature -> TalkTo
-  * noun            -> TalkTo
-  * 'to' noun       -> TalkTo
-  * 'with' noun     -> TalkTo;
+ * creature        -> TalkTo
+ * 'to' creature   -> TalkTo
+ * 'with' creature -> TalkTo
+ * noun            -> TalkTo
+ * 'to' noun       -> TalkTo
+ * 'with' noun     -> TalkTo;
 
 Verb 'talk' 't//'
-  * creature        -> TalkTo
-  * 'to' creature   -> TalkTo
-  * 'with' creature -> TalkTo
-  * noun            -> TalkTo
-  * 'to' noun       -> TalkTo
-  * 'with' noun     -> TalkTo;
+ * creature        -> TalkTo
+ * 'to' creature   -> TalkTo
+ * 'with' creature -> TalkTo
+ * noun            -> TalkTo
+ * 'to' noun       -> TalkTo
+ * 'with' noun     -> TalkTo;
 
 ! The following should be a complete list of 
 ! non-TALK verbs to replace, except that you
@@ -612,28 +681,28 @@ Verb 'talk' 't//'
 ! so that "MAN, GO N" is also replaced.
 
 Extend 'answer' replace            ! = 'say' 'shout' 'speak'
-  *                    -> NotTalk  ! (Except we replaced
-  * topic              -> NotTalk; ! 'speak' on its own above.)
+ *                    -> NotTalk  ! (Except we replaced
+ * topic              -> NotTalk; ! 'speak' on its own above.)
 [ CallOutSub;
  if (parent(player) ~= Square or Church or pews or aisle) NotTalkSub();
  Ben.hears_sound(); rtrue;
 ];
-Extend only 'shout' first
-  * -> CallOut
-  * topic -> CallOut;
+Extend only 'shout' first ! try other rules after these
+ * -> CallOut
+ * topic -> CallOut;
 Extend 'ask' replace
-  *                    -> NotTalk
-  * topic              -> NotTalk;
+ *                    -> NotTalk
+ * topic              -> NotTalk;
 !Extend 'tell' replace
-!  *                    -> NotTalk
-!  * topic              -> NotTalk;
+! *                    -> NotTalk
+! * topic              -> NotTalk;
 Extend 'no' replace
-  *                    -> NotTalk
-  * topic              -> NotTalk;
+ *                    -> NotTalk
+ * topic              -> NotTalk;
 Extend 'yes' replace               ! = 'y//'
-  *                    -> NotTalk
-  * topic              -> NotTalk;
+ *                    -> NotTalk
+ * topic              -> NotTalk;
 Extend 'sorry' replace
-  *                    -> NotTalk
-  * topic              -> NotTalk;
+ *                    -> NotTalk
+ * topic              -> NotTalk;
 Verb 'confess' = 'sorry';

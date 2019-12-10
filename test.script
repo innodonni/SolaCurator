@@ -233,7 +233,6 @@ make bed
 undo
 exit church building
 leave
-se
 x trash
 insert card in trashcan
 put bag in dustbin
@@ -241,19 +240,13 @@ clear ground
 clean waste
 transfer waste to trash-can
 search bin
-pull bin
 shout
 go behind church
 go around church building
-se
 search passage
 climb over bins
 smell bins
 shift bins
-again
-g
-g
-smell bins
 se
 1
 1

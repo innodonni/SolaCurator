@@ -955,9 +955,6 @@ from campers. The street continues north out of town.
 
 The door to the church stands ajar.
 
->se
-The passage beside the church is blocked by big yellow dustbins.
-
 >x trash
 The contents of the bins are still decomposing.
 
@@ -980,23 +977,16 @@ The detritus is hardly portable.
 >search bin
 In the bins is rubbish.
 
->pull bin
-You heave a bin aside. The bins smell more pungent here.
-
 >shout
 "Yoohoo!". It sounds like it's coming from behind the church.
 
 >go behind church
-You can't see any such thing.
+(the church building)
+You heave a bin aside. The bins smell more pungent here.
 
 >go around church building
-The game does not keep track of your path through the rooms, nor your
-orientation within them.  Instead, you should rely on absolute compass
-directions.  If you wish to visit a new location or return to a previous one,
-you will have to type the directions to take you there -- NORTH, UP, etc.
-
->se
-The passage beside the church is blocked by big yellow dustbins.
+(the church building)
+You heave a bin aside. The bins here smell fresh, like vegetable peel.
 
 >search passage
 In the bins is rubbish.
@@ -1005,23 +995,11 @@ In the bins is rubbish.
 You balk at the idea of falling into the open bins.
 
 >smell bins
-The bins smell more pungent here.
+The bins here smell fresh, like vegetable peel.
 
 >shift bins
-You heave a bin aside. The bins here smell fresh, like vegetable peel.
-
->again
 You heave the last bin aside. The bins further from the square seem to have been
 filled more recently.
-
->g
-The bins are already out of the way.
-
->g
-The bins are already out of the way.
-
->smell bins
-The bins further from the square seem to have been filled more recently.
 
 >se
 
@@ -1043,7 +1021,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Are you the vicar, then?"
+(1) "You're the vicar, right?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"

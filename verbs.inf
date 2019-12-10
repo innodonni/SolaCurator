@@ -278,10 +278,17 @@ Extend 'climb'
  * 'on' 'to' noun -> Enter
  * 'on'/'onto' noun -> Enter;
 
+[ CircumSub;
+ if (noun == ChurchBuilding) <<Go se_obj>>;
+ "There's no way around.";
+];
 Extend 'go' first
  * scope=TeleportScope -> Teleport
  * 'near'/'nearer' 'to' scope=TeleportScope -> Teleport
- * 'near'/'nearer'/'to'/'toward'/'towards' scope=TeleportScope -> Teleport;
+ * 'near'/'nearer'/'to'/'toward'/'towards' scope=TeleportScope -> Teleport
+ * 'to' 'side' 'of' noun -> Circum
+ * 'to' 'the' 'side' 'of' noun -> Circum
+ * 'around'/'behind'/'beside' noun -> Circum;
 
 [ ExamineSub i;
     if (location == thedark) return L__M(##Examine, 1, noun);

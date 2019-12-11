@@ -92,17 +92,17 @@ Object o
 
 ! Sequences (for sticky options or options not yet chosen)
 ! Cycles (better than a shuffle if trying to improve variation)
-[ qcyc seq a1 a2 a3 a4 a5 a6;
+[ qcyc seq a1 a2 a3 a4 a5 a6  opt;
 !   print "seq=",seq;
- if (qopt(sender, seq) == 6) qsetopt(sender, seq, 1); ! cycle
- else qsetopt(sender, seq, qopt(sender, seq)+1);
- if (a3 == 0 && qopt(sender,seq) == 3) qsetopt(sender, seq, 1);
- else if (a4 == 0 && qopt(sender,seq) == 4) qsetopt(sender, seq, 1);
- else if (a5 == 0 && qopt(sender,seq) == 5) qsetopt(sender, seq, 1);
- else if (a6 == 0 && qopt(sender,seq) == 6) qsetopt(sender, seq, 1);
- seq = qopt(sender, seq) - 1; !store the looked up next option in the param no longer needed
-! print "opt=",seq;
- switch (seq)
+ opt = qopt(sender, seq);
+ if ((a3 == 0 && opt == 2)
+  || (a4 == 0 && opt == 3)
+  || (a5 == 0 && opt == 4)
+  || (a6 == 0 && opt == 5)
+  || opt == 6) opt = 0;
+ qsetopt(sender, seq, opt+1);
+! print "opt=",opt;
+ switch (opt)
  {
   0: print (string) a1;
   1: print (string) a2;
@@ -119,16 +119,15 @@ Object o
 ! A function can be called with at most seven arguments. A message can be called with at most five.
 ! Sequences should be able to eventually divert
 ! so if I make a6 be a quip number, if 0 it doesn't divert, otherwise it does.
-[ qseq seq a1 a2 a3 a4 a5 diversion;
+[ qseq seq a1 a2 a3 a4 a5 diversion  opt;
 !   print "seq=",seq;
- if (qopt(sender, seq) < 4)
-  qsetopt(sender, seq, qopt(sender, seq)+1);
- if (a3 == 0 && qopt(sender,seq) == 3) qsetopt(sender, seq, 2);
- else if (a4 == 0 && qopt(sender,seq) == 4) qsetopt(sender, seq, 3);
- else if (a5 == 0 && qopt(sender,seq) == 5) qsetopt(sender, seq, 4);
- seq = qopt(sender, seq) - 1; !store the looked up next option in the param no longer needed
-!   print "^final opt=",seq;
- switch (seq)
+ opt = qopt(sender, seq);
+ if ((a3 == 0 && opt == 2)
+  || (a4 == 0 && opt == 3)
+  || (a5 == 0 && opt == 4)) opt--;
+ qsetopt(sender, seq, opt+1);
+!   print "^final opt=",opt;
+ switch (opt)
  {
   0: print (string) a1;
   1: print (string) a2;

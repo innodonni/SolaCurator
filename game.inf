@@ -34,7 +34,7 @@ Object bag "rucksack"
  description "Your rucksack contains all of your worldly belongings (mostly camping gear).",
  before [;
   Search: if (TestScope(player,Church)) "Besides your journal, you have everything you need to set up camp.";
-  Open: if (~~TestScope(player,Church))
+  EmptyT,Open: if (~~TestScope(player,Church))
   "There's no advantage to unpack until you've found a suitable shelter.";
   LetGo: if (~~TestScope(player,Church)) rtrue;
   Drop: if (~~TestScope(player,Church)) "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
@@ -523,7 +523,7 @@ InsideOrOn aisle "aisle" Church
  before [;
   Touch,Rub: "The floor is clean but stone cold.";
   LookUnder: "There's no carpet to look under."; Dig: "You can't get your fingers between the stones.";
-  Open,Close: "That doesn't make sense.";
+  EmptyT,Open,Close: "That doesn't make sense.";
  ],
  react_before [;
   Sleep: if (noun == self) <<Sleep d_obj>>;
@@ -694,7 +694,7 @@ Object bins "bins"
  found_in Square ChurchYard,
  before [;
   Receive: <<Drop noun>>;
-  LetGo,Touch,Rub,Enter: "^Are you serious?!";
+  Empty,EmptyT,LetGo,Touch,Rub,Enter: "^Are you serious?!";
   Enter,Climb: "You balk at the idea of falling into the open bins.";
   Push,Pull: if (FlagOff(SHOUTED)) "You don't have any pressing reason to shift bins around, just yet.";
   if (se_obj.number == 3) "The bins are already out of the way.";
@@ -727,7 +727,8 @@ Object bins "bins"
 ! cannot be a supporter unless I get a library for supporter-containers.
 
 Object rubbish "rubbish" bins
- with name 'pungent' 'smelly' 'content' 'contents' 'rotten' 'decomposing' 'rubbish' 'trash',
+ with name 'pungent' 'smelly' 'rotten' 'decomposing' 'rubbish' 'trash',
+ scenic 'content' 'contents' 'bin' 0 "Yuck!",
  article "the",
  description "The contents of the bins are still decomposing."
  has proper;
@@ -775,16 +776,50 @@ DirDoor GardenGate "gate"
  ],
  has scenery openable lockable locked door;
 
-InsideOrOn can "upturned can" ChurchYard
- with name 'upturned' 'can' 'tin' 'empty' 'wood-stain' 'stain' 'paint' 'makeshift' 'seat',
- description "The can is upside down, but it looks like a wood stain tin.",
- !initial "Ben is here, sitting on an upturned paint can.",
+InsideOrOn can ChurchYard
+ with name 'upturned' 'can' 'tin' 'empty' 'wood-stain' 'stain' 'paint' 'makeshift' 'seat' 'righted' 'hollow' 'interior',
+ scenic 0,
+ scenic2 'congealed' 'content' 'contents' 'remains' 'dried' 'stuck' 'bottom' 0 "Yuck!",
+ description [;
+  if (self hasnt transparent or general)
+   print "The can is upside down, but it looks like a wood stain tin.";
+  else if (self hasnt transparent && self has general)
+   print "It's a wood stain tin.";
+  else
+   print "The can contains the congealed remains of dried up wood stain.";
+  new_line;
+  rtrue;
+ ],
+ short_name [;
+  if (self hasnt transparent)
+   print "upturned can";
+  else
+   print "paint can";
+  rtrue;
+ ],
  before [;
   if (action ~= ##Examine && self == parent(Ben)) "You can't get near while Ben is sitting on it.";
+  Turn: if (self hasnt transparent) {
+   give self moved transparent openable open container ~supporter;
+   self.scenic = self.&scenic2;
+   "You turn the can to reveal the hollow interior.";
+  }
+  else {
+   give self supporter ~transparent ~openable ~open ~container;
+   self.scenic = 0;
+   "You turn the can upside down.";
+  }
+  Empty: if (self hasnt transparent) "You would need to turn the can upright first.";
+  "Nothing comes out - the dried up wood stain has stuck to the bottom.";
+  Open: if (self hasnt transparent) "You would need to turn the can upright first.";
+  Close: if (self hasnt transparent) "You would need to turn the can upright first.";
+  "You don't know where the lid is.";
   Take,Push,Pull,PushDir: "You'd rather not move the can in case Ben wants to sit down again.";
   Squeeze: if (self == parent(player)) "You're too stiff from the ride."; 
-  Enter: "You decide Ben's makeshift seat is only suitable for someone more sprightly."; 
+  Enter: if (self has transparent) "You can't fit in the can!";
+  "You decide Ben's makeshift seat is only suitable for someone more sprightly."; 
   Rub: "The tin is hopelessly stained, and doesn't make a very good seat either.";
+  EmptyT: "Nothing comes out - the dried up wood stain has stuck to the bottom.";
   Smell,Taste:
     if (self == parent(player)) "You're too stiff from the ride.";
     "Yuck!";
@@ -979,7 +1014,7 @@ Object sun "sun"
   default: "You can't reach it.";
  ],
  react_before [;
-  Wait: print_ret (string) self.description;
+  Time,Wait: print_ret (string) self.description;
   Sleep: if (noun == self) <<Make bed>>;
   Pray,Listen: if (noun == self) "The sun warms you silently.";
  ];

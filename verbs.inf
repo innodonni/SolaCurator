@@ -1,4 +1,5 @@
 ! Copyleft Adonikam Virgo. See LICENCE.md for MIT licence.
+
 [ PossessiveNeuter obj caps;
     if (obj ~= player && (obj has neuter || obj hasnt male or female)) {
      if (obj has pluralname) {
@@ -264,9 +265,22 @@ Extend 'take'
 Extend 'show'
  * multiheld 'to' creature -> Show;
 
+[ EnterVagueSub;
+  if (verb_word == 'sit' && TestScope(player,Church)) <<Enter pews>>;
+  if (parent(player) has supporter or container) return L__M(##Enter,1,parent(player));
+  if (ADirection() && verb_word == 'sit' or 'lie') <<Sleep>>;
+  print "I don't know what you want to ";
+  PrintCommand();
+  if (verb_word == 'sit' or 'lie') print " on"; !LanguageVerbLikesAdverb
+  ".";
+];
+Extend 'sit' first
+ * 'on' noun=ADirection -> EnterVague;
 Extend 'sit'
  * 'down' 'on'/'in' supporter -> Enter
- * noun=ADirection -> Look;
+ * 'down' -> EnterVague
+ * 'down' 'on' noun=ADirection -> EnterVague
+ * noun=ADirection -> Look; ! sit up
 
 Extend 'get' first ! try other rules after these
  * 'up' -> Exit;
@@ -586,7 +600,10 @@ Extend 'rub'
  * noun 'with' noun -> RubOn;
 
 [ UnnecSub;
- "It's unnecessary to use ", (the) second, " on ", (the) noun, " at the moment.";
+ print "It's unnecessary to use ", (the) noun;
+ if (second) print " on ", (the) second;
+ if (second && second has lockable) " at the moment.";
+ ".";
 ];
 Extend 'lock' replace
  * noun 'with' noun=Keyish -> Lock
@@ -595,19 +612,22 @@ Extend 'lock' replace
  * noun 'up' 'with' noun=Keyish -> Lock
  * 'up' noun=Keyish -> Lock
  * noun=Keyish 'up' -> Lock
- * noun 'with' noun -> Unnec
- * noun 'with' noun -> Unnec
- * 'up' noun 'with' noun -> Unnec
- * noun 'up' 'with' noun -> Unnec
+ * noun 'with' noun -> Unnec reverse
+ * noun 'with' noun -> Unnec reverse
+ * 'up' noun 'with' noun -> Unnec reverse
+ * noun 'up' 'with' noun -> Unnec reverse
  * 'up' noun -> Lock
  * noun 'up' -> Unnec;
 
 Extend 'unlock' replace
  * noun 'with' noun=Keyish -> Unlock
- * noun 'with' noun -> Unnec;
+ * noun 'with' noun -> Unnec reverse;
 
 Extend 'use'
- * noun 'on'/'with' noun -> Unnec reverse;
+ * noun 'on'/'with'/'under' noun -> Unnec;
+
+Extend 'put'
+ * noun 'under' noun -> Unnec;
 
 Extend only 'leave' replace
  * -> Exit
@@ -713,3 +733,12 @@ Extend 'sorry' replace
  *                    -> NotTalk
  * topic              -> NotTalk;
 Verb 'confess' = 'sorry';
+
+[ TimeSub;
+ "You have no idea what time it is.";
+];
+Verb 'time'
+ * -> Time;
+Extend 'what'
+ * 'is' 'the' 'time'/'time?' -> Time
+ * 'time' 'is' 'it'/'it?' -> Time;

@@ -6,7 +6,7 @@ dance on
 *hop on one leg
 *hop on leg
 *hop in self
-*visit bike and hop over bike
+*visit bike then hop over bike
 jump
 jump in
 jump on
@@ -19,15 +19,15 @@ exit
 kindle
 pour
 empty
-*visit pew and empty bag on pew
+*visit pew then empty bag on pew
 *visit pew. empty bag on pew
-*visit bike and empty bag on bike
+*visit bike then empty bag on bike
 *visit bike. get off. move bike to road
 *visit bike. down. transfer bike to road
 *visit bike. get down. get on to bike. get up
 *empty bag on bed
 *go to church. empty bag onto altar
-*go to town and empty bag into road
+*go to town then empty bag into road
 grip
 squeeze
 visit
@@ -38,8 +38,8 @@ go near
 peek
 inspect
 examine
-*go road and examine building to north
-*visit bike and examine building to north-east
+*go road then examine building to north
+*visit bike then examine building to north-east
 *find road. examine building to south
 *find bag. rifle through bag
 *search for bag. riffle through bag
@@ -78,9 +78,10 @@ look at
 *i
 drop
 get
-*visit bike and get off bike
+*visit bike then get off bike
 detach
 grab
+grab contents of
 wear
 remove
 *take file from bag
@@ -226,3 +227,5 @@ pick
 shout
 speak
 check
+time
+go around

@@ -198,6 +198,7 @@ climb on altar
 sleep on altar
 look under altar
 x altar legs
+sit down. take papers. put papers under altar legs
 jump over pews
 jump
 listen
@@ -303,3 +304,16 @@ g
 g
 g
 g
+x can
+open can
+close can
+empty can
+x bin contents
+taste contents
+turn can
+x can
+open can
+close can
+empty can
+x congealed contents
+taste contents

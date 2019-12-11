@@ -689,13 +689,21 @@ Stubby stone legs protrude from the bottom of the altar. They are high enough of
 >x altar legs
 Stubby stone legs protrude from the bottom of the altar. They are high enough off the ground to allow the altar to wobble, but not high enough for anything to go underneath.
 
+>sit down. take papers. put papers under altar legs
+As you unconsciously lean forward to stretch your back, you notice something underneath. You get onto the pews.
+(first opening the rucksack)
+Taken.
+It's unnecessary to use the pile of papers on the altar legs.
+
 >jump over pews
 Some mortar dust descends from the ceiling.
 Jumping over the pews would achieve nothing here.
 
 >jump
+(first getting off the pews)
 Some mortar dust descends from the ceiling.
 You jump on the spot, fruitlessly.
+You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.
 
 >listen
 You hear nothing unexpected.
@@ -745,7 +753,7 @@ Thank you for playing!
 
 
 
-In that game you scored 85 out of a possible 100, in 201 turns.
+In that game you scored 85 out of a possible 100, in 204 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -832,7 +840,7 @@ Thank you for playing!
 
 
 
-In that game you scored 95 out of a possible 100, in 214 turns.
+In that game you scored 95 out of a possible 100, in 217 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -912,7 +920,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Is the church yours?"
+(1) "You're the vicar, right?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -1211,6 +1219,54 @@ You can see Ben and an upturned can here.
 
 Ben slams the gate on his garden and disappears into the dense vegetation.
 
+>x can
+(the upturned can)
+The can is upside down, but it looks like a wood stain tin.
+
+>open can
+(the upturned can)
+You would need to turn the can upright first.
+
+>close can
+(the upturned can)
+You would need to turn the can upright first.
+
+>empty can
+(the upturned can)
+You would need to turn the can upright first.
+
+>x bin contents
+You aren't holding that!
+
+>taste contents
+You don't need to interact with that stuff.
+
+>turn can
+(the upturned can)
+You turn the can to reveal the hollow interior.
+
+>x can
+(the paint can)
+The can contains the congealed remains of dried up wood stain.
+
+>open can
+(the paint can)
+The paint can is already open.
+
+>close can
+(the paint can)
+You don't know where the lid is.
+
+>empty can
+(the paint can)
+Nothing comes out - the dried up wood stain has stuck to the bottom.
+
+>x congealed contents
+Yuck!
+
+>taste contents
+You don't need to interact with that stuff.
+
 >nonsense
 That's not a verb I recognise.
 
@@ -1353,7 +1409,7 @@ That's not a verb I recognise.
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
 
-You can see an upturned can here.
+You can see a paint can (which is empty) here.
 
 >gate
 That's not a verb I recognise.
@@ -1391,7 +1447,7 @@ Generally speaking, there is no need to refer to your body parts individually in
 >hop in self
 Jumping in you would achieve nothing here.
 
->visit bike and hop over bike
+>visit bike then hop over bike
 (finding the motorbike in the Town)
 
 Town
@@ -1402,10 +1458,7 @@ Your bike stands chained here.
 On the motorbike are a battery and a chain.
 Jumping over the motorbike would achieve nothing here.
 
->visit pew and empty bag on pew
-The game does not keep track of your path through the rooms, nor your orientation within them.  Instead, you should rely on absolute compass directions.  If you wish to visit a new location or return to a previous one, you will have to type the directions to take you there -- NORTH, UP, etc.
-
->visit pew. empty bag on pew
+>visit pew then empty bag on pew
 (finding the pews in the Church)
 
 Church
@@ -1419,10 +1472,10 @@ You can also see an altar here.
 (first opening the rucksack)
 pile of papers: You sit down and gently take the papers out of your bag.
 
->visit bike and empty bag on bike
-The game does not keep track of your path through the rooms, nor your orientation within them.  Instead, you should rely on absolute compass directions.  If you wish to visit a new location or return to a previous one, you will have to type the directions to take you there -- NORTH, UP, etc.
+>visit pew. empty bag on pew
+The rucksack is empty already.
 
->visit bike. get off. move bike to road
+>visit bike then empty bag on bike
 (finding the motorbike in the Town)
 
 Town
@@ -1432,6 +1485,9 @@ Your bike stands chained here.
 
 On the motorbike are a battery and a chain.
 You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.
+There's no advantage to unpack until you've found a suitable shelter.
+
+>visit bike. get off. move bike to road
 You wearily survey the road you arrived on as it tails into the distance. An old billboard stands at the side of the road leading into town.
 The bike is out of sight for now, no need to move it.
 
@@ -1465,14 +1521,8 @@ You can also see an altar here.
 (first opening the rucksack)
 pile of papers: You sit down and gently take the papers out of your bag.
 
->go to town and empty bag into road
-That doesn't seem to be anywhere you can get to.
-
->go road and examine building to north
-That doesn't seem to be anywhere you can get to.
-
->visit bike and examine building to north-east
-(finding the motorbike in the Town)
+>go to town then empty bag into road
+(visiting the Town)
 
 Town
 Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
@@ -1481,6 +1531,12 @@ Your bike stands chained here.
 
 On the motorbike are a battery and a chain.
 You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.
+There's no advantage to unpack until you've found a suitable shelter.
+
+>go road then examine building to north
+None of the dwellings here appear to be inhabitable.
+
+>visit bike then examine building to north-east
 That doesn't seem to be anywhere you can get to.
 
 >find road. examine building to south
@@ -1641,8 +1697,8 @@ You're carrying:
 In your trouser pockets:
   your bank card
 
->visit bike and get off bike
-You can't use multiple objects with that verb.
+>visit bike then get off bike
+But you aren't on the motorbike at the moment.
 
 >take file from bag
 First priority is to find a place to rest.

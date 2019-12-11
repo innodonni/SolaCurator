@@ -22,9 +22,19 @@ Class Book
         enough without looking to record events for future readers, and the people still clinging on had no
         reason to spend the precious fuel and light they had to find writing or printing materials.^
         Books still survive from the era before, but those who can still read English are diminishing rapidly.
-        Can we learn anything from those who lived before, in the bygone technologically advanced times?
-        There are still technologies that could benefit us in the present, technologies lying dormant due to
-        power failure or abandonment. You may not have time to salvage equipment from nearby towns, but I
+        Can we learn anything from those who lived before, in the bygone technologically advanced times?^
+        For example, can we determine why the calendar has drifted so drastically? It turns out we can.
+        Records of how the calendrical system was devised hold clues about why the calendar no longer lines
+        up with the seasons as it used to. Diagrams from ancient print-outs indicate that the planet's orbit
+        of the sun affects the length of the ~true~ year, and a global cataclysm like the one we have been
+        through could easily affect the accuracy of the calendar. This could also explain the scorching hot
+        drought that people who lived in the first century told stories of.^
+        Evidence from books and stories suggests that the planet saw widespread if not total devastation, making
+        the former era completely unrecognisable from the world we live in today. The astronomical impact of the
+        event makes it entirely plausible a heavenly body collided with our planet, and even the wild stories of
+        divine judgement appear compelling.^
+        There are also still technologies that could benefit us in the present, technologies lying dormant due
+        to power failure or abandonment. You may not have time to salvage equipment from nearby towns, but I
         urge you to assist anyone who aims to restore facilities that can benefit us all. If anyone reading this
         can read English or has access to a translation or general purpose computer, please get in touch.
     ";
@@ -37,14 +47,17 @@ Class Book
         ...
     ";
     SolaScriptura: "^Sola Scriptura - what the Bible might have said (published 05/06/952)^^
-    I've been looking for many years for a Bible. The old regime destroyed almost all known copies during
-    the religion purge instituted by the world leader...^
+    The Bible is a pre-historic book of mythical status. It is rumoured to have predicted Armageddon in detail,
+    though I haven't met anyone who has read it themselves. I've been looking for many years for a Bible.
+    The old regime destroyed almost all known copies during the religion purge instituted by the world leader,
+    but I believe there must be more than fragments, perhaps hidden deep in computer archives or stored away and
+    forgotten on ancient portable computers...^
     ";
     FinalSol: "~Final solutions~ wasn't very well received. You keep an excerpt folded in your journal:^^
         The blood-red oceans of the world were not always that way. The bitterness of potable water is
         an issue which affects us all. We may not be able to reintroduce life to the seas, but something
         must be done on a large scale if the water table is to be rejuvenated and made drinkable again
-        without prior filtration.^
+        without prior distillation.^
         Flooding the world with clean water would take collaboration, but I believe it is possible.
         It is rumoured that Jerusalem is fed by spring water, and there is an abundance of subterranean
         water in all the currently inhabited areas of the world. If electricity reserves were directed to
@@ -52,14 +65,23 @@ Class Book
         build turbines and continue to power hole bores further afield.
     ";
     Abysmal: "^Abysmal release - devillish designs for humanity (published 11/07/993)^^
+        According to new research, there may be some truth to tales of a global evil that was vanquished
+        at the beginning of the millennium. Psychiatric data from the last 50 years has been compared to
+        records recovered from computers in Turkey and shows a statistically significant change in the
+        thoughts and behaviours of humans. Johan Shroeder, the leading researcher in this area, claims
+        that spiritual forces must have been rendered impotent.^
+        Whether or not you believe that demons roam the Earth leaderless,
+        there is a chilling message from a fragment of the Bible recovered by researches at New Babylon library:
+        if the Devil of that era was defeated, he wasn't destroyed. The fragment suggests that the Devil is
+        actually to be released after 1000 years, which is actually very soon.^
         ...
     ";
     GodIncarnate: "You look up your notes for the upcoming article you have planned to write:^
         God incarnate - what is love?^
         * What happens to those who go to Jerusalem?^
-        * What are the Lord's plans for the rest of the earth?^
         * Is the Lord of Jerusalem a divine being?^
         * Is it a loving being - and what does that mean?^
+        * What are the Lord's plans for the rest of the earth?^
         * What is the secret of Jerusalem's water supply?
     ";
    }

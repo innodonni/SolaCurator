@@ -27,7 +27,7 @@ change mind
 give bag to self
 say prayer to motorcycle gods
 read self
-visit bike
+get on bike. look
 x bike
 x battery
 x chain
@@ -256,10 +256,48 @@ se
 1
 1
 2
+2
+2
+0
+shout
+search yard
+talk to person
 1
-1
+3
+3
+3
+3
+3
+3
+0
+x radio
+search radio
+open radio
+turn radio
+turn radio on
+tell old man radio is broken
+take radio
+drop radio. get radio
+put radio in bin. take radio
+talk to person
 1
 0
+show radio to priest
+talk to person
+1
+0
+give radio to vicar
+2
+2
+0
+ask him for radio
+Ben, give the radio to me
+put radio in pocket
+put radio in bag
+fix radio
+Ben, fix radio
+Ben, go to town
+Ben, dance a jig
 w
 x side door
 s
@@ -268,10 +306,12 @@ x garden gate
 x garden
 jump over gate
 climb gate
-put papers on can
+put radio on can
 visit Ben
 wake Ben up
 buy food from Ben
+buy garden from Ben
+buy radio from Ben
 taste Ben
 x Ben's vegetables
 take veg
@@ -287,23 +327,23 @@ listen to Ben
 squeeze Ben
 hug Ben
 talk to person
-2
-2
-4
-4
-4
-4
-4
 3
 2
-2
+0
+shout
+Ben, what is the time?
+Ben, time
+ask Ben to open the Church
 follow Ben
 g
 g
 g
+ring bell
+pull cord
+follow Ben
 g
 g
-g
+shout
 x can
 open can
 close can
@@ -315,5 +355,7 @@ x can
 open can
 close can
 empty can
+put radio in can. empty can. take radio
 x congealed contents
 taste contents
+visit cushions. put radio on cushion. pick up radio

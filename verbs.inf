@@ -1,4 +1,12 @@
 ! Copyleft Adonikam Virgo. See LICENCE.md for MIT licence.
+[ InScope actor;
+ if (actor == Ben) {
+!  print "InScope Ben";
+  PlaceInScope(ChurchBuilding);
+ }
+! else print "InScope player";
+ rfalse;
+];
 
 [ PossessiveNeuter obj caps;
     if (obj ~= player && (obj has neuter || obj hasnt male or female)) {
@@ -365,7 +373,7 @@ Extend 'cut'
  if (noun ~= camp or bed || second == cushions or altar or d_obj) "You don't have the tools and materials for that.";
  if (location ~= Church) "This isn't an ideal spot to bed down for the night.";
  if ((second ~= bag) && (cushions has concealed || altar has concealed)) "Ideally you would have somewhere soft to sleep.";
- else if (second == bag && bag hasnt open) print "(first opening your rucksack)^";
+ else if (second == bag && bag hasnt open) print "(first opening the rucksack)^";
  if (bed hasnt general) score = score + 20; give bed general;
  give bag open;
  deadflag = 2;
@@ -458,9 +466,6 @@ Verb "help"
 Verb "info"
  * -> Info
  * topic -> Info;
-
-Extend 'tell' first ! try other rules after these
- * animate 'to' topic -> Tell;
 
 [ DoSub w i;
  print "You attempt to";
@@ -679,24 +684,23 @@ Include ">dialogue.inf";
 ];
 
 [NotTalkSub;
-  if (noun ~= player) "To talk to someone, please type TALK TO PERSON.";
+  if (noun ~= player) "Please use ASK to give orders or just type TALK TO [PERSON].";
 ];
 
 Extend only 'speak' replace
  * creature        -> TalkTo
- * 'to' creature   -> TalkTo
- * 'with' creature -> TalkTo
+ * 'to'/'with' creature -> TalkTo
  * noun            -> TalkTo
  * 'to' noun       -> TalkTo
- * 'with' noun     -> TalkTo;
+ * 'with' noun     -> TalkTo
+ * 'to'/'with' creature 'about' topic -> NotTalk;
 
-Verb 'talk' 't//'
+Verb 'talk' 't//' 'chat' 'converse'
  * creature        -> TalkTo
- * 'to' creature   -> TalkTo
- * 'with' creature -> TalkTo
+ * 'to'/'with' creature -> TalkTo
  * noun            -> TalkTo
- * 'to' noun       -> TalkTo
- * 'with' noun     -> TalkTo;
+ * 'to'/'with' noun       -> TalkTo
+ * 'to'/'with' creature 'about' topic -> NotTalk;
 
 ! The following should be a complete list of 
 ! non-TALK verbs to replace, except that you
@@ -711,18 +715,26 @@ Extend 'answer' replace            ! = 'say' 'shout' 'speak'
  *                    -> NotTalk  ! (Except we replaced
  * topic              -> NotTalk; ! 'speak' on its own above.)
 [ CallOutSub;
- if (parent(player) ~= Square or Church or pews or aisle) NotTalkSub();
- Ben.hears_sound(); rtrue;
+ if (parent(player) ~= Square or Church or pews or aisle or ChurchYard) return NotTalkSub();
+ if(Ben.hears_sound()) rtrue;
+ return NotTalkSub();
 ];
 Extend only 'shout' first ! try other rules after these
  * -> CallOut
  * topic -> CallOut;
+Extend 'buy'
+ * noun 'from' creature -> Buy;
 Extend 'ask' replace
  *                    -> NotTalk
+ * creature 'for' noun -> AskFor
+ * creature 'to' topic -> AskTo
+ * 'that' creature topic -> AskTo
  * topic              -> NotTalk;
-!Extend 'tell' replace
-! *                    -> NotTalk
-! * topic              -> NotTalk;
+Extend 'tell' replace
+ *                    -> NotTalk
+ * creature 'to' topic -> AskTo
+ * creature topic -> Tell
+ * topic              -> NotTalk;
 Extend 'no' replace
  *                    -> NotTalk
  * topic              -> NotTalk;
@@ -742,3 +754,11 @@ Verb 'time'
 Extend 'what'
  * 'is' 'the' 'time'/'time?' -> Time
  * 'time' 'is' 'it'/'it?' -> Time;
+Attribute broken;
+[ FixSub;
+ if (noun has broken) "It's beyond your skill to repair.";
+ "You can't fix that.";
+];
+Extend only 'fix' first
+ * noun -> Fix;
+Verb 'mend' 'repair' = 'fix';

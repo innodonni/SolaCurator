@@ -119,13 +119,24 @@ Object o
 ! A function can be called with at most seven arguments. A message can be called with at most five.
 ! Sequences should be able to eventually divert
 ! so if I make a6 be a quip number, if 0 it doesn't divert, otherwise it does.
-[ qseq seq a1 a2 a3 a4 a5 diversion  opt;
+[ qseq seq a1 a2 a3 a4 a5 diversion  character opt;
+ character = sender;
+ if (metaclass(a1) ~= String)
+ {
+  character = seq;
+  seq = a1;
+  a1 = a2;
+  a2 = a3;
+  a3 = a4;
+  a5 = diversion;
+  diversion = 0;
+ }
 !   print "seq=",seq;
- opt = qopt(sender, seq);
+ opt = qopt(character, seq);
  if ((a3 == 0 && opt == 2)
   || (a4 == 0 && opt == 3)
   || (a5 == 0 && opt == 4)) opt--;
- qsetopt(sender, seq, opt+1);
+ qsetopt(character, seq, opt+1);
 !   print "^final opt=",opt;
  switch (opt)
  {

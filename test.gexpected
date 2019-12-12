@@ -101,7 +101,13 @@ You pray fervently for the strength to continue your journey, but the motorbike 
 (first removing shirt)
 Across the back of your shirt is emblazoned the phrase "Gamerr". You quickly put it back on!
 
->visit bike
+>get on bike. look
+You get onto the motorbike.
+
+Town (on the motorbike)
+Once a farming settlement, the buildings here are the ruined shells of simple dwellings. Most of the roofs caved in centuries ago, but if you can find one intact it's still your best bet for staying warm overnight. The street continues south towards a square and the main road stretches out of town to the north-east.
+
+Your bike is comfortable but you miss sitting down without a hot battery between your legs.
 
 >x bike
 It's a standard electric motorbike, and your ticket to finding the City of Peace.
@@ -127,6 +133,7 @@ You can only do that to something animate.
 None of the dwellings here appear to be inhabitable.
 
 >search street
+(first getting off the motorbike)
 You find nothing of interest.
 
 >search buildings
@@ -509,14 +516,16 @@ The rope isn't long enough.
 
 >twist cord
 Ding!
-"Yoohoo!". It sounds like it's coming from behind the church.
+"Yoohoo!"
+It sounds like it's coming from behind the church.
 
 >untie cord
 It's not entirely clear what you intend.
 
 >pull knot
 Ding!
-"Yoohoo!". It sounds like it's coming from behind the church.
+"Yoohoo!"
+It sounds like it's coming from behind the church.
 
 >x cord
 A small dull brass bell rests in the tower above the Square.
@@ -543,7 +552,8 @@ A rope hangs down from the ceiling with a knot at the end.
 >take bell
 (the bellcord)
 Ding!
-"Yoohoo!". It sounds like it's coming from behind the church.
+"Yoohoo!"
+It sounds like it's coming from behind the church.
 
 >cut rope
 What do you want to cut the rope with?
@@ -601,7 +611,7 @@ There is nothing on the altar.
 You don't hear an echo here.
 
 >confess sins
-To talk to someone, please type TALK TO PERSON.
+Please use ASK to give orders or just type TALK TO [PERSON].
 
 >talk to priest
 You can't see any such thing.
@@ -640,7 +650,7 @@ You don't have the tools and materials for that.
 Ideally you would have somewhere soft to sleep.
 
 >make bed with supplies
-(first opening your rucksack)
+(first opening the rucksack)
 This is the end of the demo. Please form an orderly queue to hand in your feedback.
 Thank you for playing!
 
@@ -649,7 +659,7 @@ Thank you for playing!
 
 
 
-In that game you scored 75 out of a possible 100, in 179 turns.
+In that game you scored 75 out of a possible 105, in 180 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -744,7 +754,7 @@ You put the cushions into the aisle.
 There are too many cushions to do that.
 
 >make bed with camping gear
-(first opening your rucksack)
+(first opening the rucksack)
 This is the end of the demo. Please form an orderly queue to hand in your feedback.
 Thank you for playing!
 
@@ -753,7 +763,7 @@ Thank you for playing!
 
 
 
-In that game you scored 85 out of a possible 100, in 204 turns.
+In that game you scored 85 out of a possible 105, in 205 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -840,7 +850,7 @@ Thank you for playing!
 
 
 
-In that game you scored 95 out of a possible 100, in 217 turns.
+In that game you scored 95 out of a possible 105, in 218 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -879,7 +889,8 @@ The detritus is hardly portable.
 In the bins is rubbish.
 
 >shout
-"Yoohoo!". It sounds like it's coming from behind the church.
+"Yoohoo!"
+It sounds like it's coming from behind the church.
 
 >go behind church
 (the church building)
@@ -920,13 +931,13 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "You're the vicar, right?"
+(1) "Is the church yours?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
 
 Select an option or 0 to exit >> 1
-Of sorts.
+"Of sorts."
 
 What would you like to say?
 (1) "Are you blind?"
@@ -938,9 +949,8 @@ Select an option or 0 to exit >> 1
 
 What would you like to say?
 (1) "How visually acute are you, then?"
-(2) "So you can see me then."
-(3) "I've forgotten your name already."
-(4) "Can I help you?"
+(2) "I've forgotten your name already."
+(3) "Can I help you?"
 
 Select an option or 0 to exit >> 1
 "I get by. I'm not completely blind."
@@ -954,11 +964,12 @@ Select an option or 0 to exit >> 1
 "Yes, I know someone's there, but not who."
 
 What would you like to say?
-(1) "Remind me of your name again."
-(2) "Can I help you?"
+(1) "What are you doing?"
+(2) "Remind me of your name again."
+(3) "Can I help you?"
 
 Select an option or 0 to exit >> 1
-"It's Ben."
+"Pottering."
 
 What would you like to say?
 (1) "Remind me of your name again."
@@ -966,33 +977,216 @@ What would you like to say?
 
 Select an option or 0 to exit >> 2
 "Yes you can. I've lost my radio." he says, frankly.
-(1) "That's it?"
-(2) "What does the radio look like?"
-
-Select an option >> 1
-"No, I suppose not. My son hasn't returned, and the radio is the way I could reach him." he laments. "It's him I'm really after."
-
-What would you like to say?
-(1) "What does the radio look like?"
-
-Select an option or 0 to exit >> 1
-"It's a hand-held walkie-talkie gizmo, a sort of greyish black."
-
-What would you like to say?
-(1) "What are you doing here?"
-(2) "Remind me of your name again."
-(3) "Do you know a way into the church?"
-
-Select an option or 0 to exit >> 1
-"My son and I were heading to Jerusalem."
 
 What would you like to say?
 (1) "Remind me of your name again."
-(2) "Do you know a way into the church?"
+(2) "That's it?"
+(3) "What does the radio look like?"
+
+Select an option or 0 to exit >> 2
+"No, I suppose not. My son hasn't returned, and the radio is the way I could reach him." he laments. "It's him I'm really after."
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "What does the radio look like?"
+
+Select an option or 0 to exit >> 2
+"It's a hand-held walkie-talkie gizmo, a sort of greyish black."
+
+What would you like to say?
+(1) "Remind me of your name again."
 
 Select an option or 0 to exit >> 0
 
 [The score has just gone up by five points.]
+
+>shout
+"Hullo!"
+
+>search yard
+The yard is bare except for several large clumps of weeds around the church walls.
+
+Near the church wall in a patch of weeds, you spy a little black hand-held radio.
+
+You can also see an upturned can (on which is Ben) here.
+
+
+>talk to person
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+(3) "How long has your son been gone?"
+(4) "How often do you see visitors?"
+(5) "Do you have batteries?"
+
+Select an option or 0 to exit >> 1
+"I didn't think it would be hard to find for a sighted person." he says, apologetically. "I need to contact my son. Look - I don't want my radio to be stolen. Can you find it before the sun goes down?" he says, plaintively.
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+(3) "How long has your son been gone?"
+(4) "How often do you see visitors?"
+(5) "Do you have batteries?"
+
+Select an option or 0 to exit >> 3
+He pauses. "One season or so."
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+(3) "How often do you see visitors?"
+(4) "Do you have batteries?"
+
+Select an option or 0 to exit >> 3
+"One to two people swing by, every year."
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+(3) "Is that a lot?"
+(4) "Do you have batteries?"
+
+Select an option or 0 to exit >> 3
+"No, no, it's rare people come this way. Something's put the fear of God into them!" he jokes.
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+(3) "Do you have batteries?"
+
+Select an option or 0 to exit >> 3
+"Yes, I have some inside. About 100 farads."
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+(3) "That's...not a lot."
+(4) "How do you charge them?"
+
+Select an option or 0 to exit >> 3
+"It's all I need here. If you have a vehicle, I guess it won't help you much, will it?" he suggests.
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+(3) "How do your charge your batteries?"
+
+Select an option or 0 to exit >> 3
+"Bio-energy. There's not a lot of other natural resources." he remarks.
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+
+Select an option or 0 to exit >> 0
+
+>x radio
+It's a portable radio transceiver. On the back is a battery compartment.
+The hand-held radio is currently switched off.
+
+>search radio
+The hand-held radio is currently switched off.
+
+>open radio
+You don't have a screwdriver.
+
+>turn radio
+Nothing obvious happens.
+
+>turn radio on
+The radio doesn't turn on. It might be broken.
+
+>tell old man radio is broken
+"Show it to me." he says.
+
+>take radio
+Taken.
+
+[The score has just gone up by five points.]
+
+>drop radio. get radio
+Dropped.
+Taken.
+
+>put radio in bin. take radio
+You decide not to mix electronics in with the organic material.
+Dropped.
+Taken.
+
+>talk to person
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+
+Select an option or 0 to exit >> 1
+"I didn't think it would be hard to find for a sighted person." he says, apologetically. "I need to contact my son. Look - I don't want my radio to be stolen. Can you find it before the sun goes down?" he says, plaintively.
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+
+Select an option or 0 to exit >> 0
+
+>show radio to priest
+"Sorry, I can't see it properly. Bring it here." he says.
+
+>talk to person
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+
+Select an option or 0 to exit >> 1
+"I didn't think it would be hard to find for a sighted person." he says, apologetically. "I need to contact my son. Look - I don't want my radio to be stolen. Can you find it before the sun goes down?" he says, plaintively.
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+
+Select an option or 0 to exit >> 0
+
+>give radio to vicar
+"Let's have a look." he says, pressing the on button. "Looks like it's broken." he rattles the device next to his ear, frowning.
+(1) "Remind me of your name again."
+(2) "Do you know a way into the church?"
+
+Select an option or 0 to exit >> 2
+"I might!" he says, brightly. "You want to stay in the church do you? I have rules. No candles or naked flames. No graffiti. No judgement!"
+(1) [Accept]
+(2) [Reject]
+
+Select an option >> 2
+"Think I'll take my chances."
+
+"OK, but if you change your mind, I don't want you thinking you can chop up the pews for kindling!"
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Why are you still here?"
+
+Select an option or 0 to exit >> 0
+
+>ask him for radio
+"Here you go. Maybe you can get it working for me."
+
+>Ben, give the radio to me
+"I don't have that for you."
+
+>put radio in pocket
+You can't fit anything more in your pockets.
+
+>put radio in bag
+There's no point in keeping a broken radio.
+
+>fix radio
+It's beyond your skill to repair.
+
+>Ben, fix radio
+"I was hoping you could."
+
+>Ben, go to town
+"I don't need to do that right now."
+
+>Ben, dance a jig
+"Sorry, my Arabic isn't what it used to be. What was that?"
 
 >w
 "Lost the key to that door years ago, so we just jimmy the latch now." quips Ben. The side door to the church is locked.
@@ -1018,8 +1212,9 @@ The gate is too high to jump onto. Perhaps climbing would be less ambitious.
 >climb gate
 You're too weary from shifting bins to poke around in the garden.
 
->put papers on can
-You aren't holding that!
+>put radio on can
+(the upturned can)
+You can't get near while Ben is sitting on it.
 
 >visit Ben
 
@@ -1029,11 +1224,17 @@ Ben is already awake.
 >buy food from Ben
 You can't see any such thing.
 
+>buy garden from Ben
+"Perhaps you can help me, first."
+
+>buy radio from Ben
+"Perhaps you can help me, first."
+
 >taste Ben
 You decide that's not such a good idea.
 
 >x Ben's vegetables
-The fruit near the fence doesn't look ripe.
+The crops near the fence don't look ripe.
 
 >take veg
 You don't need to interact with that stuff.
@@ -1060,7 +1261,7 @@ Ben is unimpressed.
 Ben doesn't seem interested.
 
 >Ben, taste the upturned can
-To talk to someone, please type TALK TO PERSON.
+"I don't need to do that right now."
 
 >listen to Ben
 You hear nothing unexpected.
@@ -1072,82 +1273,13 @@ You decide that's not such a good idea.
 That's sweet, but uncalled for.
 
 >talk to person
-What would you like to say?
-(1) "Remind me of your name again."
-(2) "Do you know a way into the church?"
-(3) "How long has your son been gone?"
-(4) "How long have you been here?"
-(5) "How often do you see visitors?"
-(6) "Do you have batteries?"
-
-Select an option or 0 to exit >> 2
-"I might!" he says, brightly. "You want to stay in the church do you? I have rules. No candles or naked flames. No graffiti. No judgement!"
-(1) [Accept]
-(2) [Reject]
-
-Select an option >> 2
-"Think I'll take my chances."
-
-"OK, but if you change your mind, I don't want you thinking you can chop up the pews for kindling!"
-
-What would you like to say?
-(1) "Remind me of your name again."
-(2) "Alright, I'll follow your rules. Let me in the church!"
-(3) "Why are you still here?"
-(4) "How long has your son been gone?"
-(5) "How long have you been here?"
-(6) "How often do you see visitors?"
-(7) "Do you have batteries?"
-
-Select an option or 0 to exit >> 4
-He pauses. "One season or so."
-
-What would you like to say?
-(1) "Remind me of your name again."
-(2) "Alright, I'll follow your rules. Let me in the church!"
-(3) "Why aren't you in Jerusalem?"
-(4) "How long have you been here?"
-(5) "Do you have batteries?"
-
-Select an option or 0 to exit >> 4
-"Since the seven hundreds. I barely know what year it is any more." he mumbles.
-
-What would you like to say?
-(1) "Remind me of your name again."
-(2) "Alright, I'll follow your rules. Let me in the church!"
-(3) "Why are you still here?"
-(4) "Do you have batteries?"
-
-Select an option or 0 to exit >> 4
-"Yes, I have some inside. About 100 farads."
-
-What would you like to say?
-(1) "Remind me of your name again."
-(2) "Alright, I'll follow your rules. Let me in the church!"
-(3) "Why aren't you in Jerusalem?"
-(4) "That's...not a lot."
-(5) "How do you charge them?"
-
-Select an option or 0 to exit >> 4
-"It's all I need here. I guess it won't help with fuel much, will it?" he suggests.
-
-What would you like to say?
-(1) "Remind me of your name again."
-(2) "Alright, I'll follow your rules. Let me in the church!"
-(3) "Why are you still here?"
-(4) "How do your charge your batteries?"
-
-Select an option or 0 to exit >> 4
-"Bio-energy. There's not a lot of other natural resources." he remarks.
-
-What would you like to say?
 (1) "Remind me of your name again."
 (2) "Alright, I'll follow your rules. Let me in the church!"
 (3) "Why aren't you in Jerusalem?"
 
 Select an option or 0 to exit >> 3
-"I don't have any means of transport." he says, plainly. "My son and I were heading to Jerusalem, but I was too ill to continue the journey. We stopped here, but I never recovered fully. I'm too weak to make the journey on foot, now."
-(1) [Invite to join you on your journey][-BATT][+FOOD]
+"I don't have any means of transport." he says, plainly. "We were heading to Jerusalem, but I was too ill to continue the journey. We stopped here, but I never recovered fully. I'm too weak to make the journey on foot, now."
+(1) [Invite to join you on your journey][-BATTERY][+FOOD]
 (2) [Hold off until you trust him] "What a shame."
 
 Select an option >> 2
@@ -1157,7 +1289,19 @@ What would you like to say?
 (1) "Remind me of your name again."
 (2) "Alright, I'll follow your rules. Let me in the church!"
 
-Select an option or 0 to exit >> 2
+Select an option or 0 to exit >> 0
+
+>shout
+"Oi!"
+
+>Ben, what is the time?
+"Sorry, my Arabic isn't what it used to be. What was that?"
+
+>Ben, time
+"It must be past 7 o'clock by now."
+
+>ask Ben to open the Church
+(the church building)
 "OK, come with me."
 
 Ben rises to his feet and ambles towards the bins.
@@ -1196,7 +1340,14 @@ You can also see Ben and an altar here.
 Ben follows you a little into the church.
 "I won't regale you with my past, you look tired. Sleep well!", and with that Ben disappears out of the church doors.
 
->g
+>ring bell
+That's not a verb I recognise.
+
+>pull cord
+Ding!
+"I'm blind, not deaf!"
+
+>follow Ben
 
 Square
 Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
@@ -1204,9 +1355,6 @@ Many travellers have passed through here before you. The square is no more than 
 The door to the church stands ajar.
 
 You can also see Ben here.
-
->g
-You are already with Ben.
 
 You see Ben carefully shuffling back around to the churchyard.
 
@@ -1218,6 +1366,12 @@ The bare yard behind the church is strewn with tufts of weeds.
 You can see Ben and an upturned can here.
 
 Ben slams the gate on his garden and disappears into the dense vegetation.
+
+>g
+You don't know where he is.
+
+>shout
+Please use ASK to give orders or just type TALK TO [PERSON].
 
 >x can
 (the upturned can)
@@ -1261,11 +1415,33 @@ You don't know where the lid is.
 (the paint can)
 Nothing comes out - the dried up wood stain has stuck to the bottom.
 
+>put radio in can. empty can. take radio
+(the paint can)
+A curious place to leave a gift!
+You put the hand-held radio into the paint can.
+(the paint can)
+hand-held radio: Dropped.
+Taken.
+
 >x congealed contents
 Yuck!
 
 >taste contents
 You don't need to interact with that stuff.
+
+>visit cushions. put radio on cushion. pick up radio
+(finding the cushions in the Church)
+
+Church
+The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
+
+The door to the church stands ajar.
+
+On the aisle are some cushions.
+
+You can also see an altar here.
+The hand-held radio tumbles from the soft surface to the floor.
+Taken.
 
 >nonsense
 That's not a verb I recognise.
@@ -1436,6 +1612,9 @@ That's not a verb I recognise.
 That's not a verb I recognise.
 
 >hands
+That's not a verb I recognise.
+
+>radio
 That's not a verb I recognise.
 
 >hop on one leg
@@ -1693,6 +1872,7 @@ You're carrying:
   your clothes (being worn)
   your rucksack (which is closed)
     a pile of papers
+  a hand-held radio
 
 In your trouser pockets:
   your bank card
@@ -1740,7 +1920,7 @@ There's no advantage to unpack until you've found a suitable shelter.
 There's no advantage to unpack until you've found a suitable shelter.
 
 >ask self about purpose
-To talk to someone, please type TALK TO PERSON.
+Please use ASK to give orders or just type TALK TO [PERSON].
 
 >give bag to self
 You juggle the rucksack for a while, but don't achieve much.
@@ -1757,7 +1937,7 @@ right hand: Generally speaking, there is no need to refer to your body parts ind
 left hand: Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
 
 >tell self to pull oneself together
-You don't feel immensely encouraged.
+You can't see any such thing.
 
 >throw bag at self
 You lack the nerve when it comes to the crucial moment.
@@ -1833,8 +2013,7 @@ Silence - perfect place to sleep!
 You can't see any such thing.
 
 >say prayer on bike
-(to you)
-You don't hear an echo here.
+You can only do that to something animate.
 
 >say prayer to God
 Silence - perfect time to sleep!
@@ -1945,7 +2124,14 @@ Best keep your valuables with you.
 First priority is to find a place to rest.
 
 >ask self for bag
-To talk to someone, please type TALK TO PERSON.
+You're carrying:
+  your clothes (being worn)
+  your rucksack (which is closed)
+    a pile of papers
+  a hand-held radio
+
+In your trouser pockets:
+  your bank card
 
 >dive into water
 I only understood you as far as wanting to dive.

@@ -6,8 +6,9 @@ Constant Headline " - A post-apocalyptic adventure, by Adonikam Virgo.^";
 Constant DEATH_MENTION_UNDO;
 Constant MANUAL_PRONOUNS;
 Constant AMUSING_PROVIDED;
-Constant MAX_SCORE = 100;
+Constant MAX_SCORE = 105;
 !Constant ROOM_SCORE = 5; !default
+Constant OBJECT_SCORE = 5; !default 4
 Release 1;
 Serial "191125";
 Array UUID_ARRAY string "UUID://E2BE7957-5592-4C9D-958A-71FB1EF76928//";
@@ -33,6 +34,7 @@ Object bag "rucksack"
  article "your", ! using single-quote crashes Z-Machine!
  description "Your rucksack contains all of your worldly belongings (mostly camping gear).",
  before [;
+  Receive: if (noun == radio) "There's no point in keeping a broken radio.";
   Search: if (TestScope(player,Church)) "Besides your journal, you have everything you need to set up camp.";
   EmptyT,Open: if (~~TestScope(player,Church))
   "There's no advantage to unpack until you've found a suitable shelter.";
@@ -72,6 +74,9 @@ Constant SEENSELF 5; !Has the player examined themselves (can answer "what are y
 Constant HEARDSON 6; !Has Ben told the player about his son?
 Constant ACCEPTED 7; !Has the player accepted the terms of use of the church?
 Constant FOLLOW 8; !Has the player invited Ben to follow them?
+Constant TESTED 9; !Has the player turned the radio on?
+Constant SHOWRADIO 10; !Has the player shown the radio to Ben?
+Constant GAVERADIO 11; !Has the player given the radio to Ben?
 Constant FLAGCOUNT = 16;
 Include ">newflags.h";
 
@@ -86,14 +91,15 @@ Object newplayer "yourself"
  add_to_scope camp bed pockets,
  life [;
   Answer: "You don't hear an echo here.";
+  Tell: "You don't feel immensely encouraged.";
+  Attack: "If you need a break, type ~save~ or ~quit~.";
  ],
  before [;
-  Attack,Cut,Take,Disrobe,Drop: "If you need a break, type ~save~ or ~quit~.";
+  Cut,Take,Disrobe,Drop: "If you need a break, type ~save~ or ~quit~.";
   Rub: "You brush off the dust that accumulated on your clothing during the journey.";
   Search: "Your mind is too clouded for introspection right now.";
   Touch: "Still here.";
   Smell,Taste: "Salty. No chance for a wash here, but you had one yesterday.";
-  Tell: "You don't feel immensely encouraged.";
   Read: "(first removing shirt)^Across the back of your shirt is emblazoned the phrase ~Gamerr~. You quickly put it back on!";
   LetGo: if (second ~= pews or aisle) "Best keep your valuables with you."; !don't think this works
  ],
@@ -120,6 +126,11 @@ Object newplayer "yourself"
     if (papers hasnt open) print " (bound)";
     else print " (unbound)";
     new_line;
+   }
+   if (radio in self) {
+    print "  ", (Indefart) radio;
+    c_style=FULLINV_BIT + INDENT_BIT + NEWLINE_BIT + RECURSE_BIT;
+    wlf_indent=1; WriteAfterEntry(radio);
    }
    if (card in self) {
     print "^In your trouser pockets:^";
@@ -513,6 +524,7 @@ Inside Church "Church"
 InsideOrOn aisle "aisle" Church
  with name 'big' 'bare' 'side' 'centre' 'center' 'central' 'aisle' 'aisles' 'walkway' 'area' 'ambulatory' 'cloister' 'arcade' 'promenade' 'northern' 'transept' 'semi-transept' 'stone' 'stones' 'porch',
  description "The only aisle is down the centre, big enough to walk two abreast.",
+ inside_description "You are standing in the central aisle of the church.",
  ! extending the 32 max scenic property of the Church - things only visible inside
  scenic 'effigy' 'statue' 'statues' 0 "There are no graven images of man or beast in the church."
         'stairs' 0 "There is no basement entrance or way up to the bell tower without a very long ladder."
@@ -594,6 +606,7 @@ Object bell
 InsideOrOn pews "pews" Church
  with name 'plain' 'wooden' 'narrow' 'pew' 'pews' 'seat' 'seats' 'welded',
  description "Plain wooden benches are welded to the ground either side of the aisle. They look too narrow to sleep on.",
+ inside_description "You are sitting in one of the pews.",
  scenic 'shadow' 'shadows' 0 "Of greater interest are the objects casting the shadows."
         'surface' 'weld' 'welding' 'smooth' 'inviting' 0 NULL,
  before [;
@@ -693,7 +706,8 @@ Object bins "bins"
  article "a passage full of",
  found_in Square ChurchYard,
  before [;
-  Receive: <<Drop noun>>;
+  Receive: if (noun == radio) print "You decide not to mix electronics in with the organic material.^";
+  <<Drop noun>>;
   Empty,EmptyT,LetGo,Touch,Rub,Enter: "^Are you serious?!";
   Enter,Climb: "You balk at the idea of falling into the open bins.";
   Push,Pull: if (FlagOff(SHOUTED)) "You don't have any pressing reason to shift bins around, just yet.";
@@ -737,9 +751,15 @@ Outside ChurchYard "Churchyard"
  with name 'churchyard' 'bare' 'yard',
  description "The bare yard behind the church is strewn with tufts of weeds.",
  scenic 'door' 'side' 'back' 'northern' 'transept' 'semi-transept' 0 "The door looks formidably thick and built to last."
-        'grass' 'lush' 'weed' 'weeds' 'tuft' 'tufts' 0 "You don't feel green-fingered right now."
+        'large' 'clumps' 'patch' 'grass' 'lush' 'weed' 'weeds' 'tuft' 'tufts' 0 "You don't feel green-fingered right now."
         'mound' 'boggy' 'lush' 'bog' 'marshy' 'marsh' 'marshland' 'swamp' 'swampy' 'edge' 0 "It's only boggy near the yard's edge, where Ben probably throws out waste water."
  ,
+ before [;
+  Search: if (noun == self) {
+   print "The yard is bare except for several large clumps of weeds around the church walls.^";
+   if (Locale(self, "You can see", "You can also see")) " here.^"; ! at least the can will always be there
+  }
+ ],
  sw_to Square,
  n_to GardenGate,
  nw_to "The side door to the church is locked.",
@@ -762,7 +782,7 @@ DirDoor GardenGate "gate"
 !  }
 ! ],
  description "A gate in the fence to the north leads into a sizeable vegetable garden.",
- scenic 'food' 'Ben^s' 'vegetable' 'vegetables' 'fruit' 'veg' 'veggies' 'crop' 'crops' 'healthy' 0 "The fruit near the fence doesn't look ripe."
+ scenic 'food' 'Ben^s' 'vegetable' 'vegetables' 'fruit' 'veg' 'veggies' 'crop' 'crops' 'healthy' 0 "The crops near the fence don't look ripe."
         'garden' 'allotment' 'vegetable' 'gated' 'veg' 'veggie' 'orchard' 'bed' 'beds' 'fertile' 'plant' 'plants' 'healthy' 0 "The garden is unusually fertile and brimming with healthy crops."
  ,
  s_to ChurchYard,
@@ -805,12 +825,15 @@ InsideOrOn can ChurchYard
    "You turn the can to reveal the hollow interior.";
   }
   else {
+   if (child(self)) <Empty self>;
    give self supporter ~transparent ~openable ~open ~container;
    self.scenic = 0;
    "You turn the can upside down.";
   }
   Empty: if (self hasnt transparent) "You would need to turn the can upright first.";
+  if (child(self)) rfalse;
   "Nothing comes out - the dried up wood stain has stuck to the bottom.";
+  Receive: if (noun == radio) print "A curious place to leave a gift!^";
   Open: if (self hasnt transparent) "You would need to turn the can upright first.";
   Close: if (self hasnt transparent) "You would need to turn the can upright first.";
   "You don't know where the lid is.";
@@ -819,7 +842,8 @@ InsideOrOn can ChurchYard
   Enter: if (self has transparent) "You can't fit in the can!";
   "You decide Ben's makeshift seat is only suitable for someone more sprightly."; 
   Rub: "The tin is hopelessly stained, and doesn't make a very good seat either.";
-  EmptyT: "Nothing comes out - the dried up wood stain has stuck to the bottom.";
+  EmptyT: if (child(self)) rfalse;
+  "Nothing comes out - the dried up wood stain has stuck to the bottom.";
   Smell,Taste:
     if (self == parent(player)) "You're too stiff from the ride.";
     "Yuck!";
@@ -837,6 +861,7 @@ InsideOrOn can ChurchYard
 InsideOrOn bike "motorbike" Town
  with name 'motorbike' 'bike' 'electric' 'ride' 'vehicle' 'bicycle' 'motorcycle' 'standard',
  description "It's a standard electric motorbike, and your ticket to finding the City of Peace.",
+ inside_description "Your bike is comfortable but you miss sitting down without a hot battery between your legs.",
  initial "Your bike stands chained here.",
  scenic 'wheel' 'wheels' 'alloy' 'chassis' 'throttle' 'pedal' 'pedals' 'handles' 'handlebars' 0 "The bike is made of some new-fangled alloy you don't fully understand."
         'tyre' 'tyres' 0 "The tyres are made of a highly viscous synthetic polymer."
@@ -868,11 +893,11 @@ InsideOrOn bike "motorbike" Town
  limittake true,
  droponfloor true,
  includefloor false,
- has light static supporter enterable switchable lockable; !female if animate
+ has light static supporter enterable switchable lockable;
 
 Object battery "battery" bike
  has concealed
- with name 'battery',
+ with name 'hot' 'battery' 'unit' 'juice',
  description "There should be enough charge to finish your journey tomorrow, unless you change your mind before then.",
  scenic 'contacts' 'terminals' 'electricity' 'wire' 'wires' 'component' 'components' 'engine' 'motor' 0 "The battery terminals and other components aren't exposed.",
  before [;
@@ -1038,21 +1063,32 @@ Object bed "bed"
   default: if (action ~= ##Make && self == noun or second) "You haven't made a bed yet.";
  ];
 
+Object radio "hand-held radio" ChurchYard
+ with name 'small' 'little' 'black' 'portable' 'handheld' 'hand-held' 'dead' 'broken' 'radio' 'walkie' 'talkie' 'walkie-talkie' 'gizmo' 'gadget' 'receiver' 'transceiver' 'ham' 'amateur',
+ scenic 'closed' 'battery' 'compartment' 'flap' 'back' 0 "The battery compartment is screwed shut. It looks like the tiny screw has been threaded."
+        'antenna' 'aerial' 'arial' 0 "There's no retractable antenna on this unit."
+        'display' 'screen' 'read-out' 'output' 0 "There's no read-out - the screen seems to be off."
+        'button' 'buttons' 'dial' 'dials' 0 "The on button is the only physical button."
+        'channel' 'frequencies' 'broadcast' 'tiny' 'threaded' 'screw' 0 NULL
+ ,
+ description "It's a portable radio transceiver. On the back is a battery compartment.",
+ initial "Near the church wall in a patch of weeds, you spy a little black hand-held radio.", 
+ before [;
+  Listen: "Nobody seems to be broadcasting.";
+  Search: return L__M(##Examine, 3, noun); ! can't search radio frequencies if radio is off
+  TalkTo,Ask,Answer,Tell,AskFor: "The radio is dead.";
+  SwitchOn: SetFlag(TESTED); "The radio doesn't turn on. It might be broken.";
+  Open: "You don't have a screwdriver.";
+ ],
+ has concealed switchable talkable openable broken scored;
+
 Class Man
  has male animate proper
  class Character
- with qseqstates 0 0,
+ with qseqstates 0 0 0,
  life [;
   Answer: NotTalkSub(); rtrue;
   Order:  NotTalkSub(); rtrue;
- ],
- react_before [;
-  if (self in ChurchYard or can && action == ##Go or ##Look && noun == w_obj) {
-   ChurchDoors.foundlatch();
-   print "~Lost the key to that door years ago, so we just jimmy the latch now.~ quips Ben. ";
-  }
-  if (self in ChurchYard or can && action == ##Go or ##Look && noun == s_obj)
-  print "~I wouldn't tread there unless you're on important business.~, Ben says, with a smirk. ";
  ],
  before [;
   TalkTo: self.select(1); rtrue; ! 1, because Quip #1
@@ -1077,10 +1113,60 @@ Class Man
 
 Man Ben can
  class followclass
- has ~proper
+ has ~proper transparent
  with name 'old' 'man' 'ben' 'person' 'priest' 'vicar',
  short_name "old man",
  description "Ben is a tanned man with grubby clothes and a shock of white hair.",
+ life [ w;
+  Tell: if (FlagOn(GAVERADIO)) rfalse;
+  wn=consult_from; do {
+   w=NextWordStopped();
+   if (w == 'broken') {
+    SetFlag(SHOWRADIO);
+    "~Show it to me.~ he says.";
+   }
+  } until (w == -1);
+  Show: if (noun == radio) {
+   SetFlag(SHOWRADIO);
+   "~Sorry, I can't see it properly. Bring it here.~ he says.";
+  }
+  Give: if (noun == radio) {
+   SetFlag(SHOWRADIO);
+   move radio to Ben;
+   if (FlagOn(GAVERADIO)) print "~Have you fixed it? ";
+   else print "~";
+   print "Let's have a look.~ he says, pressing the on button. ~Looks like it's ";
+   if (FlagOn(GAVERADIO)) print "still ";
+   else {
+    SetFlag(GAVERADIO);
+    self.qoff(8); self.qon(20);
+   }
+   print "broken.~ he rattles the device next to his ear, frowning.^";
+   self.select(1);
+   rtrue;
+  }
+ ],
+ orders [;
+  Fix: if (noun == radio) "~I was hoping you could.~";
+  Give: if (noun ~= radio || radio notin Ben) "~I don't have that for you.~";
+  move radio to player; "~Here you go. Maybe you can get it working for me.~";
+  Go: "~I'm weak and blind and you're telling me to go hither and thither?!~";
+  Time: "~It must be past 7 o'clock by now.~";
+  NotUnderstood: "~Sorry, my Arabic isn't what it used to be. What was that?~";
+  Open,Unlock: if (noun == ChurchDoors or ChurchBuilding && FlagOn(GAVERADIO) && FlagOff(ACCEPTED))
+   self.select(23); rtrue;
+  default: "~I don't need to do that right now.~";
+ ],
+ react_before [;
+  if (self in ChurchYard or can && action == ##Go or ##Look && noun == w_obj) {
+   ChurchDoors.foundlatch();
+   print "~Lost the key to that door years ago, so we just jimmy the latch now.~ quips Ben. ";
+  }
+  if (self in ChurchYard or can && action == ##Go or ##Look && noun == s_obj)
+  print "~I wouldn't tread there unless you're on important business.~, Ben says, with a smirk. ";
+  Buy: if (FlagOn(ACCEPTED) || FlagOn(FOLLOW)) "~We can discuss business in the morning.~";
+  "~Perhaps you can help me, first.~";
+ ],
  before [;
   ! select(1), because Quip #1 is the main menu.
   TalkTo: self.select(1); rtrue;
@@ -1090,19 +1176,24 @@ Man Ben can
   if (self hasnt general) {
    ! initiate conversation after room description with "old man"
    self.select(1);
+   give radio ~concealed;
    give self general proper;
    self.short_name = "Ben";
    ! enable idle options
    if (FlagOn(HEARDSON)) self.qon(33);
-   else self.qon(19);
-   self.qon(34, 35, 37);
+   else self.qon(34);
+   self.qon(8, 35, 37);
   }
  ],
  hears_sound [;
   if (self hasnt general) {
    SetFlag(SHOUTED);
-   "~Yoohoo!~. It sounds like it's coming from behind the church.";
+   print "~Yoohoo!~^";
   }
+  else if (Ben notin nothing)
+   qseq(self,1,"~Hullo!~","~Oi!~","~I'm blind, not deaf!~","~Quit that racket, will you?!~");
+  if (player notin ChurchYard && Ben in ChurchYard or can) "It sounds like it's coming from behind the church.";
+  return Ben notin nothing;
  ],
  number 0,
  daemon [;
@@ -1178,29 +1269,31 @@ Man Ben can
           He doesn't turn to face you as you arrive."; }
       13: qtype = MainMenu;
           killz = self hasnt general;
+          killq = self has general;
       14: ! Here's where we define all the options that are
           ! ever available from the main menu. For an 
           ! explanation of this syntax, consult the comments
           ! at the beginning of Gtalk.h, specifically Step 5.
           ! Note that if the conversation is initiated a second time,
           ! this could be a fresh list
-          return Qlist(b,   22,   ! number of quips in this list
+          return Qlist(b,   25,   ! number of quips in this list
                              2, 3, 4, 5, 6)    |
-                 Qlist(b-6,  7, 9,10,16,17,18) |
-                 Qlist(b-12,19,20,23,30,33,34) |
-                 Qlist(b-18,35,36,37,38,39);
+                 Qlist(b-6,  7, 8,9,10,11,12) |
+                 Qlist(b-12,16,17,18,19,20,23) |
+                 Qlist(b-18,30,33,34,35,36,37) |
+                 Qlist(b-24,38,39);
       ! Quip #2 etc.
-      21: qseq(1,"~Hi there, who are you?~","~What's your name?~");
+      21: qseq(2,"~Hi there, who are you?~","~What's your name?~");
       22: self.qoff(2); self.qon(3, 9);
           "~Ben. Just Ben.~";
       23: qtransfer = 1; ! top-level quip; return to menu by default
 
       31: print_ret (string) random("~Are you the vicar?~","~Are you the vicar, then?~","~You're the vicar, right?~","~Is the church yours?~");
-      32: self.qoff(3); "Of sorts.";
+      32: self.qoff(3); "~Of sorts.~";
       33: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
-      41: qseq(2,"~What are you doing here?~","~What are you doing?~");
+      41: qseq(3,"~What are you doing?~","~What are you doing here?~","~What are you still doing here?~");
       42: self.qoff(4);
           if (FlagOn(HEARDSON)) {
            if (FlagOff(SEENJERU)) self.qon(30);
@@ -1211,59 +1304,67 @@ Man Ben can
           qqon = false;
 
       51: "~Are you blind?~";
-      52: self.qoff(5); self.qon(6, 7); "~I prefer the term 'visually less acute'.~"; 
+      52: self.qoff(5); self.qon(6); "~I prefer the term 'visually less acute'.~"; 
       53: qtransfer = 1; ! top-level quip; return to menu by default
 
       61: "~How visually acute are you, then?~";
-      62: self.qoff(6);
+      62: self.qoff(6); self.qon(7);
           "~I get by. I'm not completely blind.~"; 
       63: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
-      71: "~So you can see me then.~";
-      72: self.qoff(7);
-          "~Yes, I know someone's there, but not who.~"; 
+      71: qseq(4,"~So you can see me then.~","How well can you see me?");
+      72: self.qoff(7); self.qon(4);
+          qseq(5,"~Yes, I know someone's there, but not who.~","~I know someone's there, but not who.~"); 
       73: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
-      91: qseq(3,"~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~","~Remind me of your name again.~");
-      92: qcyc(4,"~It's Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
+      81: if (radio in player && FlagOff(SHOWRADIO)) "[Lie] ~I can't find your radio.~";
+          if (FlagOn(UNLOCHUR)) "~What if I can't find your radio?~";
+          else qseq(4,"~Can you help me?~","~What if I can't find your radio?~");
+      82: print "~";
+          if (FlagOff(UNLOCHUR) && radio notin player) print "I don't have the luxury of giving free advice.";
+          else print "I didn't think it would be hard to find for a sighted person.";
+          print "~ he says, apologetically. ~";
+          if (FlagOn(HEARDSON)) print "I need to contact my son. ";
+          "Look - I don't want my radio to be stolen. Can you find it before the sun goes down?~ he says, plaintively."; 
+      83: qtransfer = 1;
+          qqon = false;
+      84: return 0;
+
+      91: qseq(6,"~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~","~Remind me of your name again.~");
+      92: qcyc(7,"~It's Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
       93: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
       101: "~Can I help you?~";
-      102: "~Yes you can. I've lost my radio.~ he says, frankly."; 
-      103: killz = true; ! disallow saying nothing
-           killq = true; ! never say "What would you like to say?" for SubMenus
-           !qtype = SubMenu; ! SubMenu is for when you haven't said anything
-           qret(self, 10, 1, b);
-      104: return Qlist(b,   2,   ! number of quips in this list
-                            11, 12);
+      102: self.qoff(10); self.qon(11, 12);
+           "~Yes you can. I've lost my radio.~ he says, frankly."; 
+      103: qtransfer = 1;
 
-      ! this is a one-time chance, but should be merged into the main menu
-      111: "~That's it?~";
+      111: qseq(8,"~That's it?~","Is that really all you need?","Is your radio really all you need?");
       112: self.qoff(11);
-           qret(self, 10, 1, b); !fallback is 1 (the main menu)
-           if(score < 5 && self.qtest(12)) "~Yes, that's all.~ he says, stiffly. ~Can you help or not?~";
-           else { SetFlag(HEARDSON); self.qon(4); "~No, I suppose not. My son hasn't returned, and the radio is the way I could reach him.~ he laments. ~It's him I'm really after.~"; }
-      114: return qret(self, 10, 1, b);
+           if(score < 15 || self.qtest(8)) "~Yes, that's all.~ he says, stiffly. ~Can you help or not?~";
+           else { SetFlag(HEARDSON); "~No, I suppose not. My son hasn't returned, and the radio is the way I could reach him.~ he laments. ~It's him I'm really after.~"; }
+      113: qtransfer = 1;
+           qqon = false;
 
-      ! this could easily go in the main menu
       121: "~What does the radio look like?~";
-      122: self.qoff(12); self.qon(20);
-           qret(self, 10, 1, b);
+      122: self.qoff(12);
+           killz = false;
            "~It's a hand-held walkie-talkie gizmo, a sort of greyish black.~"; 
-      124: return qret(self, 10, 1, b);
+      123: qtransfer = 1;
+           qqon = false;
 
-      161: qseq(5,"~Loyal?~","~Your wife was loyal?~","~What happened to your wife?~");
+      161: qseq(9,"~Loyal?~","~Your wife was loyal?~","~What happened to your wife?~");
       162: self.qoff(16);
-           "~She got the fear of God in her. Left to find Jerusalem.~ he looks up at you.";
+           "~She got the fear of God in her. Left to find Jerusalem.~ he gazes off for a moment.";
       163: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
       171: "~You had a wife then?~";
       172: self.qoff(17); self.qon(16);
-           "~No, but she was loyal.~ he gazes off for a moment.";
+           "~No, but she was loyal.~ he looks up at you.";
       173: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
@@ -1274,9 +1375,9 @@ Man Ben can
            qqon = false;
 
       191: "~I'm amazed you've done as well as you have.~";
-      192: self.qoff(19); self.qon(18); !dependent on radio found?
+      192: self.qoff(19); self.qon(18);
            if (FlagOff(HEARDSON)) self.qon(33);
-           if (FlagOff(SEENJERU)) self.qon(30);
+           if (FlagOff(SEENJERU) && FlagOff(FOLLOW)) self.qon(30); ! can invite to join your mystery journey
            SetFlag(HEARDSON);
            "~Well, my son's to thank for that, or was, at least...~ he curtails, visibly emotional.";
       193: qtransfer = 1; ! top-level quip; return to menu by default
@@ -1285,7 +1386,7 @@ Man Ben can
       201: "~Do you know a way into the church?~";
       202: "~I might!~ he says, brightly. ~You want to stay in the church do you? I have rules. No candles or naked flames. No graffiti. No judgement!~"; 
       203: killz = true; ! disallow saying nothing
-           killq = true; ! never say "What would you like to say?" for SubMenus
+           killq = true; ! don't print "What would you like to say?"
            !qtype = SubMenu; ! SubMenu is for when you haven't said anything
            qqon = false;
            qret(self, 20, 1, b);
@@ -1316,22 +1417,26 @@ Man Ben can
       233: qqon = false;
       234: return 0; ! quit conversation
 
-      301: qcyc(6,"~Why are you still here?~","~Why aren't you in Jerusalem?~");
+      301: if (FlagOff(SEENJERU)) "~Why are you living here?~";
+           qcyc(10,"~Why are you still here?~","~Why aren't you in Jerusalem?~");
       302: self.qoff(30);
            print "~I don't have any means of transport.~ he says, plainly.";
-           if (FlagOn(HEARDSON)) " ~My son and I were heading to Jerusalem, but I was too ill to continue the journey. We stopped here, but I never recovered fully. I'm too weak to make the journey on foot, now.~";
-           new_line; rtrue;
+           SetFlag(SEENJERU);
+           if (FlagOn(HEARDSON))
+            print " ~We were heading to Jerusalem";
+           else
+            print " ~My son and I were heading to Jerusalem";
+           ", but I was too ill to continue the journey. We stopped here, but I never recovered fully. I'm too weak to make the journey on foot, now.~";
       303: killz = true; ! disallow saying nothing
-           killq = true; ! never say "What would you like to say?" for SubMenus
+           killq = true; ! don't print "What would you like to say?"
            !qtype = SubMenu; ! SubMenu is for when you haven't said anything
            qqon = false;
            !qret(self, 30, 1, b);
-      304: return Qlist(b,   6,   ! number of quips in this list
-                             31, 32, 33, 34, 35) |
-                  Qlist(b-12,36, 37, 38, 39);
+      304: return Qlist(b,   2,   ! number of quips in this list
+                             31, 32);
 
-      311: "[Invite to join you on your journey][-BATT][+FOOD]";
-      312: self.qoff(31, 32); if (self hasnt general) self.qon(34, 35, 37);
+      311: "[Invite to join you on your journey][-BATTERY][+FOOD]";
+      312: self.qoff(31, 32); if (self hasnt general) self.qon(35, 37);
            if (self hasnt general && FlagOn(HEARDSON)) self.qon(33);
            SetFlag(FOLLOW);
            StartDaemon(ben);
@@ -1342,7 +1447,7 @@ Man Ben can
       314: return qret(self, 30, FlagOn(ACCEPTED) || FlagOn(UNLOCHUR), b);
 
       321: "[Hold off until you trust him] ~What a shame.~";
-      322: self.qoff(31, 32); if (self hasnt general) self.qon(34, 35, 37);
+      322: self.qoff(31, 32); if (self hasnt general) self.qon(35, 37);
            if (self hasnt general && FlagOn(HEARDSON)) self.qon(33);
            qret(self, 30, 1, b);
            if (FlagOn(HEARDSON)) "~I hope that's where he is now. It can't have been easy on him staying here.~ he sighs."; 
@@ -1351,27 +1456,25 @@ Man Ben can
 
       331: "~How long has your son been gone?~";
       332: self.qoff(33);
-           qret(self, 35, 1, b);
            "He pauses. ~One season or so.~"; 
       333: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
       341: "~How long have you been here?~";
       342: self.qoff(34);
-           if (FlagOff(HEARDSON)) self.qon(19); !stepping stone to 30 and 33
-           qret(self, 35, 1, b);
+           if (FlagOn(HEARDSON)) self.qon(30);
+           else if (FlagOn(GAVERADIO)) self.qon(19); !stepping stone to 30 and 33
            "~Since the seven hundreds. I barely know what year it is any more.~ he mumbles."; 
       343: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
       351: "~How often do you see visitors?~";
       352: self.qoff(35); self.qon(36);
-           qret(self, 30, 1, b);
            "~One to two people swing by, every year.~"; 
       353: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
-      361: qseq(7,"~Is that a lot?~","~Is it common then, to see people passing through?~");
+      361: qseq(11,"~Is that a lot?~","~It's common then, to see folk passing through?~","~Do you see many folk passing through here?~");
       362: self.qoff(36);
            "~No, no, it's rare people come this way. Something's put the fear of God into them!~ he jokes."; 
       363: qtransfer = 1; ! top-level quip; return to menu by default
@@ -1383,15 +1486,15 @@ Man Ben can
       373: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
-      381: qseq(7,"~That's...not a lot.~","~Not much power, then.~","~You don't have much electricity.~");
+      381: qseq(12,"~That's...not a lot.~","~Not much power, then.~","~You don't have much electricity.~");
       382: self.qoff(38);
            print "~It's all I need here.";
            if (FlagOn(FOLLOW)) " I guess it won't help with your bike much, will it?~ he suggests."; 
-           " I guess it won't help with fuel much, will it?~ he suggests."; 
+           " If you have a vehicle, I guess it won't help you much, will it?~ he suggests."; 
       383: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
-      391: qseq(8,"~How do you charge them?~","~How do your charge your batteries?~");
+      391: qseq(13,"~How do you charge them?~","~How do your charge your batteries?~");
       392: self.qoff(39);
            "~Bio-energy. There's not a lot of other natural resources.~ he remarks."; 
       393: qtransfer = 1; ! top-level quip; return to menu by default

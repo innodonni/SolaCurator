@@ -168,13 +168,16 @@ Class hand
   RubOn: if (noun ofclass hand && second ofclass hand) "You wring your hands for a while.";
   else if (noun ofclass hand) <<Touch second>>;
   else if (second ofclass hand) { allbodyparts.message(1); rtrue; }; !RubOn when water added?
-  Squeeze,Turn,Touch,Take,Rub: "You wring your hands for a while.";
+  Squeeze,Touch,Take,Rub: "You wring your hands for a while.";
+  Turn: if (second ofclass hand) "You wring your hands for a while.";
+  <<Toss self>>;
   Insert,Transfer: if (second ofclass hand) "You wring your hands for a while.";
   if (second ~= pockets) "You're rather attached to your appendages.";
   PutOn: <<Touch second>>;
   Drop: "You're rather attached to your appendages.";
   Remove: rfalse;
   Examine: rfalse;
+  Toss: rfalse;
   ExamineHeld: <<Examine self>>;
   default: ! Receive, Close etc.
   allbodyparts.message(1);
@@ -533,7 +536,7 @@ InsideOrOn aisle "aisle" Church
  ! extending the 32 max scenic property of the Church - things only visible inside
  scenic 'effigy' 'statue' 'statues' 0 "There are no graven images of man or beast in the church."
         'stairs' 0 "There is no basement entrance or way up to the bell tower without a very long ladder."
-        'column' 'columns' 'beam' 'beams' 0 "The church roof seems to be made of sturdy stuff, since there are no old-fashioned columns or beams supporting it."
+        'beam' 'columns' 'joists' 'pillars' 0 "The church roof seems to be made of sturdy stuff, since there are no old-fashioned columns or beams supporting it."
         'worship' 'hymn' 'book' 'pipe' 'organ' 'pipes' 'instrument' 'instruments' 'hymnbook' 'hymnal' 0 "There are no instruments for worship."
         'bible' 'bibles' 'books' 'scrolls' 0 "No bibles have been preserved here, the same as everywhere."
  ,
@@ -551,7 +554,7 @@ InsideOrOn aisle "aisle" Church
  has scenery transparent supporter container open enterable;
 
 Object windows "windows"
- with name 'church' 'hole' 'holes' 'frame' 'frames' 'tall' 'arched' 'clerestory' 'high' 'windows' 'window' 'sunlight',
+ with name 'church' 'hole' 'holes' 'frame' 'frames' 'tall' 'arched' 'clerestory' 'high' 'windows' 'window' 'light' 'beams' 'sunlight',
  description "Tall, arched clerestory windows let sunlight into the church, high out of reach.",
  scenic 'stained' 'colored' 'coloured' 'colourful' 'glass' 0 "You can't tell what the windows are made of from here, but they aren't coloured."
         'local' 'architecture' 0 "It's very plain, just local stone and wood.",
@@ -868,8 +871,10 @@ InsideOrOn bike "motorbike" Town
  description "It's a standard electric motorbike, and your ticket to finding the City of Peace.",
  inside_description "Your bike is comfortable but you miss sitting down without a hot battery between your legs.",
  initial "Your bike stands chained here.",
- scenic 'wheel' 'wheels' 'alloy' 'chassis' 'throttle' 'pedal' 'pedals' 'handles' 'handlebars' 0 "The bike is made of some new-fangled alloy you don't fully understand."
+ scenic 'wheel' 'wheels' 'alloy' 'chassis' 'throttle' 'pedal' 'pedals' 'handles' 'handlebars' 'brake' 'brake' 'accelerator' 0 "The bike is made of some new-fangled alloy you don't fully understand."
         'tyre' 'tyres' 0 "The tyres are made of a highly viscous synthetic polymer."
+        'mirror' 'mirrors' 0 "As good-looking as ever."
+        'window' 'windscreen' 0 NULL
  ,
  before [;
   Take: "The bike is much too large and heavy for you to carry, and there's no need to wheel it along anywhere right now.";

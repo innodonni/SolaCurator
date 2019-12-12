@@ -762,3 +762,42 @@ Attribute broken;
 Extend only 'fix' first
  * noun -> Fix;
 Verb 'mend' 'repair' = 'fix';
+[ TossSub;
+ PronounNotice(noun);
+ if (second == nothing) second = u_obj;
+ if (second == u_obj) {
+  print "Whee!^";
+  if (noun ofclass hand) rtrue;
+  <<Drop noun>>;
+ }
+ if (second in compass || second has door) "You wouldn't be that reckless, in case you hit someone.";
+];
+Extend 'throw'
+ * multiheld noun=ADirection -> Toss
+ * multiheld 'through' door -> Toss
+ * multiheld 'in'/'into' 'the' 'air' -> Toss
+ * multiheld 'up' 'in'/'into' 'the' 'air' -> Toss;
+Extend only 'toss' first
+ * multiheld noun=ADirection -> Toss
+ * multiheld 'through' door -> Toss
+ * multiheld 'in'/'into' 'the' 'air' -> Toss
+ * multiheld 'up' 'in'/'into' 'the' 'air' -> Toss;
+Extend only 'fling' first
+ * multiheld noun=ADirection -> Toss
+ * multiheld 'through' door -> Toss
+ * multiheld 'in'/'into' 'the' 'air' -> Toss
+ * multiheld 'up' 'in'/'into' 'the' 'air' -> Toss;
+Extend only 'hurl' first
+ * multiheld noun=ADirection -> Toss
+ * multiheld 'through' door -> Toss
+ * multiheld 'in'/'into' 'the' 'air' -> Toss
+ * multiheld 'up' 'in'/'into' 'the' 'air' -> Toss;
+[ CatchSub;
+ if (noun) PronounNotice(noun);
+ if (noun) "Whoops!";
+ "You couldn't catch a cold.";
+];
+Verb 'catch'
+ * -> Catch
+ * moved -> Catch
+ * topic -> Catch;

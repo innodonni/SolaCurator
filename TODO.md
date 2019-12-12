@@ -1,4 +1,3 @@
-x mirror on bike, kick wheel/tyre (on bike)
 Flesh out articles in topics.inf
 Hint to move bins after trying and failing before
 Make cushions a class with instances

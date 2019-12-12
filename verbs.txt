@@ -229,3 +229,4 @@ speak
 check
 time
 go around
+*visit cushion. toss one cushion up then catch it

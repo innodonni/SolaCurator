@@ -931,7 +931,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Is the church yours?"
+(1) "Are you the vicar?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -1442,6 +1442,10 @@ On the aisle are some cushions.
 You can also see an altar here.
 The hand-held radio tumbles from the soft surface to the floor.
 Taken.
+
+>throw hands up in the air
+right hand: Whee!
+left hand: Whee!
 
 >nonsense
 That's not a verb I recognise.
@@ -2159,6 +2163,22 @@ You can't think of anything to say.
 
 >say sausage to self
 You don't hear an echo here.
+
+>visit cushion. toss one cushion up then catch it
+(finding the cushions in the Church)
+
+Church
+The church is furnished with altar and pews and is quite a contrast from the mess outside. Sunlight streams in through high windows, but the room is welcomingly cool.
+
+The door to the church stands ajar.
+
+On the aisle are some cushions.
+
+You can also see an altar here.
+(first taking the cushions off the aisle)
+Whee!
+Dropped.
+Whoops!
 
 >quit
 Are you sure you want to quit? y

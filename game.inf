@@ -223,8 +223,13 @@ Object pockets "trouser pockets"
   !parser_trace = 2;
   Banner(); ! required to distribute commercially without royalty payment
   print "Source available at https://github.com/innodonni/SolaCurator^
-         Compiler by Graham Nelson. Quixe interpreter by Andrew Plotkin.
-         Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
+         Compiler by Graham Nelson. ";
+#IfDef TARGET_GLULX;
+  print "Quixe interpreter by Andrew Plotkin. ";
+#IfNot;
+  print "Parchment interpreter by Atul Varma and Dannii Willis. ";
+#EndIf;
+  print "Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
          Doors by L. Ross Raszewski and Max Kalus.
          OutOfReach by Marnie Parker. Dirs by Gunther Schmidl.
          Scenic by Richard Barnett, Joe Mason, Roger Firth and Stefano Gaburri.

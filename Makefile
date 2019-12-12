@@ -68,13 +68,16 @@ bless: test.actual test.gactual
 
 release: parchment
 
+abbrev.inf: *.inf *.h
+	$(INFORM) -u game.inf | grep "^Abbreviate" > abbrev.inf
+
 parchment: game.z5 abbrev.inf
 	cat abbrev.inf game.inf > release.inf
 	$(INFORM) -pfse release.inf release.z5
 	echo -n "processBase64Zcode('" > web/interpreter/story.zblorb.js
 	base64 -w0 release.z5 >> web/interpreter/story.zblorb.js
 	echo -n "')" >> web/interpreter/story.zblorb.js
-	$(RM) release.inf release.z5
+	$(RM) abbrev.inf release.inf release.z5
 
 quixe: *.inf *.h
 	$(INFORM_GLULX) -GH game.inf game.blb

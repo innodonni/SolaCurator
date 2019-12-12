@@ -23,6 +23,23 @@ game_options = {
   inspacing: 0,     // gap between windows
   outspacing: 0     // gap between windows and edge of gameport
 };
+
+$(document).ready(function() { 
+  // Licensed under CC-BY-SA 4.0 from StackOverflow user Iman Sedighi
+  // https://stackoverflow.com/a/38550335
+  $('#gameport').on('touchstart', function() {
+      detectTap = true; //detects all touch events
+  });
+  $('#gameport').on('touchmove', function() {
+      detectTap = false; //Excludes the scroll events from touch events
+  });
+  $('#gameport').on('click touchend', function(event) {
+      if (event.type == "click") detectTap = true; //detects click events 
+         if (detectTap) {
+           $('input').focus();
+         }
+  });
+});
 </script>
 
 <script src="interpreter/story.blorb.js" type="text/javascript"></script>

@@ -264,12 +264,7 @@ from campers. The street continues north out of town.
 [The score has just gone up by five points.]
 
 >x square
-(visiting the Square)
-
-Square
-Many travellers have passed through here before you. The square is no more than
-a few dozen paces across surrounded by buildings, but is littered with detritus
-from campers. The street continues north out of town.
+You're already at the Square.
 
 >x buildings
 The taller building on the east side appears to be a church. Hopefully the roof
@@ -1677,18 +1672,7 @@ That's not a verb I recognise.
 
 >Church
 (the Church)
-(visiting the Church)
-
-Church
-The church is furnished with altar and pews and is quite a contrast from the
-mess outside. Sunlight streams in through high windows, but the room is
-welcomingly cool.
-
-The door to the church stands ajar.
-
-On the aisle are some cushions.
-
-You can also see an altar here.
+You're already in the Church.
 
 >windows
 That's not a verb I recognise.
@@ -2112,6 +2096,9 @@ Best keep your valuables with you.
 
 >visit bike. put bag on bike
 Best keep your valuables with you.
+
+>dig a hole
+You can't see any such thing.
 
 >look up foo in file
 There's no advantage to unpack until you've found a suitable shelter.

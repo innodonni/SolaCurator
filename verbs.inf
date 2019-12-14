@@ -204,6 +204,14 @@ if (parser_trace>1)
 ];
 
 [ TeleportSub rm ceiling;
+  if (noun == location) {
+   CSubjectIs  (actor,true); print " already ";
+   if (location has supporter) print "on";
+   else if (location ofclass Inside) print "in";
+   else if (location ofclass Outside) print "at";
+   else print "in";
+   print_ret " ", (the) location, ".";
+  }
   if (noun ofclass Room && noun has transparent && noun hasnt concealed)
    { print "(visiting ", (the) noun, ")^"; PlayerTo (noun, 2); rtrue; }
   rm = ScopeCeiling(noun);

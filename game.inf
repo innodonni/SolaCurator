@@ -26,8 +26,7 @@ Array UUID_ARRAY string "UUID://E2BE7957-5592-4C9D-958A-71FB1EF76928//";
  undo knot";
 ];
 
-Replace Refers; !provided by GoNeighbour.h
-Include "parser";
+Include ">parsing.inf";
 
 Object bag "rucksack"
  with name 'bag' 'rucksack' 'backpack' 'pack' 'sack' 'gear' 'belongings' 'camping' 'kit' 'stock' 'supplies' 'material',
@@ -292,7 +291,6 @@ Object board "billboard" Town
 
 Outside Square "Square"
  with name 'square',
- external_name 'square',
  description "Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.",
  before [;
   Examine,Search: if (noun == self) {

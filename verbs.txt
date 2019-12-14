@@ -126,6 +126,7 @@ rub
 cut
 burn
 dig
+*dig a hole
 wake
 wake up
 kiss

@@ -1,0 +1,22 @@
+Replace Refers;
+#Include "parser";
+#Include "verblib";
+#Include "grammar";
+
+[ Refers obj wnum  w oldwn;
+ oldwn = wn;
+ wn = wnum; w = NextWord(); wn = oldwn;
+ return obj == d_obj && w == 'hole';
+];
+
+! >dig a hole
+!
+! [** Programming error: tried to test "in" or "notin" of <routine 8554> **]
+
+Object o "room" with description "A room" has light;
+Object o1 "o1" with name 'o1';
+
+[ Initialise;
+ location = o;
+ move o1 to player;
+];

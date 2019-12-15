@@ -219,6 +219,7 @@ Object pockets "trouser pockets"
   location = Town;
   move bag to player;
   InitDoors();
+  StartDaemon(Ben);
 #IfDef DEBUG;
   random(-1); ! set seed
 #EndIf;
@@ -1120,7 +1121,7 @@ Class Man
  } rfalse; ];
 
 Man Ben can
- class followclass
+ class followclass moveclass
  has ~proper transparent
  with name 'old' 'man' 'ben' 'person' 'priest' 'vicar',
  short_name "old man",
@@ -1204,7 +1205,26 @@ Man Ben can
   return Ben notin nothing;
  ],
  number 0,
- daemon [;
+ before_action [;
+  !if (NPC_Path(Ben, AIMED_MOVE, Square, UNLOCKED_PATH))
+  !Array ToSquare -> s_obj;
+  !NPC_Path(Ben, PRESET_MOVE, ToSquare, 1);
+  if (FlagOn(ACCEPTED)) {
+    self.escort();
+    rtrue;
+  }
+ ],
+ walkoff "shuffles carefully",
+ walkon "gropes his way",
+ move_type NO_MOVE,
+ caprice 0,
+ npc_blocked [;
+  NPC_Path(Ben, NO_MOVE);
+ ],
+ npc_arrived [;
+  NPC_Path(Ben, NO_MOVE);
+ ],
+ escort [;
   !proof of concept goal-seek
   !0 objectnumber = disallow following, 0 destination = remove NPC
   !blind Ben won't follow the player to unfamiliar area at first...

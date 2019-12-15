@@ -22,21 +22,15 @@ Object o
  qtest [; ],
  qoff [; ],
  test [;
-  qseq(1,"ANSWER1","B");
+  qseq(7,"ANSWER1","ANSWER2","ANSWER3","");
  print "^---------------------------------------------------------------^";
-  qseq(2,"ANSWER2","B");
+  qseq(7,"ANSWER1","ANSWER2","ANSWER3","");
  print "^---------------------------------------------------------------^";
-  qseq(3,"ANSWER3","B");
+  qseq(7,"ANSWER1","ANSWER2","ANSWER3","");
  print "^---------------------------------------------------------------^";
-  qseq(4,"ANSWER4","B");
+  qseq(7,"ANSWER1","ANSWER2","ANSWER3","");
  print "^---------------------------------------------------------------^";
-  qseq(5,"ANSWER5","B");
- print "^---------------------------------------------------------------^";
-  qseq(6,"ANSWER6","B");
- print "^---------------------------------------------------------------^";
-  qseq(7,"ANSWER7","B");
- print "^---------------------------------------------------------------^";
-  qseq(8,"ANSWER8","B");
+  qseq(7,"ANSWER1","ANSWER2","ANSWER3","");
  ];
 [ Main;
  o.test();
@@ -90,9 +84,19 @@ Object o
  return avail;
 ];
 
+Array NonEmptyCheck --> 255; ! cannot be just 2 because print_to_array will overflow
+[ nonempty str;
+#IfDef TARGET_ZCODE;
+ str.print_to_array(NonEmptyCheck);
+#IfNot;
+ str.print_to_array(NonEmptyCheck, 255);
+#EndIf;
+ return NonEmptyCheck-->0 ~= 0;
+];
+
 ! Sequences (for sticky options or options not yet chosen)
 ! Cycles (better than a shuffle if trying to improve variation)
-[ qcyc seq a1 a2 a3 a4 a5 a6  opt;
+[ qcyc seq a1 a2 a3 a4 a5 a6  opt str;
 !   print "seq=",seq;
  opt = qopt(sender, seq);
  if ((a3 == 0 && opt == 2)
@@ -104,14 +108,19 @@ Object o
 ! print "opt=",opt;
  switch (opt)
  {
-  0: print (string) a1;
-  1: print (string) a2;
-  2: print (string) a3;
-  3: print (string) a4;
-  4: print (string) a5;
-  5: print (string) a6;
+  0: str = a1;
+  1: str = a2;
+  2: str = a3;
+  3: str = a4;
+  4: str = a5;
+  5: str = a6;
  }
- new_line;
+ print (string) str;
+ 
+ if (nonempty(str))
+  new_line;
+! else
+!  print "NONEWLINE";
 ];
 ! Once-only is just a sequence ending in empty string
 ! Shuffle - just call random("string1","string2")
@@ -119,7 +128,7 @@ Object o
 ! A function can be called with at most seven arguments. A message can be called with at most five.
 ! Sequences should be able to eventually divert
 ! so if I make a6 be a quip number, if 0 it doesn't divert, otherwise it does.
-[ qseq seq a1 a2 a3 a4 a5 diversion  character opt;
+[ qseq seq a1 a2 a3 a4 a5 diversion  character opt str;
  character = sender;
  if (metaclass(a1) ~= String)
  {
@@ -133,20 +142,27 @@ Object o
  }
 !   print "seq=",seq;
  opt = qopt(character, seq);
+!   print "opt=",opt;
  if ((a3 == 0 && opt == 2)
   || (a4 == 0 && opt == 3)
   || (a5 == 0 && opt == 4)) opt--;
+!   print "^setting opt=",opt+1;
  qsetopt(character, seq, opt+1);
 !   print "^final opt=",opt;
  switch (opt)
  {
-  0: print (string) a1;
-  1: print (string) a2;
-  2: print (string) a3;
-  3: print (string) a4;
-  4: if (diversion~=0) qtransfer = diversion; print (string) a5;
+  0: str = a1;
+  1: str = a2;
+  2: str = a3;
+  3: str = a4;
+  4: if (diversion~=0) qtransfer = diversion; str = a5;
  }
- new_line;
+ print (string) str;
+ 
+ if (nonempty(str))
+  new_line;
+! else
+!  print "NONEWLINE";
 ];
 
 ! In this case, a property similar to qflags is needed to allow the sequence to remember,
@@ -181,7 +197,7 @@ Array Masks
 ! print "masked=",tmp;
  ! now need to bitshift the word back to the true value
 
- if (pos > 4) { ! shift extra bit due to 16th bit being unused
+ if (WORDSIZE > 2 && pos%10 > 4) { ! shift past unused 16th bit
 #IfDef TARGET_ZCODE;
   @log_shift state (-1) -> tmp;
 #IfNot;
@@ -216,7 +232,7 @@ Array Masks
  
  state = opt;
 ! print "state=",state;
- if (pos > 4) { ! shift past unused 16th bit on Z-Machine
+ if (WORDSIZE > 2 && pos%10 > 4) { ! shift past unused 16th bit
 #IfDef TARGET_ZCODE;
   @log_shift state 1 -> tmp;
 #IfNot;

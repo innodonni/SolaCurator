@@ -1042,7 +1042,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Is the church yours?"
+(1) "Are you the vicar?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -1076,21 +1076,21 @@ Select an option or 0 to exit >> 1
 
 What would you like to say?
 (1) "What are you doing?"
-(2) "Sorry, I didn't catch your name..."
+(2) "Remind me of your name again."
 (3) "Can I help you?"
 
 Select an option or 0 to exit >> 1
 "Pottering."
 
 What would you like to say?
-(1) "What was your name, again?"
+(1) "Remind me of your name again."
 (2) "Can I help you?"
 
 Select an option or 0 to exit >> 2
 "Yes you can. I've lost my radio." he says, frankly.
 
 What would you like to say?
-(1) "I've forgotten your name already."
+(1) "Remind me of your name again."
 (2) "That's it?"
 (3) "What does the radio look like?"
 
@@ -1106,7 +1106,7 @@ Select an option or 0 to exit >> 2
 "It's a hand-held walkie-talkie gizmo, a sort of greyish black."
 
 What would you like to say?
-(1) "Sorry, I didn't catch your name..."
+(1) "Remind me of your name again."
 
 Select an option or 0 to exit >> 0
 
@@ -1127,7 +1127,7 @@ You can also see an upturned can (on which is Ben) here.
 
 >talk to person
 (1) "What if I can't find your radio?"
-(2) "What was your name, again?"
+(2) "Remind me of your name again."
 (3) "How long has your son been gone?"
 (4) "How often do you see visitors?"
 (5) "Do you have batteries?"
@@ -1139,7 +1139,7 @@ stolen. Can you find it before the sun goes down?" he says, plaintively.
 
 What would you like to say?
 (1) "What if I can't find your radio?"
-(2) "I've forgotten your name already."
+(2) "Remind me of your name again."
 (3) "How long has your son been gone?"
 (4) "How often do you see visitors?"
 (5) "Do you have batteries?"
@@ -1158,7 +1158,7 @@ Select an option or 0 to exit >> 3
 
 What would you like to say?
 (1) "What if I can't find your radio?"
-(2) "Sorry, I didn't catch your name..."
+(2) "Remind me of your name again."
 (3) "Is that a lot?"
 (4) "Do you have batteries?"
 
@@ -1168,7 +1168,7 @@ them!" he jokes.
 
 What would you like to say?
 (1) "What if I can't find your radio?"
-(2) "What was your name, again?"
+(2) "Remind me of your name again."
 (3) "Do you have batteries?"
 
 Select an option or 0 to exit >> 3
@@ -1176,7 +1176,7 @@ Select an option or 0 to exit >> 3
 
 What would you like to say?
 (1) "What if I can't find your radio?"
-(2) "I've forgotten your name already."
+(2) "Remind me of your name again."
 (3) "That's...not a lot."
 (4) "How do you charge them?"
 
@@ -1194,7 +1194,7 @@ Select an option or 0 to exit >> 3
 
 What would you like to say?
 (1) "What if I can't find your radio?"
-(2) "Sorry, I didn't catch your name..."
+(2) "Remind me of your name again."
 
 Select an option or 0 to exit >> 0
 
@@ -1233,7 +1233,7 @@ Taken.
 
 >talk to person
 (1) "What if I can't find your radio?"
-(2) "What was your name, again?"
+(2) "Remind me of your name again."
 
 Select an option or 0 to exit >> 1
 "I didn't think it would be hard to find for a sighted person." he says,
@@ -1242,7 +1242,7 @@ stolen. Can you find it before the sun goes down?" he says, plaintively.
 
 What would you like to say?
 (1) "What if I can't find your radio?"
-(2) "I've forgotten your name already."
+(2) "Remind me of your name again."
 
 Select an option or 0 to exit >> 0
 
@@ -1260,14 +1260,14 @@ stolen. Can you find it before the sun goes down?" he says, plaintively.
 
 What would you like to say?
 (1) "What if I can't find your radio?"
-(2) "Sorry, I didn't catch your name..."
+(2) "Remind me of your name again."
 
 Select an option or 0 to exit >> 0
 
 >give radio to vicar
 "Let's have a look." he says, pressing the on button. "Looks like it's broken."
 he rattles the device next to his ear, frowning.
-(1) "What was your name, again?"
+(1) "Remind me of your name again."
 (2) "Do you know a way into the church?"
 
 Select an option or 0 to exit >> 2
@@ -1283,7 +1283,7 @@ Select an option >> 2
 pews for kindling!"
 
 What would you like to say?
-(1) "I've forgotten your name already."
+(1) "Remind me of your name again."
 (2) "Alright, I'll follow your rules. Let me in the church!"
 (3) "Why are you still here?"
 
@@ -1416,7 +1416,7 @@ Select an option >> 2
 sighs.
 
 What would you like to say?
-(1) "Sorry, I didn't catch your name..."
+(1) "Remind me of your name again."
 (2) "Alright, I'll follow your rules. Let me in the church!"
 
 Select an option or 0 to exit >> 0

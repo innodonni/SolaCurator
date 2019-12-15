@@ -1349,8 +1349,9 @@ Man Ben can
 
       81: if (radio in player && FlagOff(SHOWRADIO)) "[Lie] ~I can't find your radio.~";
           if (FlagOn(UNLOCHUR)) "~What if I can't find your radio?~";
-          else qseq(4,"~Can you help me?~","~What if I can't find your radio?~");
-      82: print "~";
+          else qseq(6,"~Can you help me?~","~I need somewhere to sleep. Can't you help?~","~What if I can't find your radio?~");
+      82: if (FlagOff(UNLOCHUR)) qseq(7,"~Maybe.~ he says, truthfully enough.","~I can help you, and you can help me.~ he bargains.","~There's still plenty of time.~ he surveys the setting sun, peacefully.","");
+          print "~";
           if (FlagOff(UNLOCHUR) && radio notin player) print "I don't have the luxury of giving free advice.";
           else print "I didn't think it would be hard to find for a sighted person.";
           print "~ he says, apologetically. ~";
@@ -1360,8 +1361,8 @@ Man Ben can
           qqon = false;
       84: return 0;
 
-      91: qseq(6,"~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~","~Remind me of your name again.~");
-      92: qcyc(7,"~It's Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
+      91: qseq(8,"~Sorry, I didn't catch your name...~","~What was your name, again?~","~I've forgotten your name already.~","~Remind me of your name again.~");
+      92: qcyc(9,"~It's Ben.~","~Where there's no government, there's no need for surnames. I just go by Ben.~","~The name's Ben.~","~Ben.~","~I told you, it's Ben.~"); 
       93: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
@@ -1370,7 +1371,7 @@ Man Ben can
            "~Yes you can. I've lost my radio.~ he says, frankly."; 
       103: qtransfer = 1;
 
-      111: qseq(8,"~That's it?~","Is that really all you need?","Is your radio really all you need?");
+      111: qseq(10,"~That's it?~","Is that really all you need?","Is your radio really all you need?");
       112: self.qoff(11);
            if(score < 15 || self.qtest(8)) "~Yes, that's all.~ he says, stiffly. ~Can you help or not?~";
            else { SetFlag(HEARDSON); "~No, I suppose not. My son hasn't returned, and the radio is the way I could reach him.~ he laments. ~It's him I'm really after.~"; }
@@ -1384,7 +1385,7 @@ Man Ben can
       123: qtransfer = 1;
            qqon = false;
 
-      161: qseq(9,"~Loyal?~","~Your wife was loyal?~","~What happened to your wife?~");
+      161: qseq(11,"~Loyal?~","~Your wife was loyal?~","~What happened to your wife?~");
       162: self.qoff(16);
            "~She got the fear of God in her. Left to find Jerusalem.~ he gazes off for a moment.";
       163: qtransfer = 1; ! top-level quip; return to menu by default
@@ -1446,7 +1447,7 @@ Man Ben can
       234: return 0; ! quit conversation
 
       301: if (FlagOff(SEENJERU)) "~Why are you living here?~";
-           qcyc(10,"~Why are you still here?~","~Why aren't you in Jerusalem?~");
+           qcyc(12,"~Why are you still here?~","~Why aren't you in Jerusalem?~");
       302: self.qoff(30);
            print "~I don't have any means of transport.~ he says, plainly.";
            SetFlag(SEENJERU);
@@ -1502,7 +1503,7 @@ Man Ben can
       353: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
-      361: qseq(11,"~Is that a lot?~","~It's common then, to see folk passing through?~","~Do you see many folk passing through here?~");
+      361: qseq(13,"~Is that a lot?~","~It's common then, to see folk passing through?~","~Do you see many folk passing through here?~");
       362: self.qoff(36);
            "~No, no, it's rare people come this way. Something's put the fear of God into them!~ he jokes."; 
       363: qtransfer = 1; ! top-level quip; return to menu by default
@@ -1514,7 +1515,7 @@ Man Ben can
       373: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
-      381: qseq(12,"~That's...not a lot.~","~Not much power, then.~","~You don't have much electricity.~");
+      381: qseq(14,"~That's...not a lot.~","~Not much power, then.~","~You don't have much electricity.~");
       382: self.qoff(38);
            print "~It's all I need here.";
            if (FlagOn(FOLLOW)) " I guess it won't help with your bike much, will it?~ he suggests."; 
@@ -1522,7 +1523,7 @@ Man Ben can
       383: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
-      391: qseq(13,"~How do you charge them?~","~How do your charge your batteries?~");
+      391: qseq(15,"~How do you charge them?~","~How do your charge your batteries?~");
       392: self.qoff(39);
            "~Bio-energy. There's not a lot of other natural resources.~ he remarks."; 
       393: qtransfer = 1; ! top-level quip; return to menu by default

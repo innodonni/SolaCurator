@@ -41,7 +41,7 @@ Object bag "rucksack"
   Drop: if (~~TestScope(player,Church)) "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
   Disrobe: if (~~TestScope(player,Church)) "You're not giving up yet. There has to be somewhere you can kip that is out of the elements.";
   <<Drop self>>;
-  Transfer,Insert,PutOn: if (second ~= pews or aisle) "Best keep your valuables with you.";
+  Transfer,Insert,PutOn: if (second ~= pews or aisle or player) "Best keep your valuables with you.";
   Touch: "The backpack is a scratchy polyester canvas. They don't make them like they used to.";
   Rub: "The material is clean enough for your standards.";
  ],
@@ -76,6 +76,7 @@ Constant FOLLOW 8; !Has the player invited Ben to follow them?
 Constant TESTED 9; !Has the player turned the radio on?
 Constant SHOWRADIO 10; !Has the player shown the radio to Ben?
 Constant GAVERADIO 11; !Has the player given the radio to Ben?
+Constant USEDBELL 12; !Has Ben received a hint that the player has entered the Church?
 Constant FLAGCOUNT = 16;
 Include ">newflags.h";
 
@@ -83,10 +84,12 @@ Object newplayer "yourself"
  with name 'you',
  description "You consider yourself a ~truther~. There isn't as much money in journalism as there was last century when you started, but the freedom it affords you means more than wealth. It doesn't much matter what you write anyway, in post-truth society.^^You are wearing a shirt and trousers.",
  capacity 100,
- scenic 'mind' 'thoughts' 'doubt' 'doubts' 0 "You need to focus on finding shelter."
-        'torso' 'body' 'groin' 'privates' 'head' 0 "From what you can tell, everything is in its place."
-        'shirt' 'top' 'trousers' 'clothing' 'clothes' 'vestments' 'garb' 'pants' 0 "There are pockets in your shirt and trousers."
-        'shirt' 'pocket' 'top' 'decorative' 0 "A decorative pocket, sewn shut. Good thing too - you don't trust pockets.",
+ scenic 'mind' 'thoughts' 'doubt' 'doubts' 0 "You need to focus on finding shelter." ! FIXME dynamic goal
+        'groin' 'privates' 'sex' 'gender' 0 "From what you can tell, everything is in its place."
+        'breasts' 0 "Your chest is the right size, whew!"
+        'shirt' 'top' 'trousers' 'clothing' 'clothes' 'pants' 0 "There are pockets in your shirt and trousers."
+        'shoes' 'shoe' 0 "Your footwear won't offend anyone, so you keep them on until you go to bed."
+        'shirt' 'pocket' 'top' 0 "A decorative pocket, sewn shut. Good thing too - you don't trust pockets.",
  add_to_scope camp bed pockets,
  life [;
   Answer: "You don't hear an echo here.";
@@ -218,6 +221,7 @@ Object pockets "trouser pockets"
   give Town ~scored;
   location = Town;
   move bag to player;
+  move allbodyparts to player;
   InitDoors();
   StartDaemon(Ben);
 #IfDef DEBUG;
@@ -456,7 +460,7 @@ DirDoor ChurchDoors "church doors"
     rtrue;
   }
   Listen: if (noun == self) "Silence - perfect place to sleep!";
-  Sleep: if (noun == self || (noun == d_obj && player in Church)) <<Make bed>>;
+  Sleep,SleepUnder: if (noun == self || (noun == d_obj && player in Church)) <<Make bed>>;
  ], 
  has static concealed door openable lockable locked enterable pluralname;
 
@@ -595,8 +599,9 @@ Object bell
   Swing,Climb: "You're too stiff from the ride.";
   Push: "(the bellcord)^The rope sways.";
   PushDir: if (second ~= u_obj) "The rope isn't long enough.";
-  Turn,Take,Pull,ThrownAt: if (player notin Church or aisle && action ~= ##ThrownAt) "You can't reach it.";
+  Shake,Turn,Take,Pull,ThrownAt: if (player notin Church or aisle && action ~= ##ThrownAt) "You can't reach it.";
   self.number++; print "Ding!^";
+  SetFlag(USEDBELL);
   Ben.hears_sound(); rtrue;
   Open,Close: "The giant knot has been glued - someone got tired of people undoing it!";
   Search: <<Examine self>>;
@@ -684,7 +689,7 @@ Object altar "altar" Church
   if (self hasnt general) score = score + 5; give self general;
   give altarlegs ~concealed;
   "As you put your weight on the altar, it wobbles. If the legs aren't all the same length, you might as well sleep on the floor.";
-  LookUnder: <<Examine altarlegs>>;
+  LookUnder,SleepUnder: <<Examine altarlegs>>;
  ],
  react_before [;
   Sleep: if (noun == self && self has general) "Nowhere near ideal.";
@@ -704,7 +709,9 @@ Object altarlegs "altar legs" Church
  ],
  description "Stubby stone legs protrude from the bottom of the altar. They are high enough off the ground to allow the altar to wobble, but not high enough for anything to go underneath.",
  before [;
+  give altar ~concealed;
   give self ~concealed;
+  if (altar hasnt general) score = score + 5; give altar general;
  ];
 
 Object bins "bins"
@@ -933,11 +940,14 @@ Object chain "chain" bike
 Book papers "pile of papers" bag
  has legible openable
  with name 'pile' 'paper' 'papers' 'notes' 'journal' 'file' 'pages' 'straps' 'wad',
+ number 0,
  parse_name [ w n;
+  self.number = 0;
   w = NextWord();
-  while (WordInProperty(w,self,name)) { n++; w = NextWord(); }
-  if (w == 'of') { n++; w = NextWord(); }
-  while (WordInProperty(w,self,name)) { n++; w = NextWord(); }
+  if (w == 'straps') self.number = 1;
+  while (WordInProperty(w,self,name)) { n++; w = NextWord(); if (w == 'straps') self.number = 1; }
+  if (w == 'of') { n++; w = NextWord(); if (w == 'straps') self.number = 1; }
+  while (WordInProperty(w,self,name)) { n++; w = NextWord(); if (w == 'straps') self.number = 1; }
   return n;
  ],
  !invent [; if (inventory_stage == 1) rtrue; rfalse; ], ! hiding crashes Z-Machine
@@ -964,7 +974,7 @@ Book papers "pile of papers" bag
         Final solutions - flooding the world with clean water (986)^
         Abysmal release - devillish designs for humanity (993)^
         God incarnate - what is love?^
-        ^No number has been written for the last entry.";
+        ^No number has been written for the last entry. To look through your papers for an article, type LOOK UP topic IN pile of papers.";
   Search: if (parent(self) ~= player && ImplicitTake()) rtrue;
    "There's too many pages to rifle through, but you could look something up.";
   Open,Push,Pull: if (parent(player) ~= pews) "Not standing here. You don't want to have to chase any pages that might fall out.";
@@ -978,7 +988,8 @@ Book papers "pile of papers" bag
   }
   if(parent(player) ~= pews) keep_silent = 1; <Enter pews>; keep_silent = 0; move self to player;
   "You sit down and gently take the papers out of your bag.";
-  Drop: if (parent(self) ~= bag) { give self ~open; move self to bag;
+  Drop: if (self.number == 1) "The straps are attached to the journal.";
+  if (parent(self) ~= bag) { give self ~open; move self to bag;
    "You place the papers gently back in your bag. You don't want to lose any pages accidentally.";
   }
   LookUnder: "The back of your journal is stuffed full of loose pages that you plan to read later. The reverse of the back page is blank, besides a few smudges from your inky fingers due to being the lowest in the pile.";
@@ -1049,7 +1060,7 @@ Object sun "sun"
  ],
  react_before [;
   Time,Wait: print_ret (string) self.description;
-  Sleep: if (noun == self) <<Make bed>>;
+  Sleep,SleepUnder: if (noun == self) <<Make bed>>;
   Pray,Listen: if (noun == self) "The sun warms you silently.";
  ];
 
@@ -1341,9 +1352,9 @@ Man Ben can
       63: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
-      71: qseq(4,"~So you can see me then.~","How well can you see me?");
+      71: qseq(4,"~So you can see me then.~","~How well can you see me?~");
       72: self.qoff(7); self.qon(4);
-          qseq(5,"~Yes, I know someone's there, but not who.~","~I know someone's there, but not who.~"); 
+          "~Well, I can tell someone's there alright, but not necessarily who - at least not without other clues.~"; 
       73: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
@@ -1371,7 +1382,7 @@ Man Ben can
            "~Yes you can. I've lost my radio.~ he says, frankly."; 
       103: qtransfer = 1;
 
-      111: qseq(10,"~That's it?~","Is that really all you need?","Is your radio really all you need?");
+      111: qseq(10,"~That's it?~","~Is that really all you need?~","~Is your radio really all you need?~");
       112: self.qoff(11);
            if(score < 15 || self.qtest(8)) "~Yes, that's all.~ he says, stiffly. ~Can you help or not?~";
            else { SetFlag(HEARDSON); "~No, I suppose not. My son hasn't returned, and the radio is the way I could reach him.~ he laments. ~It's him I'm really after.~"; }

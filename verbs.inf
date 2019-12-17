@@ -45,6 +45,9 @@ Object LibraryMessages
         3:  if (lm_o == nothing) print "That doesn't"; else CSubjectDont(lm_o,true); " seem to fit.";
         4:  if (lm_o == ChurchDoors or latch) { CSubjectVerb(actor,false,false,"open",0,"opens","opened"); " ", (the) lm_o, "."; }
   }
+  Buy: print "Nothing ";
+       Tense("is", "was");
+       " appropriate to trade.";
   ! Avoid implications that potentially impossible actions are undertaken by saying "achieves nothing"
   Tie: if (lm_n ~= 1) rfalse;
         print "Tying ", (the) lm_o, " ";
@@ -156,6 +159,11 @@ if (parser_trace>1)
       return 'go';
     }
   }
+  if (num_words > 1) {
+   wn = 2;
+   if (Descriptors()~=0) rfalse;
+   if (TryGivenObject(allbodyparts)>0) return 'examine';
+  }
   rfalse;
 ];
 
@@ -251,7 +259,7 @@ Verb 'dismount' = 'exit';
 Verb 'camp' 'kip' = 'sleep';
 Verb 'lick' = 'taste';
 Verb 'hurt' = 'hit';
-Verb 'detach' 'collect' = 'take';
+Verb 'detach' 'collect' 'gather' = 'take';
 Verb 'unchain' = 'unlock';
 Verb 'wheel' = 'push';
 Verb 'rifle' 'riffle' 'ransack' 'explore' = 'search';
@@ -260,23 +268,35 @@ Verb 'inspect' = 'examine';
 Verb 'pour' = 'empty';
 Verb 'grip' = 'touch';
 Verb 'visit' 'travel' = 'go';
+Verb 'saw' = 'cut';
+Verb 'fidget' = 'wait';
+Verb 'quaff' = 'drink';
 
-[ SearchOrTakeSub i;
+[ SearchOrTakeSub i found;
+ if (noun == nothing) noun = location;
  if (ObjectIsUntouchable(noun)) return;
  if (noun == pockets) <<Search pockets>>; ! let before rule handle it
- <<EmptyT noun player>>;
- if (noun hasnt container or supporter || (noun has supporter && noun has openable && noun hasnt open) || ~~child(noun)) "There's nothing there.";
+ if ((~~(noun ofclass Room)) && (noun hasnt container or supporter || (noun has supporter && noun has openable && noun hasnt open) || ~~child(noun))) "There's nothing there.";
  if (noun has openable && noun hasnt open && ImplicitOpen()) rtrue;
- objectloop(i in noun)
-  <Transfer i player, actor>;
-  <Remove i noun>;
+ while(child(noun)) {
+  i = child(noun);
+  while (i && i hasnt moved) i = sibling(i);
+  if (i == nothing) break;
+  while (i && i has scenery or concealed) i = sibling(i);
+  if (i == nothing) break;
+  print (name) i,": "; <Take i>; found = true;
+ }
+ if (~~found) "You haven't dropped anything here.";
 ];
 Extend 'take'
- * multiinside 'out' 'from'/'of' noun -> Remove
+ * multiexcept 'out' 'from'/'of' noun -> Remove
 ! empty object will fail multiinside, but Search works for empty pockets
- * 'all' 'from' noun -> SearchOrTake
- * 'contents' 'from'/'of' noun -> SearchOrTake
- * 'all' 'out' 'from'/'of' noun -> SearchOrTake;
+ * 'my' 'things'/'stuff' -> SearchOrTake
+ * 'all' 'my' 'things'/'stuff' -> SearchOrTake
+ * 'my' 'things'/'stuff' 'from' noun -> SearchOrTake
+ * 'all' 'my' 'things'/'stuff' 'from' noun -> SearchOrTake
+ * 'all'/'contents'/'things'/'stuff' 'in'/'inside'/'from'/'of' noun -> SearchOrTake
+ * 'all'/'contents'/'things'/'stuff' 'out' 'from'/'of' noun -> SearchOrTake;
 
 Extend 'show'
  * multiheld 'to' creature -> Show;
@@ -291,12 +311,20 @@ Extend 'show'
   ".";
 ];
 Extend 'sit' first
+ * -> EnterVague
  * 'on' noun=ADirection -> EnterVague;
 Extend 'sit'
  * 'down' 'on'/'in' supporter -> Enter
  * 'down' -> EnterVague
  * 'down' 'on' noun=ADirection -> EnterVague
  * noun=ADirection -> Look; ! sit up
+Verb 'seat' = 'put';
+[ SeatSub;
+ if (noun == player) <<Enter second>>;
+ <<PutOn noun second>>;
+];
+Extend 'put' first
+ * animate 'on'/'in' supporter -> Seat;
 
 Extend 'get' first ! try other rules after these
  * 'up' -> Exit;
@@ -502,9 +530,16 @@ Verb "do"
  if (noun provides react_before) return L__M(##Sleep, 1, noun);
  <<Examine sun>>;
 ];
+[ SleepUnderSub;
+ if (noun == nothing) "You'll have to specify what to sleep under.";
+ if (noun == d_obj) "You'd need to dig a hole first.";
+ if (noun provides react_before) return L__M(##SleepUnder, 1, noun);
+ <<Examine sun>>;
+];
 
 Extend 'sleep' replace
  * -> Sleep
+ * 'under'/'underneath'/'below' noun -> SleepUnder
  * 'in'/'on'/'at' noun -> Sleep;
 
 [ HasOrHave obj;
@@ -608,6 +643,10 @@ Extend 'what'
  * IsAmAre 'my' topic -> MustXMe;
 
 Include ">ExpertGrammar.h";
+Verb 'jiggle' 'wobble' 'ring' 'wring' 'fiddle' 'dangle' 'jangle' 'jingle' = 'shake';
+
+Extend 'dance'
+ * 'on'/'through' scope=TeleportScope -> Dance;
 
 Extend 'rub'
  * noun 'with' noun -> RubOn;
@@ -730,8 +769,9 @@ Extend 'answer' replace            ! = 'say' 'shout' 'speak'
 Extend only 'shout' first ! try other rules after these
  * -> CallOut
  * topic -> CallOut;
+Verb 'trade' 'sell' 'barter' = 'buy';
 Extend 'buy'
- * noun 'from' creature -> Buy;
+ * noun 'with'/'to'/'from' creature -> Buy;
 Extend 'ask' replace
  *                    -> NotTalk
  * creature 'for' noun -> AskFor
@@ -767,9 +807,14 @@ Attribute broken;
  if (noun has broken) "It's beyond your skill to repair.";
  "You can't fix that.";
 ];
+[ BreakSub;
+ CSubjectIs(noun,true); " already broken.";
+];
 Extend only 'fix' first
  * noun -> Fix;
 Verb 'mend' 'repair' = 'fix';
+Extend only 'break' first
+ * broken -> Break;
 [ TossSub;
  PronounNotice(noun);
  if (second == nothing) second = u_obj;

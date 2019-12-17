@@ -143,12 +143,14 @@ Object allbodyparts,
 				((w == 'my' or 'head' or 'ear' or 'ears') || !or 'hands' or 'hand') ||
 				 (w == 'fist' or 'fists') || !or 'finger' or 'fingers' or 'thumb' or 'thumbs') ||
 				 (w == 'arm' or 'arms' or 'leg' or 'legs' or 'foot' or 'feet') ||
+				 (w == 'bottom' or 'bum' or 'tummy' or 'abdomen' or 'stomach') || ! added
+                                 (w == 'body' or 'torso' or 'chest' or 'breast' or 'cheeks' or 'cheek') || ! added
 				 (w == 'eye' or 'eyes' or 'face' or 'nose' or 'mouth' or 'teeth') ||
 				 (w == 'tooth' or 'tongue' or 'lips' or 'lip')))
 			{	self.number = 1; j = 1;
 			} 
 			if ((self.number == 0 or 2) && 
-				(w == 'someone' or 'something' or 'anyone' or 'anything')) 
+				(w == 'someone' or 'something' or 'anyone' or 'anything' or 'somebody')) 
 			{	self.number = 2; j = 1;
 			}   
 			if ((self.number == 0 or 3) && 
@@ -164,6 +166,7 @@ Object allbodyparts,
 	react_before [;
 		if ((noun && noun == self) || (second && second == self))
 		{	
+                        if (action == ##Attack && self.number == 1) <<Attack player>>;
 			self.message(self.number);
 			rtrue;
 		}

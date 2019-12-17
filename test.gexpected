@@ -35,7 +35,7 @@ Removed.
 There is nothing to put.
 
 >take hands out of pockets
-You can't see any such thing.
+The trouser pockets are empty.
 
 >take hands from pockets
 You can't see any such thing.
@@ -524,6 +524,11 @@ Ding!
 "Yoohoo!"
 It sounds like it's coming from behind the church.
 
+>pull cord
+Ding!
+"Yoohoo!"
+It sounds like it's coming from behind the church.
+
 >x cord
 A small dull brass bell rests in the tower above the Square.
 A rope hangs down from the ceiling with a knot at the end.
@@ -656,7 +661,7 @@ Thank you for playing!
 
 
 
-In that game you scored 75 out of a possible 105, in 180 turns.
+In that game you scored 75 out of a possible 105, in 181 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -760,7 +765,7 @@ Thank you for playing!
 
 
 
-In that game you scored 85 out of a possible 105, in 205 turns.
+In that game you scored 85 out of a possible 105, in 206 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -813,7 +818,7 @@ Final solutions - flooding the world with clean water (986)
 Abysmal release - devillish designs for humanity (993)
 God incarnate - what is love?
 
-No number has been written for the last entry.
+No number has been written for the last entry. To look through your papers for an article, type LOOK UP topic IN pile of papers.
 
 >search file
 There's too many pages to rifle through, but you could look something up.
@@ -847,7 +852,7 @@ Thank you for playing!
 
 
 
-In that game you scored 95 out of a possible 105, in 218 turns.
+In that game you scored 95 out of a possible 105, in 219 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -928,7 +933,7 @@ Select an option >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Is the church yours?"
+(1) "Are you the vicar?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -958,7 +963,7 @@ What would you like to say?
 (3) "Can I help you?"
 
 Select an option or 0 to exit >> 1
-"Yes, I know someone's there, but not who."
+"Well, I can tell someone's there alright, but not necessarily who - at least not without other clues."
 
 What would you like to say?
 (1) "What are you doing?"
@@ -1338,9 +1343,7 @@ Ben follows you a little into the church.
 "I won't regale you with my past, you look tired. Sleep well!", and with that Ben disappears out of the church doors.
 
 >ring bell
-That's not a verb I recognise.
-
->pull cord
+(the bellcord)
 Ding!
 "I'm blind, not deaf!"
 
@@ -1536,7 +1539,8 @@ That's not a verb I recognise.
 That's not a verb I recognise.
 
 >altar legs
-That's not a verb I recognise.
+(the altar legs)
+Stubby stone legs protrude from the bottom of the altar. They are high enough off the ground to allow the altar to wobble, but not high enough for anything to go underneath.
 
 >motorbike
 That's not a verb I recognise.
@@ -1879,10 +1883,10 @@ First priority is to find a place to rest.
 First priority is to find a place to rest.
 
 >insert arm in bag
-You aren't holding that!
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
 
 >put body in bag
-You don't need to interact with that stuff.
+Generally speaking, there is no need to refer to your body parts individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be implemented, for instance; WEAR SHOES is enough.  And unless you get some hint to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE RING IN MY MOUTH.
 
 >put on accent
 You can't see any such thing.

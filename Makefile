@@ -51,7 +51,7 @@ ztest: game.z5 test.input test.expected
 	$(RM) test.actual
 	$(DUMBFROTZ) game.z5 <test.input
 	$(RM) game.z5
-	{ { { { diff test.actual test.expected 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.actual test.input
+	{ { { { diff test.expected test.actual 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.actual test.input
 
 gtest: game.blb test.input test.gexpected
 	$(INFORM_GLULX) -GH game.inf game.blb
@@ -59,7 +59,7 @@ gtest: game.blb test.input test.gexpected
 	sed 's/test.actual/test.gactual/' test.input > test.ginput
 	$(GLULXE) game.blb <test.ginput
 	$(RM) test.ginput game.blb
-	{ { { { diff test.gactual test.gexpected 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.gactual test.input
+	{ { { { diff test.gexpected test.gactual 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.gactual test.input
 
 bless: test.actual test.gactual
 	mv test.actual test.expected

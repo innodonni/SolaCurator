@@ -150,6 +150,7 @@ push knot west
 twist cord
 untie cord
 pull knot
+pull cord
 x cord
 search dangling bellcord
 swing on rope
@@ -339,7 +340,6 @@ g
 g
 g
 ring bell
-pull cord
 follow Ben
 g
 g

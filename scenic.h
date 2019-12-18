@@ -305,13 +305,13 @@ Global  ScenicWord;
 
 ! ---------------------------------------------------------------------------- !
 
-[ RoomExOnSub;  ScenicFlag = ScenicFlag | $0004; "EXAMINE enabled for rooms."; ];
-[ RoomExOffSub; ScenicFlag = ScenicFlag & $FFFB; "EXAMINE disabled for rooms."; ];
-[ RoomExSub;    if (ScenicFlag & $0004) RoomExOffSub (); else RoomExOnSub (); ];
+![ RoomExOnSub;  ScenicFlag = ScenicFlag | $0004; "EXAMINE enabled for rooms."; ];
+![ RoomExOffSub; ScenicFlag = ScenicFlag & $FFFB; "EXAMINE disabled for rooms."; ];
+![ RoomExSub;    if (ScenicFlag & $0004) RoomExOffSub (); else RoomExOnSub (); ];
 
-Verb meta 'roomex' *           -> RoomEx
-                   * 'on'      -> RoomExOn
-                   * 'off'     -> RoomExOff;
+!Verb meta 'roomex' *           -> RoomEx
+!                   * 'on'      -> RoomExOn
+!                   * 'off'     -> RoomExOff;
 
 #endif;
 ! ---------------------------------------------------------------------------- !

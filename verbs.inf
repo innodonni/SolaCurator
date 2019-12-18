@@ -107,6 +107,14 @@ Include ">moveclass.h";
 if (parser_trace>1)
  print "[GamePreRoutine: action = ", action, "]^";
 #Endif;
+  if (parent(player) ~= pews or aisle && parent(papers) ~= bag) {
+   give papers ~open; move papers to bag; give bag ~open; move bag to player;
+   print "You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.^";
+  }
+  else if ((~~TestScope(player,Church)) && (bag has open || parent(bag) ~= player)) {
+   give bag ~open; move bag to player;
+   print "You shoulder your bag again.^";
+  }
  if (action == ##Remove && noun == card && second == pockets)
   move card to pockets; ! don't break assumption
  if (action == ##Examine or ##Search && s_obj == noun or second && location == Town) "It looks like there are more buildings down in the square.";
@@ -130,7 +138,11 @@ if (parser_trace>1)
   !0	  to accept the parser's decision;
   !1	  to force the object to be included; or
   !2	  to force the object to be excluded.
-  if (code < 2) { if (obj has scenery || obj == allbodyparts) return 2; rfalse; }
+  if (code < 2) {
+   if (obj has scenery || obj == allbodyparts) return 2;
+   if (obj == player && action_to_be == ##ShakeHands) return 2;
+   rfalse;
+  }
 
   ! otherwise score preferences from 1-9
   if (action_to_be == ##Eat && obj has edible) return 3;
@@ -271,6 +283,7 @@ Verb 'visit' 'travel' = 'go';
 Verb 'saw' = 'cut';
 Verb 'fidget' = 'wait';
 Verb 'quaff' = 'drink';
+Verb 'unpack' = 'open';
 
 [ SearchOrTakeSub i found;
  if (noun == nothing) noun = location;
@@ -643,7 +656,22 @@ Extend 'what'
  * IsAmAre 'my' topic -> MustXMe;
 
 Include ">ExpertGrammar.h";
-Verb 'jiggle' 'wobble' 'ring' 'wring' 'fiddle' 'dangle' 'jangle' 'jingle' = 'shake';
+Verb 'jiggle' 'wobble' 'ring' 'wring' 'fiddle' 'dangle' 'jangle' 'jingle' 'swipe' = 'shake';
+[ ShakeHandsSub;
+ if (second == nothing && TestScope(player,Ben)) second = Ben;
+ if (second == nothing) "There's nobody else here.";
+ if (noun == lefthand) "You offer your hand to shake, but ",(the) second," doesn't catch on.";
+ if (noun == righthand) "~How do you do?~";
+];
+Extend 'shake'
+ * held 'in'/'between' door -> Unlock reverse
+ * multiheld 'with' creature -> ShakeHands
+ * multiheld 'with' 'all'/'everyone'/'everybody' -> ShakeHands
+ * multiexcept 'with' held -> ShakeHands
+ * multiheld -> Shake;
+Extend only 'insert'
+ * held 'between' door -> Unlock reverse;
+Verb 'slot' = 'insert';
 
 Extend 'dance'
  * 'on'/'through' scope=TeleportScope -> Dance;
@@ -762,11 +790,15 @@ Extend 'answer' replace            ! = 'say' 'shout' 'speak'
  *                    -> NotTalk  ! (Except we replaced
  * topic              -> NotTalk; ! 'speak' on its own above.)
 [ CallOutSub;
- if (parent(player) ~= Square or Church or pews or aisle or ChurchYard) return NotTalkSub();
+ if (parent(player) ~= Square or Church or pews or aisle or ChurchYard) {
+  if (num_words == 1) return ShoutSub();
+  else return NotTalkSub();
+ }
+ if (num_words == 1) ShoutSub();
  if(Ben.hears_sound()) rtrue;
  return NotTalkSub();
 ];
-Extend only 'shout' first ! try other rules after these
+Extend only 'shout' replace
  * -> CallOut
  * topic -> CallOut;
 Verb 'trade' 'sell' 'barter' = 'buy';

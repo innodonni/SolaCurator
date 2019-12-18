@@ -33,7 +33,7 @@ Object bag "rucksack"
  article "your", ! using single-quote crashes Z-Machine!
  description "Your rucksack contains all of your worldly belongings (mostly camping gear).",
  before [;
-  Receive: if (noun == radio) "There's no point in keeping a broken radio.";
+  Receive: if (noun == radio) "You've learned to travel light, and a broken radio isn't valuable to anyone nowadays.";
   Search: if (TestScope(player,Church)) "Besides your journal, you have everything you need to set up camp.";
   EmptyT,Open: if (~~TestScope(player,Church))
   "There's no advantage to unpack until you've found a suitable shelter.";
@@ -44,10 +44,11 @@ Object bag "rucksack"
   Transfer,Insert,PutOn: if (second ~= pews or aisle or player) "Best keep your valuables with you.";
   Touch: "The backpack is a scratchy polyester canvas. They don't make them like they used to.";
   Rub: "The material is clean enough for your standards.";
+  Shake: "You're too weary from your journey to be doing any shaking beyond emptying your bag.";
  ],
  after [;
-  Drop: if (self hasnt general) score = score + 5; give self general;
-  "Time to make up your bed!";
+  if (action == ##Open or ##Drop && self hasnt general) score = score + 5; give self general;
+  Drop: "Time to make up your bed!";
   Examine: <<Search self>>;
  ],
  has container transparent openable;
@@ -77,6 +78,7 @@ Constant TESTED 9; !Has the player turned the radio on?
 Constant SHOWRADIO 10; !Has the player shown the radio to Ben?
 Constant GAVERADIO 11; !Has the player given the radio to Ben?
 Constant USEDBELL 12; !Has Ben received a hint that the player has entered the Church?
+Constant KNOWBEN 13; !Has player heard Ben's name?
 Constant FLAGCOUNT = 16;
 Include ">newflags.h";
 
@@ -109,9 +111,10 @@ Object newplayer "yourself"
   Examine: SetFlag(SEENSELF);
  ],
  react_before [;
-  if (lefthand in pockets || righthand in pockets && parent(card) == player && (action ~= ##Remove || second ~= pockets)) {
-   move lefthand to player;
+  ! automatically remove hands from pockets to do things
+  if (lefthand in pockets || righthand in pockets && parent(card) == player && (action ~= ##Remove or ##Transfer or ##Insert || second ~= pockets)) {
    move righthand to player;
+   move lefthand to player; ! insert after, to appear before right
   }
   Disrobe: if (noun ~= bag) "You're not ready to tuck yourself in yet.";
   Inv:
@@ -142,20 +145,12 @@ Object newplayer "yourself"
    rtrue;
  ],
  each_turn [;
-  if (parent(player) ~= pews or aisle && parent(papers) ~= bag) {
-   give papers ~open; move papers to bag; give bag ~open; move bag to player;
-   print "You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.^";
-  }
-  else if ((~~TestScope(player,Church)) && (bag has open || parent(bag) ~= player)) {
-   give bag ~open; move bag to player;
-   print "You shoulder your bag again.^";
-  }
-  if (lefthand in pockets || righthand in pockets && parent(card) == nothing) {
-   <Search pockets>;
-  }
   if (parent(card) ~= player or nothing) {
    move card to player;
    print "You put your bank card away in your pocket until you need to use it.^";
+  }
+  if (lefthand in pockets || righthand in pockets && parent(card) == nothing) {
+   <Search pockets>;
   }
  ],
  has legible concealed animate proper transparent;
@@ -170,16 +165,15 @@ Class hand
   RubOn: if (noun ofclass hand && second ofclass hand) "You wring your hands for a while.";
   else if (noun ofclass hand) <<Touch second>>;
   else if (second ofclass hand) { allbodyparts.message(1); rtrue; }; !RubOn when water added?
-  Squeeze,Touch,Take,Rub: "You wring your hands for a while.";
+  Shake,Squeeze,Touch,Take,Rub: "You wring your hands for a while.";
   Turn: if (second ofclass hand) "You wring your hands for a while.";
   <<Toss self>>;
+  ShakeHands: if (second ofclass hand || second == player) "You wring your hands for a while.";
   Insert,Transfer: if (second ofclass hand) "You wring your hands for a while.";
   if (second ~= pockets) "You're rather attached to your appendages.";
   PutOn: <<Touch second>>;
   Drop: "You're rather attached to your appendages.";
-  Remove: rfalse;
-  Examine: rfalse;
-  Toss: rfalse;
+  Remove,Examine,Toss: rfalse;
   ExamineHeld: <<Examine self>>;
   default: ! Receive, Close etc.
   allbodyparts.message(1);
@@ -191,6 +185,10 @@ Object lefthand "left hand" newplayer
  class hand;
 Object righthand "right hand" newplayer
  with name 'right',
+ after [;
+  ! ensure right is always second when together
+  Insert,Transfer,Remove: if (parent(lefthand) == parent(righthand)) move lefthand to parent(lefthand);
+ ],
  class hand;
 
 Object pockets "trouser pockets"
@@ -199,13 +197,14 @@ Object pockets "trouser pockets"
  description "Deep pockets, ready for adventure! Still, you try not to use them in case anything falls out.",
  capacity 2,
  before [;
+  Open,Close: "The pockets don't have any fastening - they must have been manufactured aeons ago.";
   Search: move card to player;
   if (self has general) "In your trouser pockets is your bank card. You'll put it away in your rucksack later - it could come in handy.";
   give self general;
   "To your surprise, you find your bank card in your trouser pockets. Thankfully it didn't fall out while you were riding along - it could come in handy.";
   Receive: if (~~(noun ofclass hand)) "You can't fit anything more in your pockets.";
  ],
- has static pluralname container open transparent;
+ has static pluralname container openable open transparent;
 
 [ in_obj_parse_name;
  return NextWord() == 'inside' or 'in' or 'inwards' or 'inward';
@@ -879,8 +878,8 @@ InsideOrOn bike "motorbike" Town
  initial "Your bike stands chained here.",
  scenic 'wheel' 'wheels' 'alloy' 'chassis' 'throttle' 'pedal' 'pedals' 'handles' 'handlebars' 'brake' 'brake' 'accelerator' 0 "The bike is made of some new-fangled alloy you don't fully understand."
         'tyre' 'tyres' 0 "The tyres are made of a highly viscous synthetic polymer."
-        'mirror' 'mirrors' 0 "As good-looking as ever."
-        'window' 'windscreen' 0 NULL
+        'mirror' 'mirrors' 0 "(yourself in the mirror)^As good-looking as ever."
+        'window' 'windscreen' 0 "(the bike windscreen)^You don't need to interact with that stuff."
  ,
  before [;
   Take: "The bike is much too large and heavy for you to carry, and there's no need to wheel it along anywhere right now.";
@@ -1118,7 +1117,6 @@ Class Man
       11: ! Main menu: no quip name needed
       12: ! Main menu: no reply needed
       13: qtype = MainMenu;
-          killz = true;
       14: ! Here's where we define all the options that are
           ! ever available from the main menu. For an 
           ! explanation of this syntax, consult the comments
@@ -1136,7 +1134,10 @@ Man Ben can
  has ~proper transparent
  with name 'old' 'man' 'ben' 'person' 'priest' 'vicar',
  short_name "old man",
- description "Ben is a tanned man with grubby clothes and a shock of white hair.",
+ scenic 'grubby' 'tan' 'Ben^s' 'clothes' 'shock' 'white' 'hair' 0 ScenicError,
+ description [;
+  print_ret (The) self, " is a tanned man with grubby clothes and a shock of white hair.";
+ ],
  life [ w;
   Tell: if (FlagOn(GAVERADIO)) rfalse;
   wn=consult_from; do {
@@ -1159,7 +1160,7 @@ Man Ben can
    if (FlagOn(GAVERADIO)) print "still ";
    else {
     SetFlag(GAVERADIO);
-    self.qoff(8); self.qon(20);
+    self.qoff(8, 12); self.qon(20);
    }
    print "broken.~ he rattles the device next to his ear, frowning.^";
    self.select(1);
@@ -1180,10 +1181,10 @@ Man Ben can
  react_before [;
   if (self in ChurchYard or can && action == ##Go or ##Look && noun == w_obj) {
    ChurchDoors.foundlatch();
-   print "~Lost the key to that door years ago, so we just jimmy the latch now.~ quips Ben. ";
+   print "~Lost the key to that door years ago, so we just jimmy the latch now.~ quips ",(the) self,". ";
   }
   if (self in ChurchYard or can && action == ##Go or ##Look && noun == s_obj)
-  print "~I wouldn't tread there unless you're on important business.~, Ben says, with a smirk. ";
+  print "~I wouldn't tread there unless you're on important business.~, ",(the) self," says, with a smirk. ";
   Buy: if (FlagOn(ACCEPTED) || FlagOn(FOLLOW)) "~We can discuss business in the morning.~";
   "~Perhaps you can help me, first.~";
  ],
@@ -1193,16 +1194,19 @@ Man Ben can
  ],
  each_turn [;
   SetPronoun('him', self);
+  if (FlagOn(KNOWBEN)) {
+   self.short_name = "Ben";
+   give self proper;
+  }
   if (self hasnt general) {
    ! initiate conversation after room description with "old man"
    self.select(1);
    give radio ~concealed;
-   give self general proper;
-   self.short_name = "Ben";
+   give self general;
    ! enable idle options
    if (FlagOn(HEARDSON)) self.qon(33);
    else self.qon(34);
-   self.qon(8, 35, 37);
+   if (FlagOn(KNOWBEN)) self.qon(8, 35, 37);
   }
  ],
  hears_sound [;
@@ -1307,7 +1311,7 @@ Man Ben can
           An old man is here, sitting on an upturned paint tin. From his tan, he looks local, but it's hard to tell how old he is - he could be 500.^
           He doesn't turn to face you as you arrive."; }
       13: qtype = MainMenu;
-          killz = self hasnt general;
+          killz = false; ! in case it needs to be reset from a submenu
           killq = self has general;
       14: ! Here's where we define all the options that are
           ! ever available from the main menu. For an 
@@ -1324,6 +1328,8 @@ Man Ben can
       ! Quip #2 etc.
       21: qseq(2,"~Hi there, who are you?~","~What's your name?~");
       22: self.qoff(2); self.qon(3, 9);
+          if (self has general) self.qon(8, 35, 37);
+          SetFlag(KNOWBEN);
           "~Ben. Just Ben.~";
       23: qtransfer = 1; ! top-level quip; return to menu by default
 
@@ -1382,7 +1388,8 @@ Man Ben can
            "~Yes you can. I've lost my radio.~ he says, frankly."; 
       103: qtransfer = 1;
 
-      111: qseq(10,"~That's it?~","~Is that really all you need?~","~Is your radio really all you need?~");
+      111: if (FlagOn(GAVERADIO)) "~Was your radio all you wanted?~";
+           qseq(10,"~That's it?~","~Is that really all you need?~","~Is your radio really all you need?~");
       112: self.qoff(11);
            if(score < 15 || self.qtest(8)) "~Yes, that's all.~ he says, stiffly. ~Can you help or not?~";
            else { SetFlag(HEARDSON); "~No, I suppose not. My son hasn't returned, and the radio is the way I could reach him.~ he laments. ~It's him I'm really after.~"; }

@@ -19,15 +19,16 @@ To your surprise, you find your bank card in your trouser pockets. Thankfully it
 didn't fall out while you were riding along - it could come in handy.
 
 >remove hands from pockets
-right hand: Removed.
 left hand: Removed.
+right hand: Removed.
 
 >put both hands in pockets
 left hand: Done.
 right hand: Done.
 
 >get hands from pockets
-Removed.
+left hand: Removed.
+right hand: Removed.
 
 >put all in pockets
 There is nothing to put.
@@ -803,6 +804,8 @@ As you unconsciously lean forward to stretch your back, you notice something
 underneath. You get onto the pews.
 (first opening the rucksack)
 Taken.
+
+[The score has just gone up by five points.]
 It's unnecessary to use the pile of papers on the altar legs.
 
 >jump over pews
@@ -813,10 +816,10 @@ Jumping over the pews would achieve nothing here.
 (first getting off the pews)
 Some mortar dust descends from the ceiling.
 You jump on the spot, fruitlessly.
-You place the papers gently back and shoulder your bag again. You don't want to
-lose any pages accidentally.
 
 >listen
+You place the papers gently back and shoulder your bag again. You don't want to
+lose any pages accidentally.
 You hear nothing unexpected.
 
 >sleep on pew
@@ -867,7 +870,7 @@ Thank you for playing!
 
 
 
-In that game you scored 85 out of a possible 105, in 206 turns.
+In that game you scored 90 out of a possible 105, in 206 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -877,8 +880,6 @@ Church
 
 >drop belongings
 Time to make up your bed!
-
-[The score has just gone up by five points.]
 
 >open bag
 You open the rucksack.
@@ -893,6 +894,8 @@ once you have taken the weight off your legs.
 
 >read file
 (first taking the pile of papers out of the rucksack)
+You place the papers gently back and shoulder your bag again. You don't want to
+lose any pages accidentally.
 You get onto the pews.
 The journal is bound shut with bulging elastic straps.
 
@@ -907,6 +910,8 @@ Time to make up your bed!
 But you're already on the pews.
 
 >open file
+(first opening the rucksack)
+(first taking the pile of papers out of the rucksack)
 You carefully undo the straps that wrap up your notes and bind your journal
 closed.
 
@@ -939,10 +944,10 @@ Goat psychology - eyewitnesses and "left behind" syndrome (877)
 
 >get up
 You get off the pews.
-You place the papers gently back and shoulder your bag again. You don't want to
-lose any pages accidentally.
 
 >take bag
+You place the papers gently back and shoulder your bag again. You don't want to
+lose any pages accidentally.
 You already have that.
 
 >put file away
@@ -1004,6 +1009,7 @@ The detritus is hardly portable.
 In the bins is rubbish.
 
 >shout
+"Yeeagh!"
 "Yoohoo!"
 It sounds like it's coming from behind the church.
 
@@ -1044,11 +1050,11 @@ What would you like to say?
 (2) "Are you blind?"
 (3) "Can I help you?"
 
-Select an option >> 1
+Select an option or 0 to exit >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "Are you the vicar?"
+(1) "Is the church yours?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -1120,7 +1126,19 @@ Select an option or 0 to exit >> 0
 [The score has just gone up by five points.]
 
 >shout
+"Yeeagh!"
 "Hullo!"
+
+>shake hands with Ben
+left hand: You offer your hand to shake, but Ben doesn't catch on.
+right hand: "How do you do?"
+
+>shake hands with everyone
+left hand: You offer your hand to shake, but Ben doesn't catch on.
+right hand: "How do you do?"
+
+>shake right hand with all
+"How do you do?"
 
 >search yard
 The yard is bare except for several large clumps of weeds around the church
@@ -1306,7 +1324,8 @@ Select an option or 0 to exit >> 0
 You can't fit anything more in your pockets.
 
 >put radio in bag
-There's no point in keeping a broken radio.
+You've learned to travel light, and a broken radio isn't valuable to anyone
+nowadays.
 
 >fix radio
 It's beyond your skill to repair.
@@ -1429,6 +1448,7 @@ What would you like to say?
 Select an option or 0 to exit >> 0
 
 >shout
+"Yeeagh!"
 "Oi!"
 
 >Ben, what is the time?
@@ -1514,6 +1534,7 @@ Ben slams the gate on his garden and disappears into the dense vegetation.
 You don't know where he is.
 
 >shout
+"Yeeagh!"
 Please use ASK to give orders or just type TALK TO [PERSON].
 
 >x can
@@ -1589,8 +1610,13 @@ The hand-held radio tumbles from the soft surface to the floor.
 Taken.
 
 >throw hands up in the air
-right hand: Whee!
 left hand: Whee!
+right hand: Whee!
+
+>shake hands
+(with you)
+left hand: You wring your hands for a while.
+right hand: You wring your hands for a while.
 
 >nonsense
 That's not a verb I recognise.
@@ -2136,15 +2162,15 @@ Your rucksack contains all of your worldly belongings (mostly camping gear).
 In the rucksack is a pile of papers.
 
 >show self the finger
-Which do you mean, the right hand or the left hand?
+Which do you mean, the left hand or the right hand?
 
 >show hands to self
-right hand: Generally speaking, there is no need to refer to your body parts
+left hand: Generally speaking, there is no need to refer to your body parts
 individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be
 implemented, for instance; WEAR SHOES is enough.  And unless you get some hint
 to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE
 RING IN MY MOUTH.
-left hand: Generally speaking, there is no need to refer to your body parts
+right hand: Generally speaking, there is no need to refer to your body parts
 individually in interactive fiction.  WEAR SHOES ON FEET will not necessarily be
 implemented, for instance; WEAR SHOES is enough.  And unless you get some hint
 to the contrary, you probably cannot OPEN DOOR WITH FOOT or PUT THE SAPPHIRE

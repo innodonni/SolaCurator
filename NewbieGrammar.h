@@ -154,7 +154,11 @@ Object allbodyparts,
 			{	self.number = 2; j = 1;
 			}   
 			if ((self.number == 0 or 3) && 
-				(w == 'here' or 'everywhere')) 
+				(w == 'here' or 'anywhere' or 'any' or 'every' or 'which' or 'everywhere')) 
+			{	self.number = 3; j = 1;
+			}    
+			if ((self.number == 3) && 
+				(w == 'way' or 'path' or 'direction' or 'place')) 
 			{	self.number = 3; j = 1;
 			}    
 			if (j~=0)  i++; else return i;

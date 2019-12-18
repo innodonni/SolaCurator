@@ -10,7 +10,7 @@ Constant MAX_SCORE = 105;
 !Constant ROOM_SCORE = 5; !default
 Constant OBJECT_SCORE = 5; !default 4
 Release 1;
-Serial "191125";
+#Include ">serial.inf"; ! just the version number - not a required file
 Array UUID_ARRAY string "UUID://E2BE7957-5592-4C9D-958A-71FB1EF76928//";
 
 [ Amusing;

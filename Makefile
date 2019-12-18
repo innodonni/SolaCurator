@@ -7,13 +7,14 @@ INFORM6=/usr/local/share/inform7/Compilers/inform6 $(SHAREDOPTS) +include_path=$
 GLULXE=../glulxe/glulxe
 FROTZ=frotz
 DUMBFROTZ=/usr/local/share/inform7/Interpreters/dumb-frotz
+SERIAL:=$(shell date +%y%m%d)
 
-run: game.z5
+run:
 	rm -f game.z5
 	$(MAKE) game.z5
 	$(FROTZ) $<
 
-grun: game.blb
+grun:
 	rm -f game.blb
 	$(MAKE) game.blb
 	$(GLULXE) game.blb
@@ -47,6 +48,7 @@ test: ztest
 all-tests: ztest gtest
 
 ztest: game.z5 test.input test.expected
+	echo "Serial \"191125\";" > serial.inf
 	$(INFORM) game.inf game.z5
 	$(RM) test.actual
 	$(DUMBFROTZ) game.z5 <test.input
@@ -54,6 +56,7 @@ ztest: game.z5 test.input test.expected
 	{ { { { diff test.expected test.actual 3>&- 4>&-; echo $$? >&3; } | less >&4; } 3>&1; } | { read xs; exit $$xs; }; } 4>&1 && $(RM) test.actual test.input
 
 gtest: game.blb test.input test.gexpected
+	echo "Serial \"191125\";" > serial.inf
 	$(INFORM_GLULX) -GH game.inf game.blb
 	$(RM) test.gactual
 	sed 's/test.actual/test.gactual/' test.input > test.ginput
@@ -66,12 +69,22 @@ bless: test.actual test.gactual
 	mv test.gactual test.gexpected
 	git add test.expected test.gexpected test.script verbs.txt nouns.txt
 
-release: parchment
+release: quixe game.z5
+	cp game.blb ../innodonni/demo-$(SERIAL).blb
+	cp game.z5 ../innodonni/demo-$(SERIAL).z5
+	sed -i -E 's/demo-[0-9]{6}\.(z5|blb)/demo-$(SERIAL).\1/g' ../innodonni/README.md
+	cp quixe/interpreter/story.blorb.js ../innodonni/interpreter
+	cd ../innodonni && \
+	git add . && \
+	git commit -m "Sync" && \
+	git push
+	$(RM) game.blb game.z5
 
 abbrev.inf: *.inf *.h
 	$(INFORM) -u game.inf | grep "^Abbreviate" > abbrev.inf
+	$(RM) game.z5
 
-parchment: game.z5 abbrev.inf
+parchment: game.z5 abbrev.inf serial.inf
 	cat abbrev.inf game.inf > release.inf
 	$(INFORM) -pfse release.inf release.z5
 	echo -n "processBase64Zcode('" > web/interpreter/story.zblorb.js
@@ -79,18 +92,20 @@ parchment: game.z5 abbrev.inf
 	echo -n "')" >> web/interpreter/story.zblorb.js
 	$(RM) abbrev.inf release.inf release.z5
 
-quixe: *.inf *.h
+quixe: *.inf *.h serial.inf
 	$(INFORM_GLULX) -GH game.inf game.blb
 	echo -n "\$$(document).ready(function() { GiLoad.load_run(null, '" > quixe/interpreter/story.blorb.js
 	base64 -w0 game.blb >> quixe/interpreter/story.blorb.js
 	echo -n "', 'base64'); });" >> quixe/interpreter/story.blorb.js
-	$(RM) game.blb
 
 ci: test
 	$(MAKE) clean
 	git add .
 	git commit
 
-debug: *.inf *.h
+debug: *.inf *.h serial.inf
 	$(INFORM6) -kG game.inf game.blb
 	$(GLULXE) --crashtrap -D --gameinfo gameinfo.dbg game.blb 
+
+serial.inf:
+	echo "Serial \"$(SERIAL)\";" > serial.inf

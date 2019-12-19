@@ -12,7 +12,7 @@ SERIAL:=$(shell date +%y%m%d)
 run:
 	rm -f game.z5
 	$(MAKE) game.z5
-	$(FROTZ) $<
+	$(FROTZ) game.z5
 
 grun:
 	rm -f game.blb

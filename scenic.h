@@ -240,6 +240,10 @@ Global  ScenicWord;
         ];
 
 [ Handle_CANTSEE_PE last;
+#IfDef DEBUG;
+if (parser_trace > 2)
+ print "CANTSEE action_to_be=",(DebugAction)action_to_be," verb_word=",(address)verb_word;
+#EndIf;
         ! For a CANTSEE error, sets ScenicWord to the last word on the line,
         ! then searches for that word in any 'scenic' properties of the
         ! location, and then of each object in scope. For an EXAMINE-like

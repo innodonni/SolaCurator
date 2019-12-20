@@ -151,8 +151,8 @@ if (parser_trace>1)
   if (obj == pews or bike) return 9;
   if (obj == altar) { if (altarlegs has concealed) no_infer_message = true; return 8; }
   if (obj == altarlegs) return 7;
-  if (obj == buildings) { if (ChurchDoors has concealed) no_infer_message = true; return 6; }
-  if (obj == ChurchBuilding) { if (action_to_be == ##Teleport) return 6; return 5; }
+  if (obj == buildings) { if (ChurchDoors has concealed && action_to_be ~= ##Circum) no_infer_message = true; return 6; }
+  if (obj == ChurchBuilding) { if (action_to_be == ##Circum) return 7; if (action_to_be == ##Teleport) return 6; return 5; }
   if (obj == Church) { if (action_to_be == ##Teleport) return 6; return 4; }
   if (obj == ChurchRoof) { if (ChurchRoof hasnt concealed) return 4; }
   if (obj == ChurchDoors) { if (ChurchDoors hasnt concealed) return 3; }
@@ -224,6 +224,7 @@ if (parser_trace>1)
 ];
 
 [ TeleportSub rm ceiling;
+  !if (num_words == 1 && noun == nothing) return VagueGoSub();
   if (noun == location) {
    CSubjectIs  (actor,true); print " already ";
    if (location has supporter) print "on";
@@ -395,15 +396,6 @@ Extend 'examine' last
  * scope=TeleportScope -> Teleport
  * multiheld -> ExamineHeld;
 
-Extend 'search'
- * 'through' noun -> Search
- * scope=TeleportScope -> Search
- * 'through' scope=TeleportScope -> Search;
-
-Extend only 'check' first
- * door -> Open
- * 'in' noun -> Search;
-
 [ PickVagueSub;
  if (noun hasnt door)
   print_ret "You need to choose a verb as well as choose ", (the) noun,".";
@@ -533,10 +525,6 @@ Verb "info"
 Verb "do"
  * topic -> Do;
 
-[ TrySub;
- "~Do or do not. There is no try.~^^Sorry, I can't understand infinitive verbs.";
-];
-
 [ SleepSub;
  if (noun == nothing or d_obj) <<Make bed>>;
  if (noun has enterable) <Enter noun>;
@@ -612,21 +600,6 @@ Extend only 'say' first ! try other rules after these
  * 'prayer' 'to' noun -> Worship
  * 'prayer' 'to' noun 'gods' -> Pray;
 
-Extend 'look' replace
- *                                           -> Look
- * 'around'                                  -> Search
- !* 'around' door                             -> Search
- * 'at' noun                                 -> Examine
- * 'at' noun 'to'/'towards'/'in' noun=ADirection  -> Examine
- * 'inside'/'in'/'into'/'through'/'on' noun  -> Search
- * 'under' noun                              -> LookUnder
- * noun=ADirection                           -> Examine
- * 'up' topic 'in' noun                      -> Consult reverse
- * noun -> Examine
- * 'between' door -> Search
- * 'for' noun -> Examine
- * 'to' noun=ADirection                      -> Examine;
-
 Include ">printslow.h";
 [ CheeseSample;
   PrintSlowSettings.Speed = 10;
@@ -645,7 +618,66 @@ Include ">printslow.h";
 
 Include ">HelpRoutines.h";
 Constant NO_HELP_GRAMMAR;
+Extend only 'check' replace
+ * noun -> Examine;
 Include ">NewbieGrammar.h";
+
+[ TrySub;
+ print "~Do or do not. There is no try.~^^";
+ return TooPoliteSub();
+];
+
+Extend only 'check' replace
+ * door -> Open
+ * 'handle' 'of' door -> Open
+ * 'in' noun -> Search
+ * noun -> Examine
+ * 'for' noun -> Examine
+ * 'for' 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
+ * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'behind' noun -> JumpOver
+ * 'for' topic -> SpecificSearch;
+
+Extend 'look' replace
+ *                                           -> Look
+ * 'around'                                  -> Search
+ !* 'around' door                             -> Search
+ * 'at' noun                                 -> Examine
+ * 'at' noun 'to'/'towards'/'in' noun=ADirection  -> Examine
+ * 'inside'/'in'/'into'/'through'/'on' noun  -> Search
+ * 'under' noun                              -> LookUnder
+ * noun=ADirection                           -> Examine
+ * 'up' topic 'in' noun                      -> Consult reverse
+ * noun -> Examine
+ * 'between' door -> Search
+ * 'to' noun=ADirection                      -> Examine
+ * 'for' noun -> Examine
+ * 'for' 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
+ * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'behind' noun -> JumpOver
+ * 'for' topic -> SpecificSearch;
+
+Extend 'search' replace
+ * 'through' noun -> Search
+ * scope=TeleportScope -> Search
+ * 'through' scope=TeleportScope -> Search
+ * noun -> Search
+ * 'for' noun -> RightHere
+ * 'for' 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
+ * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'behind' noun -> JumpOver
+ * 'for' topic -> SpecificSearch;
+
+Extend 'find' replace
+ * noun -> RightHere
+ * 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
+ * 'people'/'person'/'vicar'/'priest' 'behind' noun -> JumpOver
+ * topic -> SpecificSearch;
 
 Extend 'give' first ! try other rules after these
  * animate 'a' 'hint' -> HintHelp
@@ -731,7 +763,9 @@ Extend 'bite' replace
  * animate -> Attack
  * noun -> Taste;
 
-Extend only "try"
+Extend only 'try' first
+ * 'handle' 'of' door -> Open;
+Extend 'try'
  * enterable -> Open
  * topic -> Try;
 

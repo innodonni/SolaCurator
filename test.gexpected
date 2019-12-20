@@ -202,7 +202,7 @@ I only understood you as far as wanting to take the road.
 >go south
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
 
 [The score has just gone up by five points.]
 
@@ -254,7 +254,7 @@ You can't since the church doors are in the way.
 
 >search church
 (the church building)
-The east face of the church has a set of double doors. To the south-east of the church building is a narrow passage blocked by dustbins.
+The east face of the church has a set of double doors. The windows are set into the walls higher up. To the south-east of the church building is a narrow passage blocked by dustbins.
 
 >x doors
 The wooden doors have worn edges but have withstood the elements and are still solid and impassable. Their only feature is a round brass handle on each.
@@ -472,8 +472,8 @@ The doors latch shut, locking intruders out.
 The latch cannot be fixed into an open position.
 
 >explore church
-(the belltower)
-You can't reach the roof.
+(the church building)
+The east face of the church has a set of double doors. The windows are set into the walls higher up. To the south-east of the church building is a narrow passage blocked by dustbins.
 
 >search shadows
 You don't need to interact with that stuff.
@@ -869,7 +869,8 @@ That's not something you need to refer to in the course of this game.
 >leave
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The passage at the south-east side of the church is blocked by bins.
 
 The door to the church stands ajar.
 
@@ -901,11 +902,13 @@ It sounds like it's coming from behind the church.
 
 >go behind church
 (the church building)
-You heave a bin aside. The bins smell more pungent here.
+(pushing the bins)
+You heave one of the bins aside and pause to catch your breath. The bin here smells more pungent.
 
 >go around church building
 (the church building)
-You heave a bin aside. The bins here smell fresh, like vegetable peel.
+(pushing the bins)
+You heave one of the bins aside and pause to catch your breath. The bin here smells fresh, like vegetable peel.
 
 >search passage
 In the bins is rubbish.
@@ -914,17 +917,18 @@ In the bins is rubbish.
 You balk at the idea of falling into the open bins.
 
 >smell bins
-The bins here smell fresh, like vegetable peel.
+The bin here smells fresh, like vegetable peel.
 
 >shift bins
-You heave the last bin aside. The bins further from the square seem to have been filled more recently.
+You heave the last bin aside. The bins further from the square smell of more recently disposed organic material.
 
 >se
 
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
+The bin passage to the south-west is open.
 
-You can see an upturned can (on which is an old man) here.
+You can also see an upturned paint tin (on which is an old man) here.
 
 "You there!?"
 An old man is here, sitting on an upturned paint tin. From his tan, he looks local, but it's hard to tell how old he is - he could be 500.
@@ -938,7 +942,7 @@ Select an option or 0 to exit >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "You're the vicar, right?"
+(1) "Are you the vicar, then?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -1024,10 +1028,11 @@ right hand: "How do you do?"
 
 >search yard
 The yard is bare except for several large clumps of weeds around the church walls.
+The bin passage to the south-west is open.
 
 Near the church wall in a patch of weeds, you spy a little black hand-held radio.
 
-You can also see an upturned can (on which is Ben) here.
+You can also see an upturned paint tin (on which is Ben) here.
 
 
 >talk to person
@@ -1232,7 +1237,6 @@ The gate is too high to jump onto. Perhaps climbing would be less ambitious.
 You're too weary from shifting bins to poke around in the garden.
 
 >put radio on can
-(the upturned can)
 You can't get near while Ben is sitting on it.
 
 >visit Ben
@@ -1334,7 +1338,8 @@ Ben starts heading around the side and gestures to come with him.
 >g
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The bin passage to the south-east is open.
 
 The door to the church stands ajar.
 
@@ -1368,7 +1373,8 @@ Ding!
 >follow Ben
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The bin passage to the south-east is open.
 
 The door to the church stands ajar.
 
@@ -1380,8 +1386,9 @@ You see Ben carefully shuffling back around to the churchyard.
 
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
+The bin passage to the south-west is open.
 
-You can see Ben and an upturned can here.
+You can also see Ben and an upturned paint tin here.
 
 Ben slams the gate on his garden and disappears into the dense vegetation.
 
@@ -1393,20 +1400,16 @@ You don't know where he is.
 Please use ASK to give orders or just type TALK TO [PERSON].
 
 >x can
-(the upturned can)
-The can is upside down, but it looks like a wood stain tin.
+The tin is covered with brown drips that make it look like a wood stain tin.
 
 >open can
-(the upturned can)
-You would need to turn the can upright first.
+You would need to turn the tin upright first.
 
 >close can
-(the upturned can)
-You would need to turn the can upright first.
+You would need to turn the tin upright first.
 
 >empty can
-(the upturned can)
-You would need to turn the can upright first.
+You would need to turn the tin upright first.
 
 >x bin contents
 You aren't holding that!
@@ -1415,30 +1418,23 @@ You aren't holding that!
 You don't need to interact with that stuff.
 
 >turn can
-(the upturned can)
-You turn the can to reveal the hollow interior.
+You turn the tin to reveal the hollow interior.
 
 >x can
-(the paint can)
-The can contains the congealed remains of dried up wood stain.
+The tin contains the congealed remains of dried up wood stain.
 
 >open can
-(the paint can)
-The paint can is already open.
+The paint tin is already open.
 
 >close can
-(the paint can)
 You don't know where the lid is.
 
 >empty can
-(the paint can)
 Nothing comes out - the dried up wood stain has stuck to the bottom.
 
 >put radio in can. empty can. take radio
-(the paint can)
 A curious place to leave a gift!
-You put the hand-held radio into the paint can.
-(the paint can)
+You put the hand-held radio into the paint tin.
 hand-held radio: Dropped.
 Taken.
 
@@ -1514,7 +1510,8 @@ That's not a verb I recognise.
 >Square
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The bin passage to the south-east is open.
 
 The door to the church stands ajar.
 
@@ -1604,8 +1601,9 @@ That's not a verb I recognise.
 
 Churchyard
 The bare yard behind the church is strewn with tufts of weeds.
+The bin passage to the south-west is open.
 
-You can see a paint can (which is empty) here.
+You can also see a paint tin (which is empty) here.
 
 >gate
 That's not a verb I recognise.
@@ -1753,7 +1751,8 @@ In the rucksack is a pile of papers.
 >square. search through waste
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The bin passage to the south-east is open.
 
 The door to the church stands ajar.
 You find nothing of interest.
@@ -1795,7 +1794,8 @@ That doesn't seem to be anywhere you can get to.
 (visiting the Square)
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The bin passage to the south-east is open.
 
 The door to the church stands ajar.
 It's not entirely clear what you intend.
@@ -1838,7 +1838,8 @@ You can't see any such thing.
 (finding the church building in the Square)
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The bin passage to the south-east is open.
 
 The door to the church stands ajar.
 This isn't an ideal spot to bed down for the night.
@@ -2009,12 +2010,12 @@ Good luck!
 >try door
 "Do or do not. There is no try."
 
-Sorry, I can't understand infinitive verbs.
+The parser does not understand polite formulations such as PLEASE LOOK AROUND NOW or KINDLY OPEN THE BOX.  Start your commands with an imperative verb and they will work better.
 
 >try to eat a sandwich
 "Do or do not. There is no try."
 
-Sorry, I can't understand infinitive verbs.
+The parser does not understand polite formulations such as PLEASE LOOK AROUND NOW or KINDLY OPEN THE BOX.  Start your commands with an imperative verb and they will work better.
 
 >pray to God I can find the door
 You hear nothing unexpected.
@@ -2055,7 +2056,8 @@ It looks like there are more buildings down in the square.
 >square. look at building to south-east
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The bin passage to the south-east is open.
 
 The door to the church stands ajar.
 You can't see any such thing.
@@ -2075,7 +2077,8 @@ You can't see any such thing.
 (visiting the Square)
 
 Square
-Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.
+Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.
+The bin passage to the south-east is open.
 
 The door to the church stands ajar.
 (the various buildings to east)

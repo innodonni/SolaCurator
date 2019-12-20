@@ -295,7 +295,7 @@ Object board "billboard" Town
 
 Outside Square "Square"
  with name 'square',
- description "Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by buildings, but is littered with detritus from campers. The street continues north out of town.",
+ description "Many travellers have passed through here before you. The square is no more than a few dozen paces across surrounded by tightly-packed buildings, but is littered with detritus from campers. The street continues north out of town.",
  before [;
   Examine,Search: if (noun == self) {
    give Church ~concealed; give ChurchDoors ~concealed;
@@ -304,8 +304,9 @@ Outside Square "Square"
  ],
  cant_go [;
    if (noun == se_obj) {
-   if (FlagOn(SHOUTED)) <<Push bins>>;
-   "The passage beside the church is blocked by big yellow dustbins.";
+   if (FlagOn(SHOUTED)) { print "(pushing ",(the) bins,")^"; <<Push bins>>; }
+   give bins ~concealed;
+   "The narrow passage beside the church is blocked by big yellow dustbins.";
    }
    SmartCantGo();
  ],
@@ -346,7 +347,8 @@ Object ChurchBuilding "church building" Square
   give self ~concealed;
   Examine: SetFlag(SEENCHUR); give ChurchDoors ~concealed;
   Enter,Go: <<Enter ChurchDoors>>;
-  Search: "The east face of the church has a set of double doors. To the south-east of the church building is a narrow passage blocked by dustbins.";
+  Search: give bins ~concealed;
+  "The east face of the church has a set of double doors. The windows are set into the walls higher up. To the south-east of the church building is a narrow passage blocked by dustbins.";
   Open: <<Open ChurchDoors second>>;
   Close: <<Close ChurchDoors>>;
   Lock: <<Lock ChurchDoors second>>;
@@ -564,6 +566,7 @@ Object windows "windows"
  before [;
   give self ~concealed;
   Examine,ThrownAt: ;
+  RightHere: <<Search ChurchBuilding>>;
   default: "The church windows are all too high up.";
  ],
  has scenery concealed pluralname;
@@ -715,29 +718,46 @@ Object altarlegs "altar legs" Church
 
 Object bins "bins"
  with name 'big' 'yellow' 'bin' 'bins' 'can' 'cans' 'trash-can' 'trash-cans' 'trashcan' 'trashcans' 'dustbin' 'dustbins' 'garbage-cans' 'narrow' 'passage' 'alley' 'alleyway',
+ parse_name [ i word;
+  if (parser_action == ##TheSame) return -2;
+  for (::i++) {
+   word=NextWord();
+   if (player in ChurchYard && word == 'can') return i;
+   if (~~WordInProperty(word,self,name)) return i;
+  }
+ ],
  description "At the south-east side of the church is a group of bins, some more pungent than others.",
  article "a passage full of",
+ describe [;
+  if (self hasnt moved) "The passage at the south-east side of the church is blocked by bins.";
+  if (self in Square) "The bin passage to the south-east is open.";
+  "The bin passage to the south-west is open.";
+ ],
  found_in Square ChurchYard,
  before [;
+  give self ~concealed;
   Receive: if (noun == radio) print "You decide not to mix electronics in with the organic material.^";
   <<Drop noun>>;
   Empty,EmptyT,LetGo,Touch,Rub,Enter: "^Are you serious?!";
-  Enter,Climb: "You balk at the idea of falling into the open bins.";
+  Climb: "You balk at the idea of falling into the open bins.";
+  Enter: if (se_obj.number < 3) "You balk at the idea of falling into the open bins.";
+  <<Go se_obj>>;
   Push,Pull: if (FlagOff(SHOUTED)) "You don't have any pressing reason to shift bins around, just yet.";
   if (se_obj.number == 3) "The bins are already out of the way.";
   if (se_obj.number == 2) {
    print "You heave the last bin aside. ";
    give ChurchYard ~concealed transparent;
+   give self moved;
    Square.se_to = ChurchYard;
   }
-  else print "You heave a bin aside. ";
+  else print "You heave one of the bins aside and pause to catch your breath. ";
   se_obj.number++;
   <<Smell bins>>;
   Smell: switch (se_obj.number) {
-   0: "The bins smell like composted organic material.";
-   1: "The bins smell more pungent here.";
-   2: "The bins here smell fresh, like vegetable peel.";
-   3: "The bins further from the square seem to have been filled more recently.";
+   0: "The bin smells of composted organic material.";
+   1: "The bin here smells more pungent.";
+   2: "The bin here smells fresh, like vegetable peel.";
+   3: "The bins further from the square smell of more recently disposed organic material.";
   }
   PutOn,Transfer,Insert,Take: "The full bins don't appear to have any further use.";
   Open: "The bins don't have any lids.";
@@ -745,17 +765,17 @@ Object bins "bins"
  ],
  react_before [;
   Sleep: if (noun == self) "^Are you serious?!";
-  JumpOn,JumpOver: if (noun == self) "The bins are too high to jump onto. Perhaps climbing would be less ambitious.";
+  JumpOn,JumpOver: if (noun == self) "The bins are too high to jump. Perhaps climbing would be less ambitious.";
   Listen: if (noun == self && Ben hasnt general) {
-   SetFlag(SHOUTED); "Definitely breathing.";
+   SetFlag(SHOUTED); "You can definitely hear breathing not far away.";
   }
  ],
  has static concealed enterable container openable open pluralname;
 ! cannot be a supporter unless I get a library for supporter-containers.
 
 Object rubbish "rubbish" bins
- with name 'pungent' 'smelly' 'rotten' 'decomposing' 'rubbish' 'trash',
- scenic 'content' 'contents' 'bin' 0 "Yuck!",
+ with name 'pungent' 'smelly' 'odour' 'odor' 'odorous' 'rotten' 'decomposing' 'rubbish' 'trash',
+ scenic 'recently' 'disposed' 'organic' 'material' 'content' 'contents' 'bin' 0 "Yuck!",
  article "the",
  description "The contents of the bins are still decomposing."
  has proper;
@@ -811,48 +831,45 @@ DirDoor GardenGate "gate"
 
 InsideOrOn can ChurchYard
  with name 'upturned' 'can' 'tin' 'empty' 'wood-stain' 'stain' 'paint' 'makeshift' 'seat' 'righted' 'hollow' 'interior',
- scenic 0,
- scenic2 'congealed' 'content' 'contents' 'remains' 'dried' 'stuck' 'bottom' 0 "Yuck!",
+ scenic2 'brown' 'drips' 'congealed' 'content' 'contents' 'remains' 'dried' 'stuck' 'bottom' 0 "Yuck!",
  description [;
-  if (self hasnt transparent or general)
-   print "The can is upside down, but it looks like a wood stain tin.";
-  else if (self hasnt transparent && self has general)
-   print "It's a wood stain tin.";
+  if (self hasnt transparent or moved)
+   print "The tin is covered with brown drips that make it look like a wood stain tin.";
+  else if (self hasnt transparent && self has moved)
+   print "It's a wood stain tin of some Israeli brand, by the look of it.";
   else
-   print "The can contains the congealed remains of dried up wood stain.";
+   print "The tin contains the congealed remains of dried up wood stain.";
   new_line;
   rtrue;
  ],
  short_name [;
   if (self hasnt transparent)
-   print "upturned can";
+   print "upturned paint tin";
   else
-   print "paint can";
+   print "paint tin";
   rtrue;
  ],
  before [;
   if (action ~= ##Examine && self == parent(Ben)) "You can't get near while Ben is sitting on it.";
   Turn: if (self hasnt transparent) {
    give self moved transparent openable open container ~supporter;
-   self.scenic = self.&scenic2;
-   "You turn the can to reveal the hollow interior.";
+   "You turn the tin to reveal the hollow interior.";
   }
   else {
    if (child(self)) <Empty self>;
    give self supporter ~transparent ~openable ~open ~container;
-   self.scenic = 0;
-   "You turn the can upside down.";
+   "You turn the tin upside down.";
   }
-  Empty: if (self hasnt transparent) "You would need to turn the can upright first.";
+  Empty: if (self hasnt transparent) "You would need to turn the tin upright first.";
   if (child(self)) rfalse;
   "Nothing comes out - the dried up wood stain has stuck to the bottom.";
   Receive: if (noun == radio) print "A curious place to leave a gift!^";
-  Open: if (self hasnt transparent) "You would need to turn the can upright first.";
-  Close: if (self hasnt transparent) "You would need to turn the can upright first.";
+  Open: if (self hasnt transparent) "You would need to turn the tin upright first.";
+  Close: if (self hasnt transparent) "You would need to turn the tin upright first.";
   "You don't know where the lid is.";
-  Take,Push,Pull,PushDir: "You'd rather not move the can in case Ben wants to sit down again.";
+  Take,Push,Pull,PushDir: "You'd rather not move the tin in case Ben wants to sit down again.";
   Squeeze: if (self == parent(player)) "You're too stiff from the ride."; 
-  Enter: if (self has transparent) "You can't fit in the can!";
+  Enter: if (self has transparent) "You can't fit in the tin!";
   "You decide Ben's makeshift seat is only suitable for someone more sprightly."; 
   Rub: "The tin is hopelessly stained, and doesn't make a very good seat either.";
   EmptyT: if (child(self)) rfalse;
@@ -998,7 +1015,7 @@ Book papers "pile of papers" bag
  ];
 
 Object buildings "various buildings"
- with name 'ruins' 'ruined' 'building' 'buildings' 'wall' 'walls' 'shells' 'simple' 'dwellings' 'rooms' 'abandoned' 'roofed' 'structure' 'structures' 'doorways' 'various' 'houses' 'indoors',
+ with name 'ruins' 'ruined' 'building' 'buildings' 'wall' 'walls' 'shells' 'simple' 'dwellings' 'rooms' 'abandoned' 'roofed' 'structure' 'structures' 'doorways' 'various' 'houses' 'indoors' 'tightly-packed',
  description "None of the dwellings here appear to be inhabitable.",
  found_in Town Square,
  before [;

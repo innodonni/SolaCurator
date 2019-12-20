@@ -301,12 +301,16 @@ Outside Square "Square"
    give Church ~concealed; give ChurchDoors ~concealed;
    "The taller building on the east side appears to be a church. Hopefully the roof is intact.";
   }
+  NotTalk: if (FlagOn(SHOUTED) && self.se_to == 0) {
+   print "You search for the voice behind the church.^";
+   "The narrow passage to the south-east of the church is blocked by big yellow dustbins.";
+  }
  ],
  cant_go [;
    if (noun == se_obj) {
    if (FlagOn(SHOUTED)) { print "(pushing ",(the) bins,")^"; <<Push bins>>; }
    give bins ~concealed;
-   "The narrow passage beside the church is blocked by big yellow dustbins.";
+   "The narrow passage to the south-east of the church is blocked by big yellow dustbins.";
    }
    SmartCantGo();
  ],

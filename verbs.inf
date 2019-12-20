@@ -793,23 +793,23 @@ Include ">dialogue.inf";
 ];
 
 [NotTalkSub;
+  if (noun == nothing) "You're not near enough anyone to talk to.";
   if (noun ~= player) "Please use ASK to give orders or just type TALK TO [PERSON].";
 ];
 
 Extend only 'speak' replace
- * creature        -> TalkTo
- * 'to'/'with' creature -> TalkTo
+ * 'to'/'with' noun -> TalkTo
  * noun            -> TalkTo
- * 'to' noun       -> TalkTo
- * 'with' noun     -> TalkTo
- * 'to'/'with' creature 'about' topic -> NotTalk;
+ * 'to'/'with' creature 'about' topic -> NotTalk
+ * 'about' topic 'to'/'with' creature -> NotTalk reverse
+ * topic -> NotTalk;
 
 Verb 'talk' 't//' 'chat' 'converse'
- * creature        -> TalkTo
- * 'to'/'with' creature -> TalkTo
- * noun            -> TalkTo
  * 'to'/'with' noun       -> TalkTo
- * 'to'/'with' creature 'about' topic -> NotTalk;
+ * noun            -> TalkTo
+ * 'to'/'with' creature 'about' topic -> NotTalk
+ * 'about' topic 'to'/'with' creature -> NotTalk reverse
+ * topic -> NotTalk;
 
 ! The following should be a complete list of 
 ! non-TALK verbs to replace, except that you

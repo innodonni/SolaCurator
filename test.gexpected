@@ -614,10 +614,10 @@ There is nothing on the altar.
 You don't hear an echo here.
 
 >confess sins
-Please use ASK to give orders or just type TALK TO [PERSON].
+You're not near enough anyone to talk to.
 
 >talk to priest
-You can't see any such thing.
+You're not near enough anyone to talk to.
 
 >sleep
 Ideally you would have somewhere soft to sleep.
@@ -662,7 +662,7 @@ Thank you for playing!
 
 
 
-In that game you scored 75 out of a possible 105, in 181 turns.
+In that game you scored 75 out of a possible 105, in 182 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -768,7 +768,7 @@ Thank you for playing!
 
 
 
-In that game you scored 90 out of a possible 105, in 206 turns.
+In that game you scored 90 out of a possible 105, in 207 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -856,7 +856,7 @@ Thank you for playing!
 
 
 
-In that game you scored 95 out of a possible 105, in 219 turns.
+In that game you scored 95 out of a possible 105, in 220 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some suggestions for AMUSING things to do or QUIT?
 >undo
@@ -1397,7 +1397,7 @@ You don't know where he is.
 
 >shout
 "Yeeagh!"
-Please use ASK to give orders or just type TALK TO [PERSON].
+You're not near enough anyone to talk to.
 
 >x can
 The tin is covered with brown drips that make it look like a wood stain tin.
@@ -1944,7 +1944,7 @@ There's no advantage to unpack until you've found a suitable shelter.
 There's no advantage to unpack until you've found a suitable shelter.
 
 >ask self about purpose
-Please use ASK to give orders or just type TALK TO [PERSON].
+You're not near enough anyone to talk to.
 
 >give bag to self
 You juggle the rucksack for a while, but don't achieve much.
@@ -2178,7 +2178,7 @@ You don't need to damn anything right now.
 I only understood you as far as wanting to think.
 
 >talk to God
-You can't see any such thing.
+You're not near enough anyone to talk to.
 
 >talk to self
 You can't think of anything to say.

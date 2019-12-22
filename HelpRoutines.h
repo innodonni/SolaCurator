@@ -538,9 +538,13 @@ system_file;
 
 [ AllCommunication;
 	Communication();
+        new_line;
 	OnMovement();
+        new_line;
 	OnObjects(); 
+        new_line;
 	OnNPCs();
+        new_line;
 	MetaCommands();
 ];
 
@@ -568,7 +572,7 @@ system_file;
 		NORTH, SOUTH, EAST, WEST, NORTHEAST, SOUTHEAST, NORTHWEST,
 		SOUTHWEST, UP, and DOWN, or in short form N, S, E, W, NE, SE, NW, SW,
 		U, and D.^^";
-	print "In some locations, IN and OUT will also be useful.^^";
+	print "In some locations, IN and OUT will also be useful.^";
 ];
 [ OnObjects;
 	print (ESB) "OBJECTS^";
@@ -628,13 +632,20 @@ system_file;
 	print "From time to time you will meet other people and creatures. You may use the command
 		>TALK TO CHARACTER, and the game will give you a menu of options, which you may
 		use to converse with the character in plain English.^^";
-	print "You may also find it useful to show them things:^^"; 
+	print "You may also find it useful to:^"; 
+	print "Show them an object.^";
 	print (ESB) ">SHOW WARRANT TO DRUG LORD^";
 	print (ESB) ">SHOW BUCKET OF WATER TO EVIL WITCH^^";
-	print "or give them instructions:^";
-	print (ESB) ">FREDDY, HELLO^";
+	print "Ask them about an object.^";
+	print (ESB) ">ASK PAUL ABOUT HIS BROTHER^";
+	print (ESB) ">ASK GLENDA ABOUT RUBY SLIPPERS^^";
+	print "Tell them about an object.^";
+	print (ESB) ">TELL ICE CREAM VENDOR ABOUT HIS TRUCK^";
+	print (ESB) ">TELL DOROTHY ABOUT FLYING MONKEYS^^";
+	print "Command them.^";
+	print (ESB) ">ASK FREDDY TO GIVE ME THE KEY^";
 	print (ESB) ">TINY TIM, PUT THE UKELELE ON THE TABLE^^";
-	print "but if you're just not getting through, rely on the menus.^";
+	print "If you're just not getting through, rely on the menus.^";
 ];
 [ TalkToNPC;
 	print "From time to time you will meet other people and creatures. You will be unable to

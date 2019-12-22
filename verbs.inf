@@ -111,7 +111,7 @@ if (parser_trace>1)
    give papers ~open; move papers to bag; give bag ~open; move bag to player;
    print "You place the papers gently back and shoulder your bag again. You don't want to lose any pages accidentally.^";
   }
-  else if ((~~TestScope(player,Church)) && (bag has open || parent(bag) ~= player)) {
+  else if ((~~InChurch(player)) && (bag has open || parent(bag) ~= player)) {
    give bag ~open; move bag to player;
    print "You shoulder your bag again.^";
   }
@@ -156,7 +156,7 @@ if (parser_trace>1)
   if (obj == Church) { if (action_to_be == ##Teleport) return 6; return 4; }
   if (obj == ChurchRoof) { if (ChurchRoof hasnt concealed) return 4; }
   if (obj == ChurchDoors) { if (ChurchDoors hasnt concealed) return 3; }
-  if (obj == bell) { if (bell hasnt concealed && TestScope(player,Church)) return 5; }
+  if (obj == bell) { if (bell hasnt concealed && InChurch(player)) return 5; }
 
   if (obj hasnt scenery && obj ~= allbodyparts) return 2;
   return 1;
@@ -280,7 +280,7 @@ Verb 'peek' = 'look';
 Verb 'inspect' = 'examine';
 Verb 'pour' = 'empty';
 Verb 'grip' = 'touch';
-Verb 'visit' 'travel' = 'go';
+Verb 'visit' 'travel' 'stay' = 'go';
 Verb 'saw' = 'cut';
 Verb 'fidget' = 'wait';
 Verb 'quaff' = 'drink';
@@ -316,9 +316,9 @@ Extend 'show'
  * multiheld 'to' creature -> Show;
 
 [ EnterVagueSub;
-  if (verb_word == 'sit' && TestScope(player,Church)) <<Enter pews>>;
+  if (verb_word == 'sit' && InChurch()) <<Enter pews>>;
   if (parent(player) has supporter or container) return L__M(##Enter,1,parent(player));
-  if (ADirection() && verb_word == 'sit' or 'lie') <<Sleep>>;
+  if (noun && ADirection() && verb_word == 'sit' or 'lie') <<Sleep>>;
   print "I don't know what you want to ";
   PrintCommand();
   if (verb_word == 'sit' or 'lie') print " on"; !LanguageVerbLikesAdverb
@@ -385,7 +385,7 @@ Extend 'go' first
 
 [ ExamineHeldSub;
  !action_to_be = ##Examine; readonly
- Handle_CANTSEE_PE();
+ return Handle_CANTSEE_PE();
 ];
 !Extend 'examine' first
 ! * scope=TeleportScope -> Examine; !avoid "not something you need to refer to..."
@@ -491,17 +491,23 @@ Verb "win" "lose"
  * -> Win
  * topic -> Win;
 
+[ ExplainSub;
+ AllCommunication();
+];
+
 Verb "help"
  * -> Help
- * topic -> Help;
+ * topic -> Explain;
+Verb 'explain'
+ * -> Explain
+ * topic -> Explain;
 
 [ MyObjectListing o;
  if (o hasnt concealed)
   print "^", (The) o;
 ];
 [ InfoSub;
- print "Type ~verbs~ for a list of actions, ~places~ for visited places, ~objects~ for items to interact with or try the following objects:";
- LoopOverScope(MyObjectListing);
+ "Type ~verbs~ for a list of actions, ~places~ for visited places, ~objects~ for items to interact with or ~help~ if you're completely stuck.";
 ];
 
 Verb "info"
@@ -553,23 +559,40 @@ Extend 'sleep' replace
  if (noun == nothing) <<Listen>>;
  if (noun has enterable && noun ~= parent(player)) <Enter noun>;
  if (noun provides react_before) return L__M(##Pray, 1, noun);
- if (TestScope(noun, player)) print_ret (HasOrHave) noun, " insufficient authority to grant your request.";
+ if (TestScope(noun, actor)) { print (HasOrHave) noun, " insufficient authority to grant ";
+ PossessiveNeuter(actor,false);
+ " request.";
+ }
 ];
 
 [ WorshipSub;
- if (TestScope(noun, player)) print_ret (The) noun, " ", (IsOrAre) noun, " unmoved.";
+ if (TestScope(noun, actor)) print_ret (The) noun, " ", (IsOrAre) noun, " unmoved.";
  <<Listen noun>>;
 ];
 
-[ PrayTopicSub;
+[ PrayTopicSub w i;
  if (noun == nothing) {
   wn = consult_from;
-  while(wn<consult_from+consult_words && NextWordStopped()~=-1 or 'door' or 'doors');
-  if (NextWordStopped() == -1) <<Listen>>;
-  "God knows what you're after. Maybe you're just standing in the wrong place.";
- };
- if (TestScope(noun, player)) print_ret (The) noun, " ", (IsOrAre) noun, " unmoved to grant your request.";
- <<Listen noun>>;
+  while(wn<consult_from+consult_words) {
+   w=NextWordStopped();
+   if (w == nothing) continue;
+   if (w == 'door' or 'doors') "God knows what ", (the) actor, " ", (IsOrAre) actor, " after. Maybe ", (the) actor, " ", (IsOrAre) actor, " just standing in the wrong place.";
+   objectloop (i has moved or visited || (i has scenery or static && ScopeCeiling(i) has visited)) {
+    if (WordInProperty(w,i,name) && (~~TestScope(i,actor))) {
+     print "The topic of ";
+     PossessiveNeuter(actor,false);
+     print " prayer is too far removed from ";
+     PossessiveNeuter(actor,false);
+     " present situation to have any noticable effect.";
+    }
+   }
+  }
+  if (Handle_CANTSEE_PE()) rtrue;
+  <<Listen>>;
+ }
+ print (The) noun, " ", (IsOrAre) noun, " unmoved to grant ";
+ PossessiveNeuter(actor,false);
+ " request.";
 ];
 
 Extend 'pray' first ! try other rules after these
@@ -580,25 +603,16 @@ Extend 'pray' first ! try other rules after these
  * 'to' noun 'gods' -> Pray
  * 'in'/'on'/'at' noun 'that' topic -> Pray
  * 'in'/'on'/'at' noun 'for' topic -> Pray
- * 'that' topic -> PrayTopic
- * 'for' topic -> PrayTopic
+ * 'for' noun -> Pray
+ * 'for'/'in'/'on'/'at'/'about'/'that' topic -> PrayTopic
  * 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' 'that' topic -> PrayTopic
  * 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' 'for' topic -> PrayTopic
  * 'to' noun 'that' topic -> PrayTopic
  * 'to' noun 'for' topic -> PrayTopic;
 
 Extend 'listen'
- * 'at' door -> Listen;
-
-Extend only 'say' first ! try other rules after these
- * 'prayers' -> Pray
- * 'prayer' -> Pray
- * 'prayer' 'to' noun -> Pray
- * 'prayer' 'in'/'on'/'at' noun -> Pray
- * 'prayer' 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
- * 'prayer' 'to' 'the' 'gods' -> Pray
- * 'prayer' 'to' noun -> Worship
- * 'prayer' 'to' noun 'gods' -> Pray;
+ * 'in'/'at' door -> Listen
+ * 'in' scenery -> Listen;
 
 Include ">printslow.h";
 [ CheeseSample;
@@ -616,11 +630,13 @@ Include ">printslow.h";
   <Search papers>;
 ];
 
+Constant NPC_MENU;
 Include ">HelpRoutines.h";
 Constant NO_HELP_GRAMMAR;
 Extend only 'check' replace
  * noun -> Examine;
 Include ">NewbieGrammar.h";
+Verb 'stuck' 'instructions' = 'hint';
 
 [ TrySub;
  print "~Do or do not. There is no try.~^^";
@@ -690,7 +706,7 @@ Extend 'what'
 Include ">ExpertGrammar.h";
 Verb 'jiggle' 'wobble' 'ring' 'wring' 'fiddle' 'dangle' 'jangle' 'jingle' 'swipe' = 'shake';
 [ ShakeHandsSub;
- if (second == nothing && TestScope(player,Ben)) second = Ben;
+ if (second == nothing && TestScope(Ben, actor)) second = Ben;
  if (second == nothing) "There's nobody else here.";
  if (noun == lefthand) "You offer your hand to shake, but ",(the) second," doesn't catch on.";
  if (noun == righthand) "~How do you do?~";
@@ -794,8 +810,13 @@ Include ">dialogue.inf";
 
 [NotTalkSub;
   if (noun == nothing) "You're not near enough anyone to talk to.";
-  if (noun ~= player) "Please use ASK to give orders or just type TALK TO [PERSON].";
+  if (noun ~= player) "Please use ASK to give orders or just type TALK TO [PERSON]. Type TALKING for help interacting with characters.";
 ];
+[CommsSub;
+ OnNPCs();
+];
+Verb 'talking'
+ * -> Comms;
 
 Extend only 'speak' replace
  * 'to'/'with' noun -> TalkTo
@@ -811,18 +832,26 @@ Verb 'talk' 't//' 'chat' 'converse'
  * 'about' topic 'to'/'with' creature -> NotTalk reverse
  * topic -> NotTalk;
 
-! The following should be a complete list of 
-! non-TALK verbs to replace, except that you
-! may also want to add something like the 
-! following to each of your NPC objects:
-!      life [;
-!        Order: NotTalkSub(); rtrue;
-!      ];
-! so that "MAN, GO N" is also replaced.
+Extend only 'say' first ! try other rules after these
+ * 'prayers' -> Pray
+ * 'prayer' -> Pray
+ * 'prayer' 'to' noun -> Pray
+ * 'prayer' 'in'/'on'/'at' noun -> Pray
+ * 'prayer' 'in'/'on'/'at'/'about' topic -> PrayTopic
+ * 'prayer' 'to' 'Jesus'/'God'/'Christ'/'Allah'/'Buddha' -> Pray
+ * 'prayer' 'to' 'the' 'gods' -> Pray
+ * 'prayer' 'to' noun -> Worship
+ * 'prayer' 'to' noun 'gods' -> Pray
+ * topic 'to' animate -> Answer; ! before 'creature' rule to prefer real creature over talkable creature/object
 
-Extend 'answer' replace            ! = 'say' 'shout' 'speak'
- *                    -> NotTalk  ! (Except we replaced
- * topic              -> NotTalk; ! 'speak' on its own above.)
+Extend 'answer' replace
+ *                     -> NotTalk
+ * animate             -> NotTalk
+ * topic 'to' animate  -> NotTalk
+ * talkable            -> TalkTo ! answer the radio
+ * topic 'to' creature -> NotTalk
+ * topic               -> NotTalk;
+
 [ CallOutSub;
  if (parent(player) ~= Square or Church or pews or aisle or ChurchYard) {
   if (num_words == 1) return ShoutSub();

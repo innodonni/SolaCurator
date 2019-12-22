@@ -251,19 +251,19 @@ Object allbodyparts,
 		w = NextWord();
 		if (w==0) 
 		{	
-			if (flag)
+			if (flag > 1)
 			{	return GPR_PREPOSITION;
 			}
 			return GPR_FAIL;
 		}
-		if (w == 'song' or 'music' or 'songs') 
-		{	flag = 1; num++;
+		if (w == 'song' or 'music' or 'songs' or 'ditty' or 'shanty') 
+		{	flag = 2; num++;
 		}
-		if (w == 'thought' or 'idea' or 'concept') 
-		{	flag = 1; num++;
+		if (w == 'thought' or 'idea' or 'concept' or 'solution' or 'puzzle') 
+		{	flag = flag + 1; num++;
 		}
-		if (w == 'the' or 'a' or 'some' or 'any')
-		{	flag = 0; num++;
+		if (w == 'the' or 'a' or 'some' or 'any' or 'of' or 'sea' or 'to')
+		{	flag = 1; num++;
 		} 
 	}
 ];			
@@ -635,7 +635,8 @@ Verb 'demo' * -> Demo;
 ];
 
 [ HelpSub;
-	"If you would like a list of verbs you could try, type VERBS.^^If the problem is more
+	"If you are a complete beginner, you can type EXPLAIN for a full explanation of how to play the
+        game.^^If you would like a list of verbs you could try, type VERBS.^^If the problem is more
 	that you don't know how to get going with the game, type INTRO.^^If you'd like a sample
 	of a game being played, type DEMO.^^Finally, if you know what you want to achieve
 	but can't figure out how to achieve it, type HINT.

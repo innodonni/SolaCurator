@@ -72,6 +72,7 @@ search graffiti
 e
 search church
 x doors
+push handle to door
 listen at gap
 rub gap
 pull knob
@@ -128,8 +129,8 @@ use card
 use card on latch
 lock latch
 raise latch with card
-e
 enter church
+e
 x latch
 search doors
 push latch inwards

@@ -329,6 +329,10 @@ passage blocked by dustbins.
 The wooden doors have worn edges but have withstood the elements and are still
 solid and impassable. Their only feature is a round brass handle on each.
 
+>push handle to door
+(the church doors to the church doors)
+The church doors are fixed in place.
+
 >listen at gap
 You can't see any such thing.
 
@@ -396,16 +400,16 @@ You hear nothing unexpected.
 You hear nothing unexpected.
 
 >pray that doors open
-God knows what you're after. Maybe you're just standing in the wrong place.
+God knows what you are after. Maybe you are just standing in the wrong place.
 
 >pray to God that door opens
-God knows what you're after. Maybe you're just standing in the wrong place.
+God knows what you are after. Maybe you are just standing in the wrong place.
 
 >pray to God that doors open
-God knows what you're after. Maybe you're just standing in the wrong place.
+God knows what you are after. Maybe you are just standing in the wrong place.
 
 >pray to God for doors to open
-God knows what you're after. Maybe you're just standing in the wrong place.
+God knows what you are after. Maybe you are just standing in the wrong place.
 
 >x back doors
 You aren't holding that!
@@ -519,7 +523,8 @@ The doors latch shut, locking intruders out.
 You lift the latch and the door opens.
 You put your bank card away in your pocket until you need to use it.
 
->e
+>enter church
+(the church building)
 
 Church
 The church is furnished with altar and pews and is quite a contrast from the
@@ -530,9 +535,8 @@ The door to the church stands ajar.
 
 [The score has just gone up by twenty points.]
 
->enter church
-(the belltower)
-You can't reach the roof.
+>e
+The door east from the northern semi-transept is locked.
 
 >x latch
 The latch mechanism on the doors is a flat black metal bar that slots down into
@@ -754,7 +758,7 @@ Thank you for playing!
 
 
 
-In that game you scored 75 out of a possible 105, in 182 turns.
+In that game you scored 75 out of a possible 105, in 183 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -873,7 +877,7 @@ Thank you for playing!
 
 
 
-In that game you scored 90 out of a possible 105, in 207 turns.
+In that game you scored 90 out of a possible 105, in 208 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -969,7 +973,7 @@ Thank you for playing!
 
 
 
-In that game you scored 95 out of a possible 105, in 220 turns.
+In that game you scored 95 out of a possible 105, in 221 turns.
 
 Would you like to RESTART, RESTORE a saved game, UNDO your last move, see some
 suggestions for AMUSING things to do or QUIT?
@@ -1063,7 +1067,7 @@ Select an option or 0 to exit >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "You're the vicar, right?"
+(1) "Are you the vicar, then?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -2189,18 +2193,76 @@ You can't see any such thing.
 You lack the nerve when it comes to the crucial moment.
 
 >help me find de way
-If you would like a list of verbs you could try, type VERBS.
+BASIC COMMUNICATION
+In order to communicate with the game, you will need to enter instructions
+beginning with imperative verbs -- as though you were giving orders to someone
+else to carry out.  For instance, >CLOSE THE DOOR or >LOOK UNDER THE RUG.
 
-If the problem is more that you don't know how to get going with the game, type
-INTRO.
+You may use articles ("the" and "a"), but you do not need to.  >CLOSE DOOR will
+also work for the game's purposes.
 
-If you'd like a sample of a game being played, type DEMO.
+ROOMS AND TRAVEL
+At any given time, you are in a specific location, or room.  When you go into a
+room, the game will print a description of what you can see there.  This
+description will contain two vital kinds of information: things in the room you
+can interact with or take, and a list of exits, or ways out.  If you want to see
+the description again, you may just type LOOK.
 
-Finally, if you know what you want to achieve but can't figure out how to
-achieve it, type HINT. 
+When you want to leave a location and go to another one, you may communicate
+this to the game using compass directions: eg, GO NORTH. For simplicity's sake,
+you are allowed to omit the word GO, and to abbreviate the compass directions. 
+So you have NORTH, SOUTH, EAST, WEST, NORTHEAST, SOUTHEAST, NORTHWEST,
+SOUTHWEST, UP, and DOWN, or in short form N, S, E, W, NE, SE, NW, SW, U, and D.
 
-If you are having further difficulty with IF, try looking at some of the online
-help sites such as http://www.brasslantern.org or http://intfiction.org.
+In some locations, IN and OUT will also be useful.
+
+OBJECTS
+Throughout the game there will be assorted objects that you can do things with. 
+Most importantly, you may TAKE or GET items, and (when you are tired of them)
+DROP them again.  INVENTORY (abbreviated I) will list the items you are
+currently holding.
+
+There are usually assorted things you may do with these objects. OPEN, CLOSE,
+WEAR, EAT, LOCK, and UNLOCK are especially common.
+
+Occasionally, you will find that the game does not recognize the name of an
+object even though it has been described as being in the room with you.  If this
+is the case, the object is just there for scenery, and you may assume that you
+do not need to interact with it.
+
+OTHER CHARACTERS
+From time to time you will meet other people and creatures. You may use the
+command >TALK TO CHARACTER, and the game will give you a menu of options, which
+you may use to converse with the character in plain English.
+
+You may also find it useful to:
+Show them an object.
+>SHOW WARRANT TO DRUG LORD
+>SHOW BUCKET OF WATER TO EVIL WITCH
+
+Ask them about an object.
+>ASK PAUL ABOUT HIS BROTHER
+>ASK GLENDA ABOUT RUBY SLIPPERS
+
+Tell them about an object.
+>TELL ICE CREAM VENDOR ABOUT HIS TRUCK
+>TELL DOROTHY ABOUT FLYING MONKEYS
+
+Command them.
+>ASK FREDDY TO GIVE ME THE KEY
+>TINY TIM, PUT THE UKELELE ON THE TABLE
+
+If you're just not getting through, rely on the menus.
+
+METACOMMANDS
+There are a few simple commands for controlling the function of the game itself.
+ These are:
+
+SAVE -- Saves a snapshot of the game as it is now.
+RESTORE -- Puts the game back to a previously saved state.  (Note: you may keep
+as many saved games as you like.)
+RESTART -- Puts the game back to its initial state.
+QUIT -- Ends the game.
 
 >give me a hint
 [These suggestions are lengthy, so the game will periodically pause while
@@ -2324,7 +2386,8 @@ Silence - perfect place to sleep!
 You can't see any such thing.
 
 >say prayer on bike
-You can only do that to something animate.
+The topic of your prayer is too far removed from your present situation to have
+any noticable effect.
 
 >say prayer to God
 Silence - perfect time to sleep!

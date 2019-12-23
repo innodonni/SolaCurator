@@ -231,3 +231,7 @@ check
 time
 go around
 *visit cushion. toss one cushion up then catch it
+*drive south
+*drive pew south
+*drive pew towards altar
+fly

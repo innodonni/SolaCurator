@@ -19,15 +19,13 @@
     return Possessive(obj, caps);
 ];
 Object LibraryMessages
- with before [ previous_parent;
+ with before [ previous_parent ks;
   ! lm_n is the variation number, lm_o may be the noun or second noun involved
   ! lm_s may be the indirect object, subject or dictionary word e.g. 'sit'
   Go: if (lm_n == 1 && lm_o has supporter) { !this may be superceded by InsideOrOn?
-          print "(first getting off ", (the) lm_o, ")^";
-          previous_parent = parent(player);
-          keep_silent = true; <Exit>; keep_silent = false;
-          if (player in parent(previous_parent)) <<Go noun>>;
-          rtrue;
+          if (ImplicitExit()) rtrue;
+          new_line;
+          <<Go noun>>;
       }
   Strong: CSubjectDont(actor);
           print_ret " need to ", (address) verb_word, " anything right now.";
@@ -48,6 +46,7 @@ Object LibraryMessages
   Buy: print "Nothing ";
        Tense("is", "was");
        " appropriate to trade.";
+  Think: "What a good idea (type HELP if you're stuck).";
   ! Avoid implications that potentially impossible actions are undertaken by saying "achieves nothing"
   Tie: if (lm_n ~= 1) rfalse;
         print "Tying ", (the) lm_o, " ";
@@ -163,15 +162,19 @@ if (parser_trace>1)
 ];
 
 [ UnknownVerb word i;
+  if (WordLength(1) > 9) {
+   print "Sorry, the parser only understands verbs of 9 characters or less.^";
+   rfalse;
+  }
   objectloop (i has transparent && i ofclass Room)
   {
     if (WordInProperty(word,i,name))
     {
       verb_wordnum=0;
-      return 'go';
+      return 'go'; ! FIXME this doesn't work with multi-word room names
     }
   }
-  if (num_words > 1) {
+  if (NumberWords() > 1) {
    wn = 2;
    if (Descriptors()~=0) rfalse;
    if (TryGivenObject(allbodyparts)>0) return 'examine';
@@ -224,7 +227,7 @@ if (parser_trace>1)
 ];
 
 [ TeleportSub rm ceiling;
-  !if (num_words == 1 && noun == nothing) return VagueGoSub();
+  !if (NumberWords() == 1 && noun == nothing) return VagueGoSub();
   if (noun == location) {
    CSubjectIs  (actor,true); print " already ";
    if (location has supporter) print "on";
@@ -280,11 +283,12 @@ Verb 'peek' = 'look';
 Verb 'inspect' = 'examine';
 Verb 'pour' = 'empty';
 Verb 'grip' = 'touch';
-Verb 'visit' 'travel' 'stay' = 'go';
+Verb 'visit' 'travel' 'stay' 'journey' = 'go';
 Verb 'saw' = 'cut';
 Verb 'fidget' = 'wait';
 Verb 'quaff' = 'drink';
 Verb 'unpack' = 'open';
+Verb 'paddle' 'wade' 'float' = 'swim';
 
 [ SearchOrTakeSub i found;
  if (noun == nothing) noun = location;
@@ -332,7 +336,7 @@ Extend 'sit'
  * 'down' -> EnterVague
  * 'down' 'on' noun=ADirection -> EnterVague
  * noun=ADirection -> Look; ! sit up
-Verb 'seat' = 'put';
+Verb 'seat' 'rest' = 'put';
 [ SeatSub;
  if (noun == player) <<Enter second>>;
  <<PutOn noun second>>;
@@ -351,16 +355,17 @@ Extend 'climb'
  * 'on'/'onto' noun -> Enter;
 
 [ CircumSub;
+ if (second == ChurchBuilding && noun hasnt transport) <<Drive se_obj>>;
  if (noun == ChurchBuilding) <<Go se_obj>>;
- "There's no way around.";
+ "There's no way past.";
 ];
 Extend 'go' first
  * scope=TeleportScope -> Teleport
- * 'near'/'nearer' 'to' scope=TeleportScope -> Teleport
+ * 'over'/'near'/'nearer' 'to' scope=TeleportScope -> Teleport
  * 'near'/'nearer'/'to'/'toward'/'towards' scope=TeleportScope -> Teleport
  * 'to' 'side' 'of' noun -> Circum
  * 'to' 'the' 'side' 'of' noun -> Circum
- * 'around'/'behind'/'beside' noun -> Circum;
+ * 'past'/'around'/'behind'/'beside'/'beyond' noun -> Circum;
 
 [ ExamineSub i;
     if (location == thedark) return L__M(##Examine, 1, noun);
@@ -434,6 +439,7 @@ Verb 'make'
  * noun 'up' -> Make;
 
 Extend 'set' first ! try other rules after these
+ * animate 'on'/'in' supporter -> Seat
  * 'up' noun=Makeable -> Make
  * 'up' noun noun=Makeable -> Make reverse
  * 'up' noun=Makeable 'in'/'with'/'on'/'from' noun -> Make
@@ -649,16 +655,16 @@ Extend only 'check' replace
  * 'in' noun -> Search
  * noun -> Examine
  * 'for' noun -> Examine
- * 'for' 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
- * 'for' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'a'/'another'/'different'/'alternative' 'way' 'past'/'round'/'around'/'behind'/'beside'/'beyond' noun -> Circum
+ * 'for' 'way' 'past'/'round'/'around'/'behind'/'beside'/'beyond' noun -> Circum
  * 'for' 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
- * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'behind' noun -> JumpOver
+ * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'past'/'behind'/'beyond' noun -> JumpOver
  * 'for' topic -> SpecificSearch;
 
 Extend 'look' replace
  *                                           -> Look
- * 'around'                                  -> Search
- !* 'around' door                             -> Search
+ * 'round'/'around'                          -> Search
+ !* 'past'/'around' door                      -> Search
  * 'at' noun                                 -> Examine
  * 'at' noun 'to'/'towards'/'in' noun=ADirection  -> Examine
  * 'inside'/'in'/'into'/'through'/'on' noun  -> Search
@@ -669,10 +675,10 @@ Extend 'look' replace
  * 'between' door -> Search
  * 'to' noun=ADirection                      -> Examine
  * 'for' noun -> Examine
- * 'for' 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
- * 'for' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'a'/'another'/'different'/'alternative' 'way' 'past'/'round'/'around'/'behind'/'beside'/'beyond' noun -> Circum
+ * 'for' 'way' 'past'/'round'/'around'/'behind'/'beside'/'beyond' noun -> Circum
  * 'for' 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
- * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'behind' noun -> JumpOver
+ * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'past'/'behind'/'beyond' noun -> JumpOver
  * 'for' topic -> SpecificSearch;
 
 Extend 'search' replace
@@ -681,18 +687,18 @@ Extend 'search' replace
  * 'through' scope=TeleportScope -> Search
  * noun -> Search
  * 'for' noun -> RightHere
- * 'for' 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
- * 'for' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'for' 'a'/'another'/'different'/'alternative' 'way' 'past'/'round'/'around'/'behind'/'beside'/'beyond' noun -> Circum
+ * 'for' 'way' 'past'/'round'/'around'/'behind'/'beside'/'beyond' noun -> Circum
  * 'for' 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
- * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'behind' noun -> JumpOver
+ * 'for' 'people'/'person'/'vicar'/'priest'/'voice'/'breathing' 'past'/'behind'/'beyond' noun -> JumpOver
  * 'for' topic -> SpecificSearch;
 
 Extend 'find' replace
  * noun -> RightHere
- * 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
- * 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
+ * 'a'/'another'/'different'/'alternative' 'way' 'past'/'round'/'around'/'behind'/'beside'/'beyond' noun -> Circum
+ * 'way' 'past'/'round'/'around'/'behind'/'beside'/'beyond' noun -> Circum
  * 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
- * 'people'/'person'/'vicar'/'priest' 'behind' noun -> JumpOver
+ * 'people'/'person'/'vicar'/'priest' 'past'/'behind'/'beyond' noun -> JumpOver
  * topic -> SpecificSearch;
 
 Extend 'give' first ! try other rules after these
@@ -728,6 +734,7 @@ Extend 'rub'
  * noun 'with' noun -> RubOn;
 
 [ UnnecSub;
+ if (noun == second) "If you can use an item, find the verb that corresponds with the usage, for example, instead of USE ROCK AS PAPERWEIGHT, you could try PLACE ROCK ON PAPER.";
  print "It's unnecessary to use ", (the) noun;
  if (second) print " on ", (the) second;
  if (second && second has lockable) " at the moment.";
@@ -752,6 +759,7 @@ Extend 'unlock' replace
  * noun 'with' noun -> Unnec reverse;
 
 Extend 'use'
+ * noun 'as' noun -> Unnec
  * noun 'on'/'with'/'under' noun -> Unnec;
 
 Extend 'put'
@@ -854,10 +862,10 @@ Extend 'answer' replace
 
 [ CallOutSub;
  if (parent(player) ~= Square or Church or pews or aisle or ChurchYard) {
-  if (num_words == 1) return ShoutSub();
+  if (NumberWords() == 1) return ShoutSub();
   else return NotTalkSub();
  }
- if (num_words == 1) ShoutSub();
+ if (NumberWords() == 1) ShoutSub();
  if(Ben.hears_sound()) rtrue;
  return NotTalkSub();
 ];
@@ -949,3 +957,156 @@ Verb 'catch'
  * -> Catch
  * moved -> Catch
  * topic -> Catch;
+
+Attribute transport;
+! THIS GOT OUT OF HAND QUICKLY - NEED A TABLE OF POSSIBILITIES, MAYBE MULTIINSIDE, LIKE FOR EMPTY
+[ IsSurface obj;
+ return (noun == d_obj or road or aisle);
+];
+[ CanDrive obj act;
+ if (obj has transport) rtrue;
+ ! need to share a scope that has transport (and run before_implicit routine on it)
+ rfalse;
+];
+[ DriveSub;
+! noun is proposed transport or passenger, second is proposed target
+! it may be necessary to detect the transport scope ceiling for the actor if noun is in compass
+ if (noun ~= actor && noun has animate && ImplicitTake()) rtrue;
+ if (noun in compass) print_ret (nop) CThatOrThose(actor), " would need to board a means of transport to ", (nop) PrintCommand(), ".";
+ if (~~CanDrive(noun, actor)) {
+  if (noun ~= player && actor has transport) "It's not clear who you intend ", ThatOrThose(actor), " to transport.";
+  print "You need";
+  if (noun ~= player) print " ", (the)noun;
+  if (noun has animate || actor ~= player) " to board ";
+  else " to share ";
+  PossessiveNeuter(actor, false);
+  " means of transport to ", (address)verb_word, " ", (nop) ThatOrThose(actor), ".";
+ }
+ if (second == nothing) "You need to specify a direction, destination or target.";
+ if (noun has transport && ImplicitEnter(noun)) rtrue;
+ new_line;
+ if (IsSurface(noun)) "You don't need to specify the surface to traverse.";
+ if (noun hasnt supporter or container && parent(actor) hasnt transport) print_ret (nop) CThatOrThose(actor), " would need to board a means of transport to ", (address)verb_word, ".";
+ !if (second has transport) <<Drive second noun>>; ! Drive car onto transporter?
+ print (nop) CSubjectCant(actor), " ", (address)verb_word, " that!";
+];
+
+[ ImplicitEnter obj
+    res ks;
+    if (obj == nothing || obj hasnt supporter or container) rfalse;
+    res = CheckImplicitAction(##Enter, obj);
+    ! 0 = Enter object, Tell the user (normal default)
+    ! 1 = Enter object, don't Tell
+    ! 2 = don't Enter object  continue       (default with no_implicit_actions)
+    ! 3 = don't Enter object, don't continue
+    if (res >= 2) rtrue;
+    ks = keep_silent; keep_silent = 2; <Enter obj, actor>; keep_silent = ks;
+    if (parent(actor) ~= obj) rtrue;
+    if (res == 0 && ~~keep_silent) {
+        print "(first getting ", (nop) SupportObj(obj,"on","into"), " ", (the) obj, ")";
+    }
+    rfalse;
+];
+
+[ DriveOverSub;
+ if (noun has animate && ImplicitTake()) rtrue;
+ if (IsSurface(second) || second == parent(actor) || (parent(actor) && second == parent(parent(actor)))) "You don't need to specify the surface to traverse.";
+ if (noun has transport && ImplicitEnter(noun)) rtrue;
+ new_line;
+ if (parent(actor) hasnt transport) print_ret (nop) CThatOrThose(actor), " would need to board a means of transport to ", (address)verb_word, ".";
+ else if (noun has transport || noun == actor) { CSubjectIsnt(actor,false); " feeling like a stunt-person right now."; }
+ print_ret (nop) CSubjectCant(actor), " ", (address)verb_word, " that!";
+];
+[ DriveInSub;
+ if (noun has animate && ImplicitTake()) rtrue;
+ if (noun has transport && ImplicitEnter(noun)) rtrue;
+ new_line;
+ if (parent(actor) hasnt transport) print_ret (nop) CThatOrThose(actor), " would need to board a means of transport to ", (nop) PrintCommand(), ".";
+ print_ret (nop) CSubjectCant(actor), " ", (nop) PrintCommand(), "!";
+];
+[ DrivePastSub;
+ if (noun has animate && ImplicitTake()) rtrue;
+ if (noun has transport && ImplicitEnter(noun)) rtrue;
+ new_line;
+ if (parent(actor) hasnt transport) print_ret (nop) CThatOrThose(actor), " would need to board a means of transport to ", (address)verb_word, ".";
+ print_ret (nop) CSubjectCant(actor), " ", (address)verb_word, " that!";
+];
+[ DriveDirection w flag num wnum;
+	wnum = wn;
+	for(::)
+	{
+		w = NextWord();
+		if (w==0) !|| flag == 2) 
+		{	
+			wn = wnum + num;
+			!if (w ~= 0) wn--;
+			if (flag == 2)
+			{	return GPR_PREPOSITION;
+			}
+			return GPR_FAIL;
+		}
+		if (w == 'up' or 'down' or 'over' or 'across' or 'along')
+		{	flag = 1; num++;
+		} 
+		if (w == 'at' or 'to' or 'toward' or 'towards' or 'near' or 'nearer')
+		{	flag = 2; num++;
+		} 
+	}
+];			
+[ CircumDirection w flag num wnum;
+	wnum = wn;
+	for(::)
+	{
+		w = NextWord();
+		if (w==0) 
+		{	
+			wn = wnum + num;
+			if (flag == 2)
+			{	return GPR_PREPOSITION;
+			}
+			return GPR_FAIL;
+		}
+		if (w == 'to' or 'the' or 'side')
+		{	flag = 1; num++;
+		} 
+		if (w == 'of' or 'past' or 'under' or 'round' or 'around' or 'behind' or 'beside' or 'beyond')
+		{	flag = 2; num++;
+		} 
+	}
+];			
+
+Verb 'drive' 'ride' 'fly' 'cycle' 'row' 'pedal'
+! * SomeDirection -> NoReturn
+! * 'along'/'around'/'about'/'away' -> VagueGo
+ * noun -> Drive
+ * noun 'back' noun=ADirection -> Drive
+ * noun noun=ADirection -> Drive
+ * noun 'over'/'along'/'upon'/'across' noun -> DriveOver
+ * 'over'/'along'/'upon'/'across' noun 'riding' supporter -> DriveOver reverse
+ * 'over'/'along'/'upon'/'across' noun 'driving' container -> DriveOver reverse
+ * 'over'/'along'/'upon'/'across' noun 'with'/'in'/'on' noun -> DriveOver reverse
+ * noun DriveDirection noun -> Drive
+ * DriveDirection noun 'riding' supporter -> Drive reverse
+ * DriveDirection noun 'driving' container -> Drive reverse
+ * DriveDirection noun 'with'/'in'/'on' noun -> Drive reverse
+ * noun CircumDirection noun -> DrivePast
+ * CircumDirection noun 'riding' supporter -> DrivePast reverse
+ * CircumDirection noun 'driving' container -> DrivePast reverse
+ * CircumDirection noun 'with'/'in'/'on' noun -> DrivePast reverse
+ * noun 'into'/'through'/'inside' noun -> DriveIn
+ * 'into'/'through'/'inside' noun 'riding' supporter -> DriveIn reverse
+ * 'into'/'through'/'inside' noun 'driving' container -> DriveIn reverse
+ * 'into'/'through'/'inside' noun 'with'/'in'/'on' noun -> DriveIn reverse
+ * noun=ADirection 'riding' supporter -> Drive reverse
+ * noun=ADirection 'driving' container -> Drive reverse
+ * noun=ADirection 'with'/'in'/'on' noun -> Drive reverse
+ * supporter 'in'/'on' transport -> Drive reverse ! drive road
+ * noun 'in'/'on' noun -> Drive ! ambiguous so added after more specific rules
+ * noun DriveDirection scope=TeleportScope -> Drive
+ * DriveDirection scope=TeleportScope 'riding' supporter -> Drive reverse
+ * DriveDirection scope=TeleportScope 'driving' container -> Drive reverse
+ * DriveDirection scope=TeleportScope 'with' noun -> Drive reverse;
+! Complication of asking creatures to carry or drive you somewhere
+!Extend only 'drive' first
+! * animate 'to' topic -> AskTo;
+!Verb 'coax' 'cajole' 'warn' 'remind' = 'drive';

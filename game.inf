@@ -15,6 +15,7 @@ Array UUID_ARRAY string "UUID://E2BE7957-5592-4C9D-958A-71FB1EF76928//";
 
 [ Amusing;
  "Have you tried the following:^
+ ride bike into sunset^
  examine trouser pockets^
  search self^
  read self^
@@ -913,6 +914,9 @@ InsideOrOn bike "motorbike" Town
   Squeeze,LookUnder: if (self == parent(player)) "You're too stiff from the ride."; 
   Lock: "The bike is already chained up.";
   Unlock,Untie,SwitchOn: "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
+  Drive: if (second ~= nothing) "You're too stiff from the ride to wheel your bike everywhere as you look for shelter.";
+  "You don't have the energy or inclination to carry on your journey without a good night's sleep.";
+  DriveIn,DriveOver: "You're too stiff from the ride to wheel your bike everywhere as you look for shelter.";
   Taste:
     if (self == parent(player)) "You're too stiff from the ride.";
     "Yuck!";
@@ -934,7 +938,7 @@ InsideOrOn bike "motorbike" Town
  limittake true,
  droponfloor true,
  includefloor false,
- has light static supporter enterable switchable lockable;
+ has light static supporter enterable switchable lockable transport;
 
 Object battery "battery" bike
  has concealed
@@ -1084,6 +1088,7 @@ Object sun "sun"
   default: "You can't reach it.";
  ],
  react_before [;
+  DriveIn: if (self == second) { print "(to live happily ever after)^"; <<Win>>; }
   Time,Wait: print_ret (string) self.description;
   Sleep,SleepUnder: if (noun == self) <<Make bed>>;
   Pray,Listen: if (noun == self) "The sun warms you silently.";

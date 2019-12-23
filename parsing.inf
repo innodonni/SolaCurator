@@ -1,6 +1,15 @@
 Replace Refers; !provided by GoNeighbour.h
 Replace NounDomain; !bugfix
+Replace LanguageVerbLikesAdverb;
 #Include "parser";
+
+[ LanguageVerbLikesAdverb w;
+    if (w == 'look' or 'go' or 'push' or 'walk'
+    or 'visit' or 'travel' or 'stay' or 'journey'
+    or 'drive' or 'ride' or 'fly' or 'cycle' or 'row' or 'accelerate')
+        rtrue;
+    rfalse;
+];
 
 [ NounDomain domain1 domain2 context    first_word i j k l
 					answer_words;

@@ -74,13 +74,18 @@ bless: test.actual test.gactual
 release: quixe game.z5
 	cp game.blb ../innodonni/demo-$(SERIAL).blb
 	cp game.z5 ../innodonni/demo-$(SERIAL).z5
-	sed -i -E 's/demo-[0-9]{6}\.(z5|blb)/demo-$(SERIAL).\1/g' ../innodonni/README.md
+	cat ../innodonni/README.md | sed -nE 's/.*latest.*\(demo-([0-9]{6}).z5\)\./\1/p' > latest.tmp
+	cp ../innodonni/demo-$(shell cat latest.tmp).blb ../innodonni/versions/
+	cp ../innodonni/demo-$(shell cat latest.tmp).z5 ../innodonni/versions/
+	cp ../innodonni/interpreter/story.blorb.js ../innodonni/versions/demo-$(shell cat latest.tmp).blorb.js
+	sed -i -E '/Old versions/a \\n* $(shell cat latest.tmp) [Online](play.html?story=versions/demo-$(shell cat latest.tmp).blorb.js) [Z-Machine](demo-$(shell cat latest.tmp).z5) [Glulx](demo-$(shell cat latest.tmp).blb)' ../innodonni/README.md
+	sed -i -E 's/(.*latest.*)demo-[0-9]{6}\.(z5|blb)(.*)/\1demo-$(SERIAL).\2\3/g' ../innodonni/README.md
 	cp quixe/interpreter/story.blorb.js ../innodonni/interpreter
 	cd ../innodonni && \
 	git add . && \
 	git commit -m "Sync" && \
 	git push
-	$(RM) game.blb game.z5
+	$(RM) game.blb game.z5 latest.tmp
 
 abbrev.inf: *.inf *.h
 	$(INFORM) -ud2 game.inf | grep "^Abbreviate" > abbrev.inf

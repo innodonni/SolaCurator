@@ -527,7 +527,7 @@ The door to the church stands ajar.
 [The score has just gone up by twenty points.]
 
 >e
-The door east from the northern semi-transept is locked.
+The east door leading outside from the northern semi-transept is locked.
 
 >x latch
 The latch mechanism on the doors is a flat black metal bar that slots down into
@@ -2463,7 +2463,7 @@ You can't see any such thing.
 You can't see any such thing.
 
 >look to east
-The door east from the northern semi-transept is locked.
+The east door leading outside from the northern semi-transept is locked.
 
 >look to north-east
 You can't see any such thing.
@@ -2472,7 +2472,7 @@ You can't see any such thing.
 You can't see any such thing.
 
 >look to east
-The door east from the northern semi-transept is locked.
+The east door leading outside from the northern semi-transept is locked.
 
 >look to south
 You can go only west or out.

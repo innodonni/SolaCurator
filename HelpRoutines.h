@@ -96,6 +96,9 @@ system_file;
 	rfalse; 
 ];
 #ifnot;
+[ isQuixe;
+  rfalse;
+];
 [ ES_Pause i;
 	@read_char 1 i;
 	if (i == 'q') rtrue;
@@ -245,6 +248,7 @@ system_file;
 ];
 
 [ StuckInstructions;
+	if (~~isQuixe()) 
 	print (ESI) "[These suggestions are lengthy, so the game will periodically
 		pause while printing them.  To stop the instructions mid-flow, press
 		Q at a pause; to continue, press any other key.]^^";

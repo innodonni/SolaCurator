@@ -326,7 +326,7 @@ Outside Square "Square"
  se_to 0;
 
 Object waste "detritus" Square
- with name 'detritus' 'litter' 'waste' 'rubbish' 'garbage' 'junk' 'campers^',
+ with name 'detritus' 'litter' 'waste' 'rubbish' 'garbage' 'junk' 'campers^' 'mess',
  description "It's all junk - nothing serviceable.",
  before [;
   Rub: "You can't face tidying all of this rubbish.";
@@ -392,14 +392,7 @@ DirDoor ChurchDoors "church doors"
  when_open "The door to the church stands ajar.",
  e_to Church,
  w_to Square,
-! door_to [;
-!  if (self in Square) return Church; return Square;
-! ],
-! door_dir [;
-!  if (self in Square) return e_to; return w_to;
-! ],
  with_key card,
-! found_in Square Church,
  before [;
   give self ~concealed;
   if (Ben in Church) "Ben is standing against the door. ~The least you could do is appear grateful!~ he enjoins.";
@@ -529,7 +522,7 @@ Inside Church "Church"
  ,
  w_to ChurchDoors, !should be automatic
  out_to ChurchDoors, !could be automatic
- e_to "The door east from the northern semi-transept is locked.",
+ e_to "The east door leading outside from the northern semi-transept is locked.", ! scenic?
  before [;
   if (self hasnt general) score = score + 15; give self general;
   Search: if (noun == self) "There is precious little to see - just the yawning shadows under the pews.";

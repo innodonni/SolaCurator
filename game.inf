@@ -80,10 +80,11 @@ Constant HEARDSON 6; !Has Ben told the player about his son?
 Constant ACCEPTED 7; !Has the player accepted the terms of use of the church?
 Constant FOLLOW 8; !Has the player invited Ben to follow them?
 Constant TESTED 9; !Has the player turned the radio on?
-Constant SHOWRADIO 10; !Has the player shown the radio to Ben?
-Constant GAVERADIO 11; !Has the player given the radio to Ben?
-Constant USEDBELL 12; !Has Ben received a hint that the player has entered the Church?
-Constant KNOWBEN 13; !Has player heard Ben's name?
+Constant ASKRADIO 10; !Has Ben told the player about his radio?
+Constant SHOWRADIO 11; !Has the player shown the radio to Ben?
+Constant GAVERADIO 12; !Has the player given the radio to Ben?
+Constant USEDBELL 13; !Has Ben received a hint that the player has entered the Church?
+Constant KNOWBEN 14; !Has player heard Ben's name?
 Constant FLAGCOUNT = 16;
 Include ">newflags.h";
 
@@ -241,7 +242,7 @@ Object pockets "trouser pockets"
   print "Parchment interpreter by Atul Varma and Dannii Willis. ";
 #EndIf;
   print "Talk by Greg Boettcher, Krister Fundin, and Mark J. Tilford.
-         Doors by L. Ross Raszewski and Max Kalus.
+         ICType and Doors by L. Ross Raszewski and Max Kalus.
          OutOfReach by Marnie Parker. Dirs by Gunther Schmidl.
          Scenic by Richard Barnett, Joe Mason, Roger Firth and Stefano Gaburri.
          Flags by Adam Cadre and Fredrik Ramsberg.
@@ -662,13 +663,14 @@ InsideOrOn pews "pews" Church
 
 Object cushions "cushions" Church
  has concealed supporter enterable pluralname
- with name 'small' 'wool' 'woolen' 'woollen' 'embroidered' 'designs' 'prayer' 'kneeling' 'cushion' 'cushions' 'church^s', ! Genitive (of ) not supported
+ with name 'small' 'wool' 'woolen' 'woollen' 'embroidered' 'designs' 'prayer' 'kneeling' 'cushion' 'cushions' 'pillow' 'pillows' 'church^s', ! Genitive (of ) not supported
  description "The kneeling cushions for prayer have simple designs embroidered in wool on the surface, none with discernable text.",
  initial "Under the pews are some cushions.",
  before [;
   PushDir,Take: "There are too many cushions to do that.";
   Pull,Push: give self general ~concealed;
   "You move the cushions away from underneath the pews.";
+  Unnec: if (self == noun && self == second) "You could use a cushion as a pillow, but you still need somewhere soft to lie down, and the cushions aren't wide enough to lie on.";
   Enter: "They aren't wide enough to sleep on.";
   Receive: move noun to location;
   print_ret (The) noun, " tumbles from the soft surface to the floor.";
@@ -746,7 +748,7 @@ Object bins "bins"
   give self ~concealed;
   Receive: if (noun == radio) print "You decide not to mix electronics in with the organic material.^";
   <<Drop noun>>;
-  Empty,EmptyT,LetGo,Touch,Rub,Enter: "^Are you serious?!";
+  Empty,EmptyT,LetGo,Touch,Rub: "Are you serious?!";
   Climb: "You balk at the idea of falling into the open bins.";
   Enter: if (se_obj.number < 3) "You balk at the idea of falling into the open bins.";
   <<Go se_obj>>;
@@ -1117,8 +1119,10 @@ Object radio "hand-held radio" ChurchYard
         'channel' 'frequencies' 'broadcast' 'tiny' 'threaded' 'screw' 0 NULL
  ,
  description "It's a portable radio transceiver. On the back is a battery compartment.",
- initial "Near the church wall in a patch of weeds, you spy a little black hand-held radio.", 
+ initial "Near the church wall in a patch of weeds, you spy a little black hand-held radio.",
  before [;
+  if (FlagOn(ASKRADIO)) give radio ~concealed;
+  RightHere: "Near the church wall in a patch of weeds, you spy a little black hand-held radio.";
   Listen: "Nobody seems to be broadcasting.";
   Search: return L__M(##Examine, 3, noun); ! can't search radio frequencies if radio is off
   TalkTo,Ask,Answer,Tell,AskFor: "The radio is dead.";
@@ -1202,8 +1206,12 @@ Man Ben can
   Go: "~I'm weak and blind and you're telling me to go hither and thither?!~";
   Time: "~It must be past 7 o'clock by now.~";
   NotUnderstood: "~Sorry, my Arabic isn't what it used to be. What was that?~";
-  Open,Unlock: if (noun == ChurchDoors or ChurchBuilding && FlagOn(GAVERADIO) && FlagOff(ACCEPTED))
-   self.select(23); rtrue;
+  Open,Unlock: if (noun == ChurchDoors or ChurchBuilding) {
+   if (FlagOn(ACCEPTED) && self.number < 6) "~That's what I'm doing.~";
+   if (FlagOn(GAVERADIO) && FlagOff(ACCEPTED)) self.select(23);
+   rtrue;
+  }
+  "~I don't need to do that right now.~";
   default: "~I don't need to do that right now.~";
  ],
  react_before [;
@@ -1218,23 +1226,27 @@ Man Ben can
  ],
  before [;
   ! select(1), because Quip #1 is the main menu.
-  TalkTo: self.select(1); rtrue;
- ],
- each_turn [;
-  SetPronoun('him', self);
+  TalkTo: self.select(1);
   if (FlagOn(KNOWBEN)) {
    self.short_name = "Ben";
    give self proper;
   }
+  rtrue;
+ ],
+ each_turn [;
+  SetPronoun('him', self);
   if (self hasnt general) {
    ! initiate conversation after room description with "old man"
    self.select(1);
-   give radio ~concealed;
    give self general;
    ! enable idle options
    if (FlagOn(HEARDSON)) self.qon(33);
    else self.qon(34);
-   if (FlagOn(KNOWBEN)) self.qon(8, 35, 37);
+   if (FlagOn(KNOWBEN)) {
+    self.qon(8, 35, 37);
+    self.short_name = "Ben";
+    give self proper;
+   }
   }
  ],
  hears_sound [;
@@ -1276,59 +1288,61 @@ Man Ben can
   switch (self.number) {
    0: MoveNPC(Ben, ChurchYard, ##Exit, can); self.number++;
       if (player in ChurchYard)
-       "^Ben rises to his feet and ambles towards the bins.";
+       "^", (The) self, " rises to his feet and ambles towards the bins.";
    1: MoveNPC(Ben, Square, ##Go, sw_obj); self.number++;
       if (player in ChurchYard)
-       "^Ben starts heading around the side and gestures to come with him.";
+       "^", (The) self, " starts heading around the side and gestures to come with him.";
       else if (player in Square)
-       "^Ben gropes along around the church, avoiding the bins.";
+       "^", (The) self, " gropes along around the church, avoiding the bins.";
    2: move Ben to Square; self.number++;
       if (player in ChurchYard or Square)
-       print "^Ben gropes along around the corner of the church";
+       print "^", (The) self, " gropes along around the corner of the church";
       if (player in ChurchYard) print " and disappears from view";
       ".";
    3: self.number++;
-      ChurchDoors.unlocked();
       if (player in Square && ChurchDoors hasnt open) {
+       ChurchDoors.unlocked();
        MoveNPC(Ben, Church, ##Go, e_obj);
-       print "^Ben procures a thin rod from his person to unlatch the church doors and beckons you inside.";
+       print "^", (The) self, " procures a thin rod from his person to unlatch the church doors and beckons you inside.";
       }
       else if (player in Square && ChurchDoors has open) {
        MoveNPC(Ben, Church, ##Go, e_obj);
-       print "^Ben feels the open door and winks slyly. ~It's not secure, but there's not many that come at once. You'll be warm in here.~ He bids you enter.";
+       print "^", (The) self, " feels the open door and winks slyly. ~It's not secure, but there's not many that come at once. You'll be warm in here.~ He bids you enter.";
       }
       else if (player in Church or pews or aisle && ChurchDoors hasnt open) {
-       print "^Ben unlatches the church doors, squints inside and enters. ~Not very secure, as you can see. You'll be warm in here though.~";
+       ChurchDoors.unlocked();
+       print "^", (The) self, " unlatches the church doors, squints inside and enters. ~Not very secure, as you can see. You'll be warm in here though.~";
       }
-      else if (player in Church && ChurchDoors has open) {
-       print "^Ben appears at the doors and surveys the room. ~Found your way in I see. You'll be warm in here.~";
+      else if (player in Church or pews or aisle && ChurchDoors has open) {
+       print "^", (The) self, " appears at the doors and surveys the room. ~Found your way in I see. You'll be warm in here.~";
       }
    4: if(player notin Square or Church or pews or aisle) rfalse;
       self.number++;
+      ChurchDoors.unlocked();
       if (player in Square) {
        MoveNPC(Ben, Church, ##Go, e_obj);
-       "^Ben gestures to follow and enters the church.";
+       "^", (The) self, " gestures to follow and enters the church.";
       }
       else {
        move Ben to Church;
-       print "^Ben follows you a little into the church.";
+       print "^", (The) self, " follows you a little into the church.";
        MoveNPC(Ben, Square, ##Go, w_obj);
-       "^~I won't regale you with my past, you look tired. Sleep well!~, and with that Ben disappears out of the church doors.";
+       "^~I won't regale you with my past, you look tired. Sleep well!~, and with that ", (the) self, " disappears out of the church doors.";
       }
    5: if(Ben notin Square) {
        if(player notin Church or aisle or pews) rfalse; self.number++;
        MoveNPC(Ben, Square, ##Go, w_obj);
-       "^~I won't regale you with my past, you look tired. Sleep well!~, and with that Ben disappears out of the church doors.";
+       "^~I won't regale you with my past, you look tired. Sleep well!~, and with that ", (the) self, " disappears out of the church doors.";
       }
       self.number++;
    6: self.number++;
       MoveNPC(Ben, ChurchYard, ##Go, se_obj);
       if (player in Square)
-      "^You see Ben carefully shuffling back around to the churchyard.";
+      "^You see ", (the) self, " carefully shuffling back around to the churchyard.";
    7: self.number++;
       MoveNPC(Ben, 0, ##Go, 0);
       if (player in ChurchYard)
-      "^Ben slams the gate on his garden and disappears into the dense vegetation.";
+      "^", (The) self, " slams the gate on his garden and disappears into the dense vegetation.";
   }
  ],
  quip [ a b; switch (a) {
@@ -1413,6 +1427,7 @@ Man Ben can
 
       101: "~Can I help you?~";
       102: self.qoff(10); self.qon(11, 12);
+           SetFlag(ASKRADIO);
            "~Yes you can. I've lost my radio.~ he says, frankly."; 
       103: qtransfer = 1;
 
@@ -1426,7 +1441,7 @@ Man Ben can
 
       121: "~What does the radio look like?~";
       122: self.qoff(12);
-           killz = false;
+           give radio ~concealed;
            "~It's a hand-held walkie-talkie gizmo, a sort of greyish black.~"; 
       123: qtransfer = 1;
            qqon = false;
@@ -1526,7 +1541,7 @@ Man Ben can
            if (self hasnt general && FlagOn(HEARDSON)) self.qon(33);
            qret(self, 30, 1, b);
            if (FlagOn(HEARDSON)) "~I hope that's where he is now. It can't have been easy on him staying here.~ he sighs."; 
-           "~Indeed.~ Ben raises his eyebrows and purses his lips.";
+           "~Indeed.~ ", (the) self, " raises his eyebrows and purses his lips.";
       324: return qret(self, 30, 1, b);
 
       331: "~How long has your son been gone?~";

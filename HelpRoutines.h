@@ -88,6 +88,9 @@ system_file;
 ];
 [ ES_Pause i; 
   if (isQuixe()) rfalse; ! allow user to scroll themselves
+#ifdef TESTING;
+        rfalse;
+#endif;
 	i = KeyCharPrimitive();  
 	if (i=='q') rtrue;
 	rfalse; 

@@ -20,7 +20,7 @@ grun:
 	$(GLULXE) game.blb
 
 game.z5: *.inf *.h
-	$(INFORM) -pseD game.inf game.z5
+	$(INFORM) -pseDd2 game.inf game.z5
 
 all: clean all-tests run
 
@@ -49,7 +49,8 @@ all-tests: ztest gtest
 
 ztest: game.z5 test.input test.expected
 	echo "Serial \"191125\";" > serial.inf
-	$(INFORM) game.inf game.z5
+	echo "Constant TESTING;" >> serial.inf
+	$(INFORM) -d2 game.inf game.z5
 	$(RM) test.actual
 	$(DUMBFROTZ) game.z5 <test.input
 	$(RM) game.z5
@@ -57,7 +58,8 @@ ztest: game.z5 test.input test.expected
 
 gtest: game.blb test.input test.gexpected
 	echo "Serial \"191125\";" > serial.inf
-	$(INFORM_GLULX) -GH game.inf game.blb
+	echo "Constant TESTING;" >> serial.inf
+	$(INFORM_GLULX) -GHd2 game.inf game.blb
 	$(RM) test.gactual
 	sed 's/test.actual/test.gactual/' test.input > test.ginput
 	$(GLULXE) game.blb <test.ginput
@@ -81,19 +83,19 @@ release: quixe game.z5
 	$(RM) game.blb game.z5
 
 abbrev.inf: *.inf *.h
-	$(INFORM) -u game.inf | grep "^Abbreviate" > abbrev.inf
+	$(INFORM) -ud2 game.inf | grep "^Abbreviate" > abbrev.inf
 	$(RM) game.z5
 
 parchment: game.z5 abbrev.inf serial.inf
 	cat abbrev.inf game.inf > release.inf
-	$(INFORM) -pfse release.inf release.z5
+	$(INFORM) -pfsed2 release.inf release.z5
 	echo -n "processBase64Zcode('" > web/interpreter/story.zblorb.js
 	base64 -w0 release.z5 >> web/interpreter/story.zblorb.js
 	echo -n "')" >> web/interpreter/story.zblorb.js
 	$(RM) abbrev.inf release.inf release.z5
 
 quixe: *.inf *.h serial.inf
-	$(INFORM_GLULX) -GH game.inf game.blb
+	$(INFORM_GLULX) -GHd2 game.inf game.blb
 	echo -n "\$$(document).ready(function() { GiLoad.load_run(null, '" > quixe/interpreter/story.blorb.js
 	base64 -w0 game.blb >> quixe/interpreter/story.blorb.js
 	echo -n "', 'base64'); });" >> quixe/interpreter/story.blorb.js
@@ -104,7 +106,7 @@ ci: test
 	git commit
 
 debug: *.inf *.h serial.inf
-	$(INFORM6) -kG game.inf game.blb
+	$(INFORM6) -kGd2 game.inf game.blb
 	$(GLULXE) --crashtrap -D --gameinfo gameinfo.dbg game.blb 
 
 serial.inf:

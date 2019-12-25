@@ -487,7 +487,7 @@ Extend 'jump'
 [ WinSub;
  "If only it were that easy."; 
 ];
-Verb "win" "lose"
+Verb 'win' 'lose'
  * -> Win
  * topic -> Win;
 
@@ -495,10 +495,10 @@ Verb "win" "lose"
  AllCommunication();
 ];
 
-Verb "help"
+Verb meta 'help'
  * -> Help
  * topic -> Explain;
-Verb 'explain'
+Verb meta 'explain'
  * -> Explain
  * topic -> Explain;
 
@@ -510,25 +510,34 @@ Verb 'explain'
  "Type ~verbs~ for a list of actions, ~places~ for visited places, ~objects~ for items to interact with or ~help~ if you're completely stuck.";
 ];
 
-Verb "info"
+Verb meta 'info'
  * -> Info
  * topic -> Info;
 
-[ DoSub w i;
+#Include ">ictype.h";
+[ DoSub w i hadstop;
  print "You attempt to";
  for (w=1: w<=NumberWords(): w++) {
+  if (WordLength(w) == 1 && ispunct(WordAddress(w)->0)) {
+   if (WordAddress(w)->0 == 46) {
+    if (w<NumberWords()) print " then";
+    else print (char) 46; ! comma
+   }
+   else print (char) 44; ! comma
+   continue;
+  }
   print (char) 32;
   for (i=0: i<WordLength(w): i++)
    print (char) WordAddress(w)->i;
  }
  ! need a full stop? check last char
  i=WordLength(w-1)-1;
- if (WordAddress(w-1)->i ~= 46) print (char) 46;
+ if (isalnum(WordAddress(w-1)->i)) print (char) 46;
  new_line;
  rtrue;
 ]; 
 
-Verb "do"
+Verb 'do'
  * topic -> Do;
 
 [ SleepSub;
@@ -668,7 +677,7 @@ Extend 'look' replace
  * noun -> Examine
  * 'between' door -> Search
  * 'to' noun=ADirection                      -> Examine
- * 'for' noun -> Examine
+ * 'for' noun -> RightHere
  * 'for' 'a'/'another'/'different'/'alternative' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
  * 'for' 'way' 'round'/'around'/'behind'/'beside' noun -> Circum
  * 'for' 'people'/'person'/'vicar'/'priest' 'near' noun -> Circum
@@ -728,6 +737,7 @@ Extend 'rub'
  * noun 'with' noun -> RubOn;
 
 [ UnnecSub;
+ if (noun == second) "It's unnecessary to ", (nop) PrintCommand(), ".";
  print "It's unnecessary to use ", (the) noun;
  if (second) print " on ", (the) second;
  if (second && second has lockable) " at the moment.";
@@ -752,7 +762,7 @@ Extend 'unlock' replace
  * noun 'with' noun -> Unnec reverse;
 
 Extend 'use'
- * noun 'on'/'with'/'under' noun -> Unnec;
+ * noun 'on'/'with'/'under'/'as' noun -> Unnec;
 
 Extend 'put'
  * noun 'under' noun -> Unnec;

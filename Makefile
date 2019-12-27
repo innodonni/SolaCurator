@@ -71,14 +71,16 @@ bless: test.actual test.gactual
 	mv test.gactual test.gexpected
 	git add test.expected test.gexpected test.script verbs.txt nouns.txt
 
-release: quixe game.z5
+latest.tmp: ../innodonni/README.md
+	cat ../innodonni/README.md | sed -nE 's/.*latest.*\(demo-([0-9]{6}).z5\)\./\1/p' > latest.tmp
+
+release: quixe game.z5 latest.tmp
 	cp game.blb ../innodonni/demo-$(SERIAL).blb
 	cp game.z5 ../innodonni/demo-$(SERIAL).z5
-	cat ../innodonni/README.md | sed -nE 's/.*latest.*\(demo-([0-9]{6}).z5\)\./\1/p' > latest.tmp
-	cp ../innodonni/demo-$(shell cat latest.tmp).blb ../innodonni/versions/
-	cp ../innodonni/demo-$(shell cat latest.tmp).z5 ../innodonni/versions/
-	cp ../innodonni/interpreter/story.blorb.js ../innodonni/versions/demo-$(shell cat latest.tmp).blorb.js
-	sed -i -E '/Old versions/a \\n* $(shell cat latest.tmp) [Online](play.html?story=versions/demo-$(shell cat latest.tmp).blorb.js) [Z-Machine](demo-$(shell cat latest.tmp).z5) [Glulx](demo-$(shell cat latest.tmp).blb)' ../innodonni/README.md
+	mv ../innodonni/demo-$(shell cat latest.tmp).blb ../innodonni/versions/
+	mv ../innodonni/demo-$(shell cat latest.tmp).z5 ../innodonni/versions/
+	mv ../innodonni/interpreter/story.blorb.js ../innodonni/versions/demo-$(shell cat latest.tmp).blorb.js
+	sed -i -E '/Old versions/a \\n* $(shell cat latest.tmp) [Online](play.html?story=versions/demo-$(shell cat latest.tmp).blorb.js) [Z-Machine](versions/demo-$(shell cat latest.tmp).z5) [Glulx](versions/demo-$(shell cat latest.tmp).blb)' ../innodonni/README.md
 	sed -i -E 's/(.*latest.*)demo-[0-9]{6}\.(z5|blb)(.*)/\1demo-$(SERIAL).\2\3/g' ../innodonni/README.md
 	cp quixe/interpreter/story.blorb.js ../innodonni/interpreter
 	$(RM) game.blb game.z5 latest.tmp

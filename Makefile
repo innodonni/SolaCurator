@@ -30,7 +30,7 @@ game.blb: *.inf *.h
 	$(INFORM_GLULX) -DGH game.inf game.blb
 
 clean:
-	$(RM) game.z5 release.inf release.z5 game.blb gameinfo.dbg test.input test.actual test.gactual web/interpreter/story.zblorb.js
+	$(RM) game.z5 release.inf release.z5 game.blb gameinfo.dbg test.input test.actual test.gactual web/interpreter/story.zblorb.js latest.tmp
 
 test.input: test.script nouns.txt verbs.txt
 	echo "script on" > test.input
@@ -81,11 +81,11 @@ release: quixe game.z5
 	sed -i -E '/Old versions/a \\n* $(shell cat latest.tmp) [Online](play.html?story=versions/demo-$(shell cat latest.tmp).blorb.js) [Z-Machine](demo-$(shell cat latest.tmp).z5) [Glulx](demo-$(shell cat latest.tmp).blb)' ../innodonni/README.md
 	sed -i -E 's/(.*latest.*)demo-[0-9]{6}\.(z5|blb)(.*)/\1demo-$(SERIAL).\2\3/g' ../innodonni/README.md
 	cp quixe/interpreter/story.blorb.js ../innodonni/interpreter
+	$(RM) game.blb game.z5 latest.tmp
 	cd ../innodonni && \
 	git add . && \
 	git commit -m "Sync" && \
 	git push
-	$(RM) game.blb game.z5 latest.tmp
 
 abbrev.inf: *.inf *.h
 	$(INFORM) -ud2 game.inf | grep "^Abbreviate" > abbrev.inf

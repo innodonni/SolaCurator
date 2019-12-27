@@ -90,5 +90,5 @@ Class   followclass
     }
 ];
 
-Verb "follow" "chase" "pursue" "trail"
+Verb 'follow' 'chase' 'pursue' 'trail'
     * scope=FollowScope -> Follow;

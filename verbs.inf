@@ -712,6 +712,24 @@ Extend 'what'
  * IsAmAre 'that'/'that?'/'those'/'those?' -> NewbieGrammar
  * IsAmAre 'my' topic -> MustXMe;
 
+[ MustAgainSub;
+  "To repeat an action, you can just type AGAIN or G. Your interpreter may allow you to press the up arrow to edit previous commands. Otherwise you must begin your command with a more specific verb.";
+];
+
+Extend 'keep'
+    * held -> RightHere
+    * noun -> Take
+    * 'following' scope=FollowScope -> MustAgain
+    * 'following' -> MustAgain
+    * 'following' noun=ADirection -> MustAgain
+    * topic -> MustAgain;
+
+Extend 'continue'
+    * 'following' scope=FollowScope -> MustAgain
+    * 'following' -> MustAgain
+    * 'following' noun=ADirection -> MustAgain
+    * topic -> MustAgain;
+
 Include ">ExpertGrammar.h";
 Verb 'jiggle' 'wobble' 'ring' 'wring' 'fiddle' 'dangle' 'jangle' 'jingle' 'swipe' = 'shake';
 [ ShakeHandsSub;

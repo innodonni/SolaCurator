@@ -449,11 +449,11 @@ Verb meta 'how'
 				* DoCan ThisGame 'work'/'work?' -> OutsideHelp;
 				
 #ifndef NO_HELP_GRAMMAR;   !!! added
-Verb 'help'		* 	-> Help
+Verb meta 'help'		* 	-> Help
 				* topic	-> Help;
 #endif;   !!! added
 
-Verb 'please' 'kindly'	* topic -> TooPolite;
+Verb meta 'please' 'kindly'	* topic -> TooPolite;
 
 
 Extend only 'i//' 
@@ -471,7 +471,7 @@ Extend 'turn'		* SomeDirection				 -> NoReturn;
 Extend 	'climb'		* SomeDirection					 -> NoReturn
 					* 'back' noun=ADirection	 -> Go;
 Verb 	'keep'		* 'going'/'walking'/'heading'/'running'
-									 noun=ADirection -> NoReturn
+									 -> NoReturn
 					* 'going'/'walking'/'heading'/'running'
 									 noun=ADirection -> MustGo;
 Verb 	'continue'	*  noun=ADirection -> MustGo
@@ -583,7 +583,7 @@ Verb 'intro' * -> TotalIntro;
 #endif;
 ];
 
-Verb 'verbs' *	-> VerbHelp;
+Verb meta 'verbs' *	-> VerbHelp;
 [ VerbHelpSub;
 #ifdef StandardVerbs;
 	StandardVerbs(); rtrue;
@@ -592,7 +592,7 @@ Verb 'verbs' *	-> VerbHelp;
 #endif;
 ];
 
-Verb 'hint' 'hints' *	-> HintHelp;
+Verb meta 'hint' 'hints' *	-> HintHelp;
 [ HintHelpSub;
 #ifdef StuckInstructions;
 	StuckInstructions(); rtrue;
@@ -625,7 +625,7 @@ Verb 'hint' 'hints' *	-> HintHelp;
 	in your vicinity.";
 ]; 
 
-Verb 'demo' * -> Demo;
+Verb meta 'demo' * -> Demo;
 [ DemoSub;
 #ifdef CheeseSample;
 	CheeseSample();

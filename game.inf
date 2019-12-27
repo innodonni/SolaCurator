@@ -85,6 +85,7 @@ Constant SHOWRADIO 11; !Has the player shown the radio to Ben?
 Constant GAVERADIO 12; !Has the player given the radio to Ben?
 Constant USEDBELL 13; !Has Ben received a hint that the player has entered the Church?
 Constant KNOWBEN 14; !Has player heard Ben's name?
+Constant SEENGARD 15; !Has player seen Ben's garden?
 Constant FLAGCOUNT = 16;
 Include ">newflags.h";
 
@@ -785,7 +786,7 @@ Object rubbish "rubbish" bins
 
 Outside ChurchYard "Churchyard"
  with name 'churchyard' 'bare' 'yard' 'muddy' 'overgrown',
- description "The bare yard behind the church is strewn with tufts of weeds.",
+ description "The bare yard behind the church is strewn with tufts of weeds. A fence running along the north and east sides demarcates a garden, while to the south is open land.",
  scenic 'door' 'side' 'back' 'northern' 'transept' 'semi-transept' 0 "The door looks formidably thick and built to last."
         'large' 'clumps' 'patch' 'grass' 'lush' 'weed' 'weeds' 'tuft' 'tufts' 0 "You don't feel green-fingered right now."
         'mound' 'boggy' 'lush' 'bog' 'marshy' 'marsh' 'marshland' 'swamp' 'swampy' 'edge' 0 "It's only boggy near the yard's edge, where Ben probably throws out waste water."
@@ -799,6 +800,9 @@ Outside ChurchYard "Churchyard"
  sw_to Square,
  n_to GardenGate,
  nw_to "The side door to the church is locked.",
+ e_to "The garden fence blocks your way further east.",
+ ne_to "The garden fence blocks your way further east.",
+ se_to "The garden fence blocks your way further east.",
  w_to "The side door to the church is locked.",
  s_to "The mound to the south is oddly lush with grass and slightly boggy.",
  has concealed ~transparent;
@@ -825,6 +829,7 @@ DirDoor GardenGate "gate"
  s_to ChurchYard,
  n_to thedark,
  before [;
+  if (FlagOff(SEENGARD)) Ben.qon(40); SetFlag(SEENGARD);
   Enter,Climb: "You're too weary from shifting bins to poke around in the garden.";
   Unlock,Open: "The gate is too stiff. Perhaps there is a knack to it.";
  ],
@@ -1127,7 +1132,7 @@ Object radio "hand-held radio" ChurchYard
 Class Man
  has male animate proper
  class Character
- with qseqstates 0 0 0,
+ with qseqstates 0 0 0 0,
  life [;
   Answer: NotTalkSub(); rtrue;
   Order:  NotTalkSub(); rtrue;
@@ -1185,7 +1190,7 @@ Man Ben can
    if (FlagOn(GAVERADIO)) print "still ";
    else {
     SetFlag(GAVERADIO);
-    self.qoff(8, 12); self.qon(20);
+    self.qoff(8, 10, 11, 12); self.qon(20);
    }
    print "broken.~ he rattles the device next to his ear, frowning.^";
    self.select(1);
@@ -1208,7 +1213,7 @@ Man Ben can
   default: "~I don't need to do that right now.~";
  ],
  react_before [;
-  if (self in ChurchYard or can && action == ##Go or ##Look && noun == w_obj) {
+  if (self in ChurchYard or can && action == ##Go or ##Look && noun == w_obj or nw_obj) {
    ChurchDoors.foundlatch();
    print "~Lost the key to that door years ago, so we just jimmy the latch now.~ quips ",(the) self,". ";
   }
@@ -1224,6 +1229,7 @@ Man Ben can
    self.short_name = "Ben";
    give self proper;
   }
+  if (FlagOn(ASKRADIO) && FlagOff(GAVERADIO)) self.qon(8);
   rtrue;
  ],
  each_turn [;
@@ -1233,10 +1239,11 @@ Man Ben can
    self.select(1);
    give self general;
    ! enable idle options
+   if (FlagOff(GAVERADIO)) { self.qoff(10); self.qon(8); }
    if (FlagOn(HEARDSON)) self.qon(33);
    else self.qon(34);
    if (FlagOn(KNOWBEN)) {
-    self.qon(8, 35, 37);
+    self.qon(35, 37);
     self.short_name = "Ben";
     give self proper;
    }
@@ -1354,16 +1361,17 @@ Man Ben can
           ! at the beginning of Gtalk.h, specifically Step 5.
           ! Note that if the conversation is initiated a second time,
           ! this could be a fresh list
-          return Qlist(b,   25,   ! number of quips in this list
+          return Qlist(b,   29,   ! number of quips in this list
                              2, 3, 4, 5, 6)    |
                  Qlist(b-6,  7, 8,9,10,11,12) |
                  Qlist(b-12,16,17,18,19,20,23) |
                  Qlist(b-18,30,33,34,35,36,37) |
-                 Qlist(b-24,38,39);
+                 Qlist(b-24,38,39,40,41,42,43);
       ! Quip #2 etc.
       21: qseq(2,"~Hi there, who are you?~","~What's your name?~");
       22: self.qoff(2); self.qon(3, 9);
-          if (self has general) self.qon(8, 35, 37);
+          if (self has general) self.qon(35, 37);
+          if (self has general && FlagOff(GAVERADIO)) self.qon(8);
           SetFlag(KNOWBEN);
           "~Ben. Just Ben.~";
       23: qtransfer = 1; ! top-level quip; return to menu by default
@@ -1399,17 +1407,19 @@ Man Ben can
       73: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
-      81: if (radio in player && FlagOff(SHOWRADIO)) "[Lie] ~I can't find your radio.~";
-          if (FlagOn(UNLOCHUR)) "~What if I can't find your radio?~";
+      81: if (FlagOn(ASKRADIO) && radio in player && FlagOff(SHOWRADIO)) "[Lie] ~I can't find your radio.~";
+          if (FlagOn(ASKRADIO) && FlagOn(UNLOCHUR)) "~What if I can't find your radio?~";
           else qseq(6,"~Can you help me?~","~I need somewhere to sleep. Can't you help?~","~What if I can't find your radio?~");
       82: if (FlagOff(UNLOCHUR)) qseq(7,"~Maybe.~ he says, truthfully enough.","~I can help you, and you can help me.~ he bargains.","~There's still plenty of time.~ he surveys the setting sun, peacefully.","");
           print "~";
-          if (FlagOff(UNLOCHUR) && radio notin player) print "I don't have the luxury of giving free advice.";
+          if (FlagOff(ASKRADIO) || (FlagOff(UNLOCHUR) && radio notin player)) print "I don't have the luxury of giving free advice.";
           else print "I didn't think it would be hard to find for a sighted person.";
           print "~ he says, apologetically. ~";
           if (FlagOn(HEARDSON)) print "I need to contact my son. ";
+          if (FlagOff(ASKRADIO)) { self.qoff(8); self.qon(10); "Can you help me?~ he asks, gently."; }
+          SetFlag(ASKRADIO);
           "Look - I don't want my radio to be stolen. Can you find it before the sun goes down?~ he says, plaintively."; 
-      83: qtransfer = 1;
+      83: if (FlagOff(ASKRADIO)) qtransfer = 1;
           qqon = false;
       84: return 0;
 
@@ -1418,10 +1428,10 @@ Man Ben can
       93: qtransfer = 1; ! top-level quip; return to menu by default
           qqon = false;
 
-      101: "~Can I help you?~";
+      101: if (self has general) "~What do you want me to do?~"; "~Can I help you?~";
       102: self.qoff(10); self.qon(11, 12);
            SetFlag(ASKRADIO);
-           "~Yes you can. I've lost my radio.~ he says, frankly."; 
+           if (self has general) "~I've lost my radio, and I think you could find it for me.~"; "~Yes you can. I've lost my radio.~ he says, frankly."; 
       103: qtransfer = 1;
 
       111: if (FlagOn(GAVERADIO)) "~Was your radio all you wanted?~";
@@ -1441,6 +1451,7 @@ Man Ben can
 
       161: qseq(11,"~Loyal?~","~Your wife was loyal?~","~What happened to your wife?~");
       162: self.qoff(16);
+           SetFlag(SEENJERU);
            "~She got the fear of God in her. Left to find Jerusalem.~ he gazes off for a moment.";
       163: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
@@ -1502,13 +1513,14 @@ Man Ben can
 
       301: if (FlagOff(SEENJERU)) "~Why are you living here?~";
            qcyc(12,"~Why are you still here?~","~Why aren't you in Jerusalem?~");
-      302: self.qoff(30);
+      302: self.qoff(30); self.qon(42, 44);
            print "~I don't have any means of transport.~ he says, plainly.";
            SetFlag(SEENJERU);
            if (FlagOn(HEARDSON))
             print " ~We were heading to Jerusalem";
            else
             print " ~My son and I were heading to Jerusalem";
+           SetFlag(HEARDSON);
            ", but I was too ill to continue the journey. We stopped here, but I never recovered fully. I'm too weak to make the journey on foot, now.~";
       303: killz = true; ! disallow saying nothing
            killq = true; ! don't print "What would you like to say?"
@@ -1533,13 +1545,13 @@ Man Ben can
       322: self.qoff(31, 32); if (self hasnt general) self.qon(35, 37);
            if (self hasnt general && FlagOn(HEARDSON)) self.qon(33);
            qret(self, 30, 1, b);
-           if (FlagOn(HEARDSON)) "~I hope that's where he is now. It can't have been easy on him staying here.~ he sighs."; 
+           if (FlagOn(HEARDSON)) "~I hope that's where he is now. It can't have been easy on him staying here.~ he sighs.";
            "~Indeed.~ ", (the) self, " raises his eyebrows and purses his lips.";
       324: return qret(self, 30, 1, b);
 
       331: "~How long has your son been gone?~";
-      332: self.qoff(33);
-           "He pauses. ~One season or so.~"; 
+      332: self.qoff(33); self.qon(34);
+           "He pauses. ~One season or so.~";
       333: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
@@ -1547,25 +1559,25 @@ Man Ben can
       342: self.qoff(34);
            if (FlagOn(HEARDSON)) self.qon(30);
            else if (FlagOn(GAVERADIO)) self.qon(19); !stepping stone to 30 and 33
-           "~Since the seven hundreds. I barely know what year it is any more.~ he mumbles."; 
+           "~Since the seven hundreds. I barely know what year it is any more.~ he mumbles.";
       343: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
       351: "~How often do you see visitors?~";
       352: self.qoff(35); self.qon(36);
-           "~One to two people swing by, every year.~"; 
+           "~One to two people swing by, every year.~";
       353: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
       361: qseq(13,"~Is that a lot?~","~It's common then, to see folk passing through?~","~Do you see many folk passing through here?~");
       362: self.qoff(36);
-           "~No, no, it's rare people come this way. Something's put the fear of God into them!~ he jokes."; 
+           "~No, no, it's rare people come this way. Something's put the fear of God into them!~ he jokes.";
       363: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
       371: "~Do you have batteries?~";
       372: self.qoff(37); self.qon(38, 39);
-           "~Yes, I have some inside. About 100 farads.~"; 
+           "~Yes, I have some inside. About 100 farads.~";
       373: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
@@ -1573,13 +1585,47 @@ Man Ben can
       382: self.qoff(38);
            print "~It's all I need here.";
            if (FlagOn(FOLLOW)) " I guess it won't help with your bike much, will it?~ he suggests."; 
-           " If you have a vehicle, I guess it won't help you much, will it?~ he suggests."; 
+           " If you have a vehicle, I guess it won't help you much, will it?~ he suggests.";
       383: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
 
       391: qseq(15,"~How do you charge them?~","~How do your charge your batteries?~");
       392: self.qoff(39);
-           "~Bio-energy. There's not a lot of other natural resources.~ he remarks."; 
+           "~Bio-energy. There's not a lot of other natural resources.~ he remarks.";
       393: qtransfer = 1; ! top-level quip; return to menu by default
            qqon = false;
+
+      401: if (self in ChurchYard or can) "~How do you keep all this growing?~";
+           "How come your garden is thriving?";
+      402: self.qoff(40); self.qon(41);
+           "~Rain. Spill off, perhaps.~";
+      403: qtransfer = 1; ! top-level quip; return to menu by default
+           qqon = false;
+
+      411: qseq(16,"~Spill off?~","~What did you mean by 'spill off'?~","I'm still baffled by how your garden is so fertile.");
+      412: self.qoff(41); self.qon(43);
+           SetFlag(SEENJERU);
+           "~The rain here is purer than normal. I think there must be some freshwater springs in Jerusalem.~ he observes. ~It's the only thing that could explain the water table of this area.~";
+      413: qtransfer = 1; ! top-level quip; return to menu by default
+           qqon = false;
+
+      421: "~If you've been living here this long, how do you deal with waste?~";
+      422: self.qoff(42);
+           "~You've noticed the lack of that ubiquitious latrine smell? It's strange I'll admit. It must just be down to the vegetarian diet and rotation I suppose. I've got some sort of symbiotic relationship with the bacteria.~";
+      423: qtransfer = 1; ! top-level quip; return to menu by default
+           qqon = false;
+
+      431: "~Don't you have to pay tax?~";
+      432: self.qoff(43);
+           SetFlag(HEARDSON);
+           "~Who to? Christ! No, no, no, my son and I wouldn't still be here otherwise. Death and taxes aren't as inevitable as people would have you believe, it seems.~";
+      433: qtransfer = 1; ! top-level quip; return to menu by default
+           qqon = false;
+
+      441: "~Have you dealt with any marauders?~";
+      442: self.qoff(44);
+           "~Would you believe, no, not ever. This seems to be the one safe place on Earth.~ (You breath a sigh of relief).";
+      443: qtransfer = 1; ! top-level quip; return to menu by default
+           qqon = false;
+
  } rfalse; ];

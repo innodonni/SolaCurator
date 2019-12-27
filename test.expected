@@ -1040,7 +1040,9 @@ recently disposed organic material.
 >se
 
 Churchyard
-The bare yard behind the church is strewn with tufts of weeds.
+The bare yard behind the church is strewn with tufts of weeds. A fence running
+along the north and east sides demarcates a garden, while to the south is open
+land.
 The bin passage to the south-west is open.
 
 You can also see an upturned paint tin (on which is an old man) here.
@@ -1058,7 +1060,7 @@ Select an option or 0 to exit >> 1
 "Ben. Just Ben."
 
 What would you like to say?
-(1) "You're the vicar, right?"
+(1) "Is the church yours?"
 (2) "Are you blind?"
 (3) "Sorry, I didn't catch your name..."
 (4) "Can I help you?"
@@ -1162,71 +1164,78 @@ You can also see an upturned paint tin (on which is Ben) here.
 (4) "How often do you see visitors?"
 (5) "Do you have batteries?"
 
-Select an option or 0 to exit >> 1
-"I didn't think it would be hard to find for a sighted person." he says,
-apologetically. "I need to contact my son. Look - I don't want my radio to be
-stolen. Can you find it before the sun goes down?" he says, plaintively.
-
-What would you like to say?
-(1) "What if I can't find your radio?"
-(2) "Remind me of your name again."
-(3) "How long has your son been gone?"
-(4) "How often do you see visitors?"
-(5) "Do you have batteries?"
-
 Select an option or 0 to exit >> 3
 He pauses. "One season or so."
 
 What would you like to say?
 (1) "What if I can't find your radio?"
 (2) "Remind me of your name again."
-(3) "How often do you see visitors?"
-(4) "Do you have batteries?"
+(3) "How long have you been here?"
+(4) "How often do you see visitors?"
+(5) "Do you have batteries?"
 
 Select an option or 0 to exit >> 3
+"Since the seven hundreds. I barely know what year it is any more." he mumbles.
+
+What would you like to say?
+(1) "What if I can't find your radio?"
+(2) "Remind me of your name again."
+(3) "Why are you still here?"
+(4) "How often do you see visitors?"
+(5) "Do you have batteries?"
+
+Select an option or 0 to exit >> 4
 "One to two people swing by, every year."
 
 What would you like to say?
 (1) "What if I can't find your radio?"
 (2) "Remind me of your name again."
-(3) "Is that a lot?"
-(4) "Do you have batteries?"
+(3) "Why aren't you in Jerusalem?"
+(4) "Is that a lot?"
+(5) "Do you have batteries?"
 
-Select an option or 0 to exit >> 3
+Select an option or 0 to exit >> 4
 "No, no, it's rare people come this way. Something's put the fear of God into
 them!" he jokes.
 
 What would you like to say?
 (1) "What if I can't find your radio?"
 (2) "Remind me of your name again."
-(3) "Do you have batteries?"
+(3) "Why are you still here?"
+(4) "Do you have batteries?"
 
-Select an option or 0 to exit >> 3
+Select an option or 0 to exit >> 4
 "Yes, I have some inside. About 100 farads."
 
 What would you like to say?
 (1) "What if I can't find your radio?"
 (2) "Remind me of your name again."
-(3) "That's...not a lot."
-(4) "How do you charge them?"
+(3) "Why aren't you in Jerusalem?"
+(4) "That's...not a lot."
+(5) "How do you charge them?"
 
-Select an option or 0 to exit >> 3
+Select an option or 0 to exit >> 4
 "It's all I need here. If you have a vehicle, I guess it won't help you much,
 will it?" he suggests.
 
 What would you like to say?
 (1) "What if I can't find your radio?"
 (2) "Remind me of your name again."
-(3) "How do your charge your batteries?"
+(3) "Why are you still here?"
+(4) "How do your charge your batteries?"
 
-Select an option or 0 to exit >> 3
+Select an option or 0 to exit >> 4
 "Bio-energy. There's not a lot of other natural resources." he remarks.
 
 What would you like to say?
 (1) "What if I can't find your radio?"
 (2) "Remind me of your name again."
+(3) "Why aren't you in Jerusalem?"
 
-Select an option or 0 to exit >> 0
+Select an option or 0 to exit >> 1
+"I didn't think it would be hard to find for a sighted person." he says,
+apologetically. "I need to contact my son. Look - I don't want my radio to be
+stolen. Can you find it before the sun goes down?" he says, plaintively.
 
 >x radio
 It's a portable radio transceiver. On the back is a battery compartment.
@@ -1264,17 +1273,12 @@ Taken.
 >talk to person
 (1) "What if I can't find your radio?"
 (2) "Remind me of your name again."
+(3) "Why are you still here?"
 
 Select an option or 0 to exit >> 1
 "I didn't think it would be hard to find for a sighted person." he says,
 apologetically. "I need to contact my son. Look - I don't want my radio to be
 stolen. Can you find it before the sun goes down?" he says, plaintively.
-
-What would you like to say?
-(1) "What if I can't find your radio?"
-(2) "Remind me of your name again."
-
-Select an option or 0 to exit >> 0
 
 >show radio to priest
 "Sorry, I can't see it properly. Bring it here." he says.
@@ -1282,23 +1286,19 @@ Select an option or 0 to exit >> 0
 >talk to person
 (1) "What if I can't find your radio?"
 (2) "Remind me of your name again."
+(3) "Why aren't you in Jerusalem?"
 
 Select an option or 0 to exit >> 1
 "I didn't think it would be hard to find for a sighted person." he says,
 apologetically. "I need to contact my son. Look - I don't want my radio to be
 stolen. Can you find it before the sun goes down?" he says, plaintively.
 
-What would you like to say?
-(1) "What if I can't find your radio?"
-(2) "Remind me of your name again."
-
-Select an option or 0 to exit >> 0
-
 >give radio to vicar
 "Let's have a look." he says, pressing the on button. "Looks like it's broken."
 he rattles the device next to his ear, frowning.
 (1) "Remind me of your name again."
 (2) "Do you know a way into the church?"
+(3) "Why are you still here?"
 
 Select an option or 0 to exit >> 2
 "I might!" he says, brightly. "You want to stay in the church do you? I have
@@ -1315,7 +1315,7 @@ pews for kindling!"
 What would you like to say?
 (1) "Remind me of your name again."
 (2) "Alright, I'll follow your rules. Let me in the church!"
-(3) "Why are you still here?"
+(3) "Why aren't you in Jerusalem?"
 
 Select an option or 0 to exit >> 0
 
@@ -1432,7 +1432,8 @@ That's sweet, but uncalled for.
 >talk to person
 (1) "Remind me of your name again."
 (2) "Alright, I'll follow your rules. Let me in the church!"
-(3) "Why aren't you in Jerusalem?"
+(3) "Why are you still here?"
+(4) "How do you keep all this growing?"
 
 Select an option or 0 to exit >> 3
 "I don't have any means of transport." he says, plainly. "We were heading to
@@ -1444,6 +1445,47 @@ never recovered fully. I'm too weak to make the journey on foot, now."
 Select an option >> 2
 "I hope that's where he is now. It can't have been easy on him staying here." he
 sighs.
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "How do you keep all this growing?"
+(4) "If you've been living here this long, how do you deal with waste?"
+
+Select an option or 0 to exit >> 3
+"Rain. Spill off, perhaps."
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Spill off?"
+(4) "If you've been living here this long, how do you deal with waste?"
+
+Select an option or 0 to exit >> 3
+"The rain here is purer than normal. I think there must be some freshwater
+springs in Jerusalem." he observes. "It's the only thing that could explain the
+water table of this area."
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "If you've been living here this long, how do you deal with waste?"
+(4) "Don't you have to pay tax?"
+
+Select an option or 0 to exit >> 3
+"You've noticed the lack of that ubiquitious latrine smell? It's strange I'll
+admit. It must just be down to the vegetarian diet and rotation I suppose. I've
+got some sort of symbiotic relationship with the bacteria."
+
+What would you like to say?
+(1) "Remind me of your name again."
+(2) "Alright, I'll follow your rules. Let me in the church!"
+(3) "Don't you have to pay tax?"
+
+Select an option or 0 to exit >> 3
+"Who to? Christ! No, no, no, my son and I wouldn't still be here otherwise.
+Death and taxes aren't as inevitable as people would have you believe, it
+seems."
 
 What would you like to say?
 (1) "Remind me of your name again."
@@ -1530,7 +1572,9 @@ You see Ben carefully shuffling back around to the churchyard.
 >g
 
 Churchyard
-The bare yard behind the church is strewn with tufts of weeds.
+The bare yard behind the church is strewn with tufts of weeds. A fence running
+along the north and east sides demarcates a garden, while to the south is open
+land.
 The bin passage to the south-west is open.
 
 You can also see Ben and an upturned paint tin here.
@@ -1757,7 +1801,9 @@ That's not a verb I recognise.
 (visiting the Churchyard)
 
 Churchyard
-The bare yard behind the church is strewn with tufts of weeds.
+The bare yard behind the church is strewn with tufts of weeds. A fence running
+along the north and east sides demarcates a garden, while to the south is open
+land.
 The bin passage to the south-west is open.
 
 You can also see a paint tin (which is empty) here.
